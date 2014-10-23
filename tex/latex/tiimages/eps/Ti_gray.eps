@@ -1,0 +1,53 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%BoundingBox: 0 0 65 61
+%%Creator: Hendrik Büring, Michael Reyer
+%%Title: PSisBMP
+%%CreationDate: Tue May 25 14:00:00 2004
+%%EndComments
+
+%%Page: 1 1
+%LogicalPage: 1
+%%BeginPageSetup
+%%EndPageSetup
+
+currentdict /M {moveto} bind def
+currentdict /RL {rlineto} bind def
+
+gsave %% Speicher Garfikeinstellungen
+
+%% Definiere Variable
+/mx 52 def
+/my 48 def
+/r 14 def
+/rh {r 2 div} def
+/r3h {3 r mul} def
+/r3 {r3h 7 sub} def
+/rk {r 4 sub} def
+/rm {-1 r mul} def
+/ret {rm 3 add} def
+/w {4 r atan} def
+/x {179.3 w sub} def
+/y {rm rm atan} def
+/lx {mx rh add} def
+/sxh {mx rh sub} def
+/sx {sxh r sub} def
+/sy 3 def
+
+1 0 0 setrgbcolor %% Setze Rot
+mx my rk 0 360 arc %% Male I
+fill
+
+0.7 0.705 0.71 setrgbcolor %% Setze Grau
+
+newpath %% Male T
+sx sy M
+rm 0 RL 0 r3 RL rm 0 RL 0 r RL
+mx my r x y arc
+ret 0 RL
+closepath fill
+
+newpath %% Male I
+lx sy M
+rm 0 RL
+mx my r 240 300 arc
+closepath fill

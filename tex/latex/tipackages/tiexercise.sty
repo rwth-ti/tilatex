@@ -1,0 +1,186 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{tiexercise}[2014/10/22 v0.1]
+
+\RequirePackage{tiinternal}
+\RequirePackage{timath}
+
+% Define placeholder values for lecture, lecturer, etc. We assume the lecture
+% is given in German by default.
+\newcommand{\Lecture}{Vorlesung}
+\newcommand{\Lecturer}{Dozent}
+\newcommand{\Supervisor}{Betreuer}
+\newcommand{\ExerciseNumber}{0}
+\newcommand{\ExerciseDate}{tt.mm.jjjj}
+
+% Define text labels.
+\newcommand{\ExerciseLabel}{Übung}
+\newcommand{\AdditionalExerciseLabel}{Zusatzübung}
+\newcommand{\ProposedSolutionLabel}{Lösungsvorschlag}
+\newcommand{\ProblemLabel}{Aufgabe}
+\newcommand{\SolutionLabel}{Lösung zu Aufgabe}
+
+\newcommand{\TitlePrefix}{\ExerciseNumber.\ \ExerciseLabel}
+
+% Handle package options
+\DeclareOption{english}{
+    \renewcommand{\Lecture}{Lecture}
+    \renewcommand{\Lecturer}{Lecturer}
+    \renewcommand{\Supervisor}{Supervisor}
+    \renewcommand{\ExerciseNumber}{0}
+    \renewcommand{\ExerciseDate}{dd.mm.yyyy}
+
+    \renewcommand{\ExerciseLabel}{Exercise}
+    \renewcommand{\AdditionalExerciseLabel}{Additional Exercise}
+    \renewcommand{\ProposedSolutionLabel}{Proposed Solution}
+    \renewcommand{\ProblemLabel}{Problem}
+    \renewcommand{\SolutionLabel}{Solution of Problem}
+
+    \renewcommand{\TitlePrefix}{\ExerciseLabel\ \ExerciseNumber}
+}
+
+\ProcessOptions
+
+% Define commands to set lecture, lecturer, etc.
+\newcommand{\setlecture}[1]{\renewcommand{\Lecture}{#1}}
+\newcommand{\setlecturer}[1]{\renewcommand{\Lecturer}{#1}}
+\newcommand{\setsupervisor}[1]{\renewcommand{\Supervisor}{#1}}
+\newcommand{\setexercisenumber}[1]{\renewcommand{\ExerciseNumber}{#1}}
+\newcommand{\setexercisedate}[1]{\renewcommand{\ExerciseDate}{#1}}
+
+% Page layout
+\setlength{\textheight}{25.5truecm}
+\setlength{\textwidth}{16.2truecm}
+\hoffset=-1cm
+\voffset=-2cm
+\pagestyle{empty}
+\parindent=0pt
+\parskip=5pt
+
+% Define the document headers.
+\newcommand{\ExerciseHeader}{
+    \begin{center}
+        \LARGE \TitlePrefix\ \Lecture \\
+        \normalsize \Lecturer, \Supervisor \\
+        \ExerciseDate
+    \end{center}
+    \vspace{0.5cm}
+}
+\newcommand{\AdditionalExerciseHeader}{
+    \begin{center}
+        \LARGE \AdditionalExerciseLabel\ \Lecture \\
+        \normalsize \Lecturer, \Supervisor \\
+        \ExerciseDate
+    \end{center}
+    \vspace{0.5cm}
+}
+\newcommand{\SolutionHeader}{
+    \begin{center}
+        \LARGE \TitlePrefix\ \Lecture \\
+        - \ProposedSolutionLabel\ - \\[2mm]
+        \normalsize \Lecturer, \Supervisor \\
+        \ExerciseDate
+    \end{center}
+    \vspace{0.5cm}
+}
+
+\newcommand{\insertexerciseheader}{
+    \TIHeader
+    \ExerciseHeader
+}
+\newcommand{\insertadditionalexerciseheader}{
+    \TIHeader
+    \AdditionalExerciseHeader
+}
+\newcommand{\insertsolutionheader}{
+    \TIHeader
+    \SolutionHeader
+}
+
+% Define the labelling scheme for enumerate items.
+\renewcommand{\labelenumi}{{\textbf{\alph{enumi})}}}
+\renewcommand{\labelenumii}{\textbf{\roman{enumii})}}
+
+% Define exercise and problem counters. Note that the exercise counter is only
+% defined for convenience. It's never incremented, only set manually once for
+% each exercise.
+\newcounter{Exercise}
+\newcounter{Problem}[section]
+
+% TODO: Rename these.
+% Our counters are zero-based now and incremented before they're used. Hence
+% the #1-1 in the commands below.
+\newcommand{\ersteAufgabe}[1][1]{\setcounter{Problem}{#1-1}}
+\newcommand{\firstExercise}[1][1]{\setcounter{Exercise}{#1-1}}
+
+% Define new environments.
+\newenvironment{problem}{
+    \stepcounter{Problem}
+    \textsf{%
+        \pagebreak[3]%
+        \textbf{\ProblemLabel\ \theProblem.}%
+    }
+}{
+    \vspace*{1cm}
+}
+\newenvironment{solution}{
+    \textsf{%
+        \pagebreak[3]%
+        \textbf{\large{\SolutionLabel\ \theProblem}}%
+    } \\[2mm]
+}{
+    \vspace*{1cm}
+}
+
+\newcommand{\Basepath}{.}
+\newcommand{\setbasepath}[1]{\renewcommand{\Basepath}{#1}}
+\newcommand{\SolutionSuffix}{-solution}
+\newcommand{\setsolutionsuffix}[1]{\renewcommand{\SolutionSuffix}{#1}}
+
+% TODO: Extend this to include error handling as done below.
+\newcommand{\insertproblem}[2]{
+    \def\ExercisePath{\Basepath/section#1/#2.tex}
+    \begin{problem}
+        \IfFileExists{\ExercisePath}{
+            \subimport{\Basepath/section#1/}{#2.tex}
+        }{
+            \textbf{-- \ExercisePath\ not found --}
+        }
+    \end{problem}
+}
+\newcommand{\insertsolution}[2]{
+    \def\SolutionPath{\Basepath/section#1/#2\SolutionSuffix.tex}
+    \IfFileExists{\SolutionPath}{
+        \textit{{\SolutionPath}:} \\
+        \begin{solution}
+            \subimport{\Basepath/section#1/}{#2\SolutionSuffix.tex}
+        \end{solution}
+    }{
+        \begin{solution}
+            \vspace{-1cm}
+            \begin{center}
+                \textbf{-- \SolutionPath\ not found --}
+            \end{center}
+        \end{solution}
+    }
+}
+
+% Insert a problem and its solution if available. Only use this for the
+% exercise collection documents.
+\newcommand{\insertproblemandsolution}[2]{
+    \def\ExercisePath{\Basepath/section#1/#2.tex}
+    \IfFileExists{\ExercisePath}{
+        \textit{{\ExercisePath}:} \\
+        \insertproblem{#1}{#2}
+        \insertsolution{#1}{#2}
+    }{
+        \begin{center}
+            \textbf{-- \ExercisePath\ not found --}
+        \end{center}
+    }
+    \vspace{-1cm}%
+    \noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}%
+    \vspace{1cm}
+}
+
+\endinput
+

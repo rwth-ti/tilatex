@@ -1,0 +1,59 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{tiinternal}[2014/10/22 v0.1]
+
+% Input/font encoding and fonts
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{fix-cm}
+
+% Language settings
+\usepackage[english,ngerman]{babel}
+\usepackage{ngerman}
+
+% Graphics
+\usepackage{xcolor}
+\usepackage{subfigure}
+\usepackage{epsfig}
+\usepackage{graphicx}
+
+% AMS
+\usepackage{amscd,amsfonts,amsmath,amssymb,amsthm}
+
+% Misc
+\usepackage{import}     % Import .tex files
+\usepackage{xparse}     % Proper support for optional arguments in macros
+\usepackage{nicefrac}   % Nice fractions
+\usepackage{calc}       % Support for basic arithmetic in latex
+\usepackage{hyperref}   % Cross-references
+\usepackage{polynom}    % Typesetting for polynomials
+\usepackage{listings}   % Code listing
+\usepackage{psfrag}     % Replace placholder labels in EPS files
+\usepackage{mathtools}  % Collection of math macros
+\usepackage{marvosym}   % for € sign
+
+% Color definitions
+\definecolor{Ti_gray}{rgb}{.7, .705, .71}
+
+% Page header. Mind the `%` signs which are necessary to typeset the logo
+% without causing line breaks and spaces in the layout!
+\newcommand{\TIHeader}{
+    \includegraphics[height=1cm]{RWTHAachenUniversity}
+    \colorbox{blue}{%
+        \textcolor{Ti_gray}{%
+            \large \qquad \textsf{Lehrstuhl für Theoretische Informationstechnik}%
+        }%
+        \hspace{0.56cm}%
+        \includegraphics[height=1cm]{Ti_gray}%
+    }
+    \vspace{0.3cm} \hrule \vspace{0.3cm}
+}
+
+\hyphenation{A-dress-be-reich A-dress-be-rei-che A-dress-be-rei-chen
+an-ge-ge-be-nen an-kom-men-de An-kunfts-in-ten-si-tät Ant-wort-zeit
+be-trach-tet De-ko-die-rungs-sche-ma durch-schnitt-lich Ein-ga-be-ver-tei-lung
+Fluss-glei-chung Fluss-glei-chun-gen ge-fil-ter-ten Halb-werts-zeit
+Impf-be-reit-schaft ir-re-du-zi-bel Netz-werk Pa-ra-me-ter Rou-ting-ma-trix
+Rou-ting-wahr-schein-lich-kei-ten To-des-pro-zess ver-blei-ben-de
+Ver-tei-lungs-funk-ti-on Wahr-schein-lich-keit Wahr-schein-lich-kei-ten}
+
