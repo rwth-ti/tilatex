@@ -150,7 +150,6 @@
 \newcommand{\insertsolution}[2]{
     \def\SolutionPath{\Basepath/section#1/#2\SolutionSuffix.tex}
     \IfFileExists{\SolutionPath}{
-        \textit{{\SolutionPath}:} \\
         \begin{solution}
             \subimport{\Basepath/section#1/}{#2\SolutionSuffix.tex}
         \end{solution}
@@ -171,6 +170,7 @@
     \IfFileExists{\ExercisePath}{
         \textit{{\ExercisePath}:} \\
         \insertproblem{#1}{#2}
+        \textit{{\SolutionPath}:} \\
         \insertsolution{#1}{#2}
     }{
         \begin{center}
