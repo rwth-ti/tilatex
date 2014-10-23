@@ -105,12 +105,13 @@
 % each exercise.
 \newcounter{Exercise}
 \newcounter{Problem}[section]
+\newcounter{Solution}[section]
 
-% TODO: Rename these.
 % Our counters are zero-based now and incremented before they're used. Hence
 % the #1-1 in the commands below.
-\newcommand{\ersteAufgabe}[1][1]{\setcounter{Problem}{#1-1}}
-\newcommand{\firstExercise}[1][1]{\setcounter{Exercise}{#1-1}}
+\newcommand{\setfirstexercise}[1][1]{\setcounter{Exercise}{#1-1}}
+\newcommand{\setfirstproblem}[1][1]{\setcounter{Problem}{#1-1}}
+\newcommand{\setfirstsolution}[1][1]{\setcounter{Solution}{#1-1}}
 
 % Define new environments.
 \newenvironment{problem}{
@@ -123,9 +124,10 @@
     \vspace*{1cm}
 }
 \newenvironment{solution}{
+    \stepcounter{Solution}
     \textsf{%
         \pagebreak[3]%
-        \textbf{\large{\SolutionLabel\ \theProblem}}%
+        \textbf{\large{\SolutionLabel\ \theSolution}}%
     } \\[2mm]
 }{
     \vspace*{1cm}
@@ -136,37 +138,39 @@
 \newcommand{\SolutionSuffix}{-solution}
 \newcommand{\setsolutionsuffix}[1]{\renewcommand{\SolutionSuffix}{#1}}
 
-% TODO: Extend this to include error handling as done below.
 \newcommand{\insertproblem}[2]{
     \def\ExercisePath{\Basepath/section#1/#2.tex}
     \begin{problem}
         \IfFileExists{\ExercisePath}{
             \subimport{\Basepath/section#1/}{#2.tex}
         }{
-            \textbf{-- \ExercisePath\ not found --}
+            \\[2mm]
+            \vspace{-1cm}
+            \begin{center}
+                \textbf{-- \ExercisePath\ not found --}
+            \end{center}
         }
     \end{problem}
 }
 \newcommand{\insertsolution}[2]{
     \def\SolutionPath{\Basepath/section#1/#2\SolutionSuffix.tex}
-    \IfFileExists{\SolutionPath}{
-        \begin{solution}
+    \begin{solution}
+        \IfFileExists{\SolutionPath}{
             \subimport{\Basepath/section#1/}{#2\SolutionSuffix.tex}
-        \end{solution}
-    }{
-        \begin{solution}
+        }{
             \vspace{-1cm}
             \begin{center}
                 \textbf{-- \SolutionPath\ not found --}
             \end{center}
-        \end{solution}
-    }
+        }
+    \end{solution}
 }
 
 % Insert a problem and its solution if available. Only use this for the
 % exercise collection documents.
 \newcommand{\insertproblemandsolution}[2]{
     \def\ExercisePath{\Basepath/section#1/#2.tex}
+    \def\SolutionPath{\Basepath/section#1/#2\SolutionSuffix.tex}
     \IfFileExists{\ExercisePath}{
         \textit{{\ExercisePath}:} \\
         \insertproblem{#1}{#2}
