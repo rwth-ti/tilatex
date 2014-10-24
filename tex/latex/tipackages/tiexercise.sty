@@ -140,30 +140,34 @@
 
 \newcommand{\insertproblem}[2]{
     \def\ExercisePath{\Basepath/section#1/#2.tex}
-    \begin{problem}
-        \IfFileExists{\ExercisePath}{
-            \subimport{\Basepath/section#1/}{#2.tex}
-        }{
-            \\[2mm]
-            \vspace{-1cm}
-            \begin{center}
-                \textbf{-- \ExercisePath\ not found --}
-            \end{center}
-        }
-    \end{problem}
+    \begin{flushleft}
+        \begin{problem}
+            \IfFileExists{\ExercisePath}{
+                    \subimport{\Basepath/section#1/}{#2.tex}
+            }{
+                \\[2mm]
+                \vspace{-1cm}
+                \begin{center}
+                    \textbf{-- \ExercisePath\ not found --}
+                \end{center}
+            }
+        \end{problem}
+    \end{flushleft}
 }
 \newcommand{\insertsolution}[2]{
     \def\SolutionPath{\Basepath/section#1/#2\SolutionSuffix.tex}
-    \begin{solution}
-        \IfFileExists{\SolutionPath}{
-            \subimport{\Basepath/section#1/}{#2\SolutionSuffix.tex}
-        }{
-            \vspace{-1cm}
-            \begin{center}
-                \textbf{-- \SolutionPath\ not found --}
-            \end{center}
-        }
-    \end{solution}
+    \begin{flushleft}
+        \begin{solution}
+            \IfFileExists{\SolutionPath}{
+                \subimport{\Basepath/section#1/}{#2\SolutionSuffix.tex}
+            }{
+                \vspace{-1cm}
+                \begin{center}
+                    \textbf{-- \SolutionPath\ not found --}
+                \end{center}
+            }
+        \end{solution}
+    \end{flushleft}
 }
 
 % Insert a problem and its solution if available. Only use this for the
