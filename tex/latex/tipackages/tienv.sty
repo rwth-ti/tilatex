@@ -1,0 +1,17 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{tienv}[2014/10/22 v0.1]
+
+\RequirePackage{tiinternal}
+\RequirePackage{enumitem}
+\RequirePackage{amsthm}
+
+\newlist{enumerateal}{enumerate}{1}
+\setlist[enumerateal]{label=\alph*)}
+
+% TODO: Translate environment strings automatically if `english` is passed in
+%       as package option.
+\theoremstyle{definition}
+\newtheorem{prop}{Proposition}
+
+\endinput
+
