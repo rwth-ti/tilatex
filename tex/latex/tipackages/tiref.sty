@@ -1,0 +1,59 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{tiref}[2014/10/22 v0.1]
+
+\RequirePackage{tiinternal}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{etoolbox}
+\usepackage{xstring}
+\usepackage{ifthen}
+
+% Utility commands
+\newcommand*{\tiref@isempty}[1]{\equal{#1}{}}
+% \newcommand*{\tiref@ifempty}[3]{\ifthenelse{\tiref@isempty{#1}}{#2}{#3}}
+\newcommand*{\tiref@ifempty}[3]{\ifblank{#1}{#2}{#3}}
+
+% TODO: Move this to another file.
+% \RequirePackage{enumitem}
+% \newlist{enumerateal}{enumerate}{1}
+% \setlist[enumerateal]{label=\alph*)}
+
+% TODO: Move this to another file.
+% \RequirePackage{amsthm}
+% \theoremstyle{definition}
+% \newtheorem{prop}{Proposition}
+
+% Macro to define reference names. This allows linking prefixes like `prop:`
+% in label names like `prop:foo` to string expansions like `Proposition`.
+\newcommand{\definereftype}[2]{%
+    \expandafter\newcommand\csname tiref@refname#1\endcsname{#2}%
+}
+
+\newcommand{\rawtiref}[1]{%
+    \StrCut{#1}{/}{\tiref@basename}{\tiref@itemname}%
+    \tiref@ifempty{\tiref@itemname}{%
+        \ref{#1}%
+    }{%
+        % Use the starred version of \ref in the second argument to `hyperref`
+        % so the package doesn't create links to both the basename and the
+        % actual target.
+        \hyperref[#1]{\ref*{\tiref@basename}\ref*{#1}}%
+    }%
+}
+
+\usepackage{xparse}
+\DeclareDocumentCommand{\tiref}{o m}{%
+    \IfNoValueTF{#1}{%
+        \StrCut{#2}{:}{\tiref@reftype}{\tiref@unused}%
+        \def\tiref@refname{%
+            \expandafter\csname tiref@refname\tiref@reftype\endcsname%
+        }%
+        % FIXME: \tiref@isempty{\refname} is always false. Why?
+        \tiref@ifempty{\tiref@refname}{\textbf{??}}{\tiref@refname}~%
+    }{%
+        #1~%
+    }%
+    \rawtiref{#2}%
+}
+
+\endinput
+
