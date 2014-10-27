@@ -3,24 +3,12 @@
 
 \RequirePackage{tiinternal}
 \usepackage[colorlinks=true]{hyperref}
-\usepackage{etoolbox}
-\usepackage{xstring}
 \usepackage{ifthen}
+\usepackage{xstring}
+\usepackage{xparse}
 
 % Utility commands
-\newcommand*{\tiref@isempty}[1]{\equal{#1}{}}
-% \newcommand*{\tiref@ifempty}[3]{\ifthenelse{\tiref@isempty{#1}}{#2}{#3}}
-\newcommand*{\tiref@ifempty}[3]{\ifblank{#1}{#2}{#3}}
-
-% TODO: Move this to another file.
-% \RequirePackage{enumitem}
-% \newlist{enumerateal}{enumerate}{1}
-% \setlist[enumerateal]{label=\alph*)}
-
-% TODO: Move this to another file.
-% \RequirePackage{amsthm}
-% \theoremstyle{definition}
-% \newtheorem{prop}{Proposition}
+\newcommand*{\tiref@ifempty}[3]{\ifthenelse{\equal{#1}{}}{#2}{#3}}
 
 % Macro to define reference names. This allows linking prefixes like `prop:`
 % in label names like `prop:foo` to string expansions like `Proposition`.
@@ -40,15 +28,16 @@
     }%
 }
 
-\usepackage{xparse}
 \DeclareDocumentCommand{\tiref}{o m}{%
     \IfNoValueTF{#1}{%
-        \StrCut{#2}{:}{\tiref@reftype}{\tiref@unused}%
-        \def\tiref@refname{%
-            \expandafter\csname tiref@refname\tiref@reftype\endcsname%
+        \StrCut{#2}{:}{\tiref@domain}{\tiref@refname}%
+        \tiref@ifempty{\tiref@refname}{}{%
+            \ifcsname tiref@refname\tiref@domain\endcsname%
+                \csname tiref@refname\tiref@domain\endcsname%
+            \else%
+                \textbf{??}%
+            \fi~%
         }%
-        % FIXME: \tiref@isempty{\refname} is always false. Why?
-        \tiref@ifempty{\tiref@refname}{\textbf{??}}{\tiref@refname}~%
     }{%
         #1~%
     }%
