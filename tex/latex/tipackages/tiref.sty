@@ -7,16 +7,10 @@
 \usepackage{xstring}
 \usepackage{xparse}
 
-% Utility commands
+% Internal macros
 \newcommand*{\tiref@ifempty}[3]{\ifthenelse{\equal{#1}{}}{#2}{#3}}
 
-% Macro to define reference names. This allows linking prefixes like `prop:`
-% in label names like `prop:foo` to string expansions like `Proposition`.
-\newcommand{\definereftype}[2]{%
-    \expandafter\newcommand\csname tiref@refname#1\endcsname{#2}%
-}
-
-\newcommand{\rawtiref}[1]{%
+\newcommand{\tiref@tiref}[1]{%
     \StrCut{#1}{/}{\tiref@basename}{\tiref@itemname}%
     \tiref@ifempty{\tiref@itemname}{%
         \ref{#1}%
@@ -28,20 +22,47 @@
     }%
 }
 
-\DeclareDocumentCommand{\tiref}{o m}{%
-    \IfNoValueTF{#1}{%
-        \StrCut{#2}{:}{\tiref@domain}{\tiref@refname}%
-        \tiref@ifempty{\tiref@refname}{}{%
-            \ifcsname tiref@refname\tiref@domain\endcsname%
-                \csname tiref@refname\tiref@domain\endcsname%
-            \else%
-                \textbf{??}%
-            \fi~%
+% Macro to define reference names. This allows linking prefixes like `prop:`
+% in label names like `prop:foo` to strings like `Proposition`.
+\newcommand{\definereftype}[2]{%
+    \expandafter\def\csname tiref@refname#1\endcsname{#2}%
+}
+
+% Macro to define the equation domain prefix. It is used differentiate regular
+% references from references to equations so we can add round brackets around
+% the latter.
+\def\tiref@eqnprefix{eqn}
+\newcommand{\setequationprefix}[1]{%
+    \def\tiref@eqnprefix{#1}%
+}
+
+% The main reference macro. It accepts labels of the form `foo:bar/baz` where
+% `foo` denotes the (optional) reference domain like Theorem, Example, etc.,
+% `bar` denotes the main label, and `baz` denotes the (optional) item label.
+% The macro also accepts an optional argument to overwrite the reference type
+% name associated with `foo` as defined by `\definereftype`. Furthermore, a
+% starred version of the macro is available which ignores the domain prefix
+% altogether.
+\DeclareDocumentCommand{\tiref}{s o m}{%
+    \StrCut{#3}{:}{\tiref@domain}{\tiref@refname}%
+    \IfBooleanF{#1}{%
+        \IfNoValueTF{#2}{%
+            \tiref@ifempty{\tiref@refname}{}{%
+                \ifcsname tiref@refname\tiref@domain\endcsname%
+                    \csname tiref@refname\tiref@domain\endcsname%
+                \else%
+                    \textbf{??}%
+                \fi~%
+            }%
+        }{%
+            #2~%
         }%
-    }{%
-        #1~%
     }%
-    \rawtiref{#2}%
+    \IfStrEq{\tiref@domain}{%
+        \tiref@eqnprefix%
+    }{%
+        (\tiref@tiref{#3})}{\tiref@tiref{#3}%
+    }%
 }
 
 \endinput
