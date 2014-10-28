@@ -5,8 +5,21 @@
 \RequirePackage{enumitem}
 \RequirePackage{amsthm}
 
+% Define enumeratea environment with item lables 1., 2., etc.
+\newlist{enumeratea}{enumerate}{1}
+\setlist[enumeratea]{label=\arabic*.}
+
+% Define enumeratei environment with roman numerals i., ii., etc.
+\newlist{enumeratei}{enumerate}{1}
+\setlist[enumeratei]{label=(\roman*)}
+
+% Define enumeratea environment with item lables 1., 2., etc.
 \newlist{enumerateal}{enumerate}{1}
 \setlist[enumerateal]{label=\alph*)}
+
+% Define enumeratenl environment for lists without labels.
+\newlist{enumeratenl}{enumerate}{1}
+\setlist[enumeratenl]{label=}
 
 % TODO: Translate environment strings automatically if `english` is passed in
 %       as package option.
