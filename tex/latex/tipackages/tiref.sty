@@ -58,10 +58,10 @@
             #2~%
         }%
     }%
-    \IfStrEq{\tiref@domain}{%
-        \tiref@eqnprefix%
+    \IfStrEq{\tiref@domain}{\tiref@eqnprefix}{%
+        \eqref{#3}%
     }{%
-        (\tiref@tiref{#3})}{\tiref@tiref{#3}%
+        \tiref@tiref{#3}%
     }%
 }
 
