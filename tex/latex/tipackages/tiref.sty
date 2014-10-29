@@ -45,23 +45,25 @@
 % altogether.
 \DeclareDocumentCommand{\tiref}{s o m}{%
     \StrCut{#3}{:}{\tiref@domain}{\tiref@refname}%
-    \IfBooleanF{#1}{%
-        \IfNoValueTF{#2}{%
-            \tiref@ifempty{\tiref@refname}{}{%
-                \ifcsname tiref@refname\tiref@domain\endcsname%
-                    \csname tiref@refname\tiref@domain\endcsname%
-                \else%
-                    \textbf{??}%
-                \fi~%
+    \text{%
+        \IfBooleanF{#1}{%
+            \IfNoValueTF{#2}{%
+                \tiref@ifempty{\tiref@refname}{}{%
+                    \ifcsname tiref@refname\tiref@domain\endcsname%
+                        \csname tiref@refname\tiref@domain\endcsname%
+                    \else%
+                        \textbf{??}%
+                    \fi~%
+                }%
+            }{%
+                #2~%
             }%
-        }{%
-            #2~%
         }%
-    }%
-    \IfStrEq{\tiref@domain}{\tiref@eqnprefix}{%
-        \eqref{#3}%
-    }{%
-        \tiref@tiref{#3}%
+        \IfStrEq{\tiref@domain}{\tiref@eqnprefix}{%
+            \eqref{#3}%
+        }{%
+            \tiref@tiref{#3}%
+        }%
     }%
 }
 
