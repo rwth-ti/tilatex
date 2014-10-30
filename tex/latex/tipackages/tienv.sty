@@ -1,9 +1,52 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{tienv}[2014/10/22 v0.1]
 
-\RequirePackage{tiinternal}
-\RequirePackage{enumitem}
-\RequirePackage{amsthm}
+\usepackage{tiinternal}
+
+\usepackage{enumitem}
+\usepackage{amsthm}
+\usepackage{xparse}
+
+% Language options
+\def\tienv@corollarylabel{Korollar}
+\def\tienv@examplelabel{Beispiel}
+\DeclareOption{english}{
+    % The other labels don't require translation.
+    \def\tienv@corollarylabel{Corollary}
+    \def\tienv@examplelabel{Example}
+}
+
+% Define the environments.
+\theoremstyle{definition}
+\newtheorem{tienv@theorem}{Theorem}[section]
+\newtheorem{tienv@lemma}[tienv@theorem]{Lemma}
+\newtheorem{tienv@proposition}[tienv@theorem]{Proposition}
+\newtheorem{tienv@corollary}[tienv@theorem]{\tienv@corollarylabel}
+\newtheorem{tienv@definition}[tienv@theorem]{Definition}
+\newtheorem{tienv@example}[tienv@theorem]{\tienv@examplelabel}
+
+% Command to define a wrapper environment for the hidden ones defined above.
+% We use it to be able to control the placement and style of optional argument
+% to amsthm environments.
+\newcommand*{\defineenvironment}[1]{%
+    \DeclareDocumentEnvironment{#1}{o}{%
+        \IfNoValueTF{##1}{%
+            \begin{tienv@#1}%
+        }{%
+            \begin{tienv@#1}(\textit{##1})%
+        }
+    }{%
+        \end{tienv@#1}%
+    }
+}
+\defineenvironment{theorem}
+\defineenvironment{lemma}
+\defineenvironment{proposition}
+\defineenvironment{corollary}
+\defineenvironment{definition}
+\defineenvironment{example}
+
+\ProcessOptions\relax
 
 % Define enumeratea environment with item lables 1., 2., etc.
 \newlist{enumeratea}{enumerate}{1}
@@ -20,11 +63,6 @@
 % Define enumeratenl environment for lists without labels.
 \newlist{enumeratenl}{enumerate}{1}
 \setlist[enumeratenl]{label=}
-
-% TODO: Translate environment strings automatically if `english` is passed in
-%       as package option.
-\theoremstyle{definition}
-\newtheorem{prop}{Proposition}
 
 \endinput
 
