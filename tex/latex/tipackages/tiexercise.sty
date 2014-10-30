@@ -1,8 +1,8 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{tiexercise}[2014/10/22 v0.1]
 
-\RequirePackage{tiinternal}
-\RequirePackage{timath}
+\usepackage{tiinternal}
+\usepackage{timath}
 
 % Define placeholder values for lecture, lecturer, etc. We assume the lecture
 % is given in German by default.
@@ -38,7 +38,7 @@
     \renewcommand{\TitlePrefix}{\ExerciseLabel\ \ExerciseNumber}
 }
 
-\ProcessOptions
+\ProcessOptions\relax
 
 % Define commands to set lecture, lecturer, etc.
 \newcommand{\setlecture}[1]{\renewcommand{\Lecture}{#1}}
