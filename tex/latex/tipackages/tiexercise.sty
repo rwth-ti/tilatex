@@ -6,47 +6,43 @@
 
 % Define placeholder values for lecture, lecturer, etc. We assume the lecture
 % is given in German by default.
-\newcommand{\Lecture}{Vorlesung}
-\newcommand{\Lecturer}{Dozent}
-\newcommand{\Supervisor}{Betreuer}
-\newcommand{\ExerciseNumber}{0}
-\newcommand{\ExerciseDate}{tt.mm.jjjj}
+\def\tiexercise@lecture{Vorlesung}
+\def\tiexercise@lecturer{Dozent}
+\def\tiexercise@supervisor{Betreuer}
+\def\tiexercise@date{tt.mm.jjjj}
 
-% Define text labels.
-\newcommand{\ExerciseLabel}{Übung}
-\newcommand{\AdditionalExerciseLabel}{Zusatzübung}
-\newcommand{\ProposedSolutionLabel}{Lösungsvorschlag}
-\newcommand{\ProblemLabel}{Aufgabe}
-\newcommand{\SolutionLabel}{Lösung zu Aufgabe}
+% Define default text labels.
+\def\tiexercise@exerciselabel{Übung}
+\def\tiexercise@additionalexerciselabel{Zusatzübung}
+\def\tiexercise@proposedsolutionlabel{Lösungsvorschlag}
+\def\tiexercise@problemlabel{Aufgabe}
+\def\tiexercise@solutionlabel{Lösung zu Aufgabe}
 
-\newcommand{\TitlePrefix}{\ExerciseNumber.\ \ExerciseLabel}
+\def\tiexercise@titleprefix{%
+    \thetiexercise@ExerciseCounter.\ \tiexercise@exerciselabel%
+}
 
 % Handle package options
 \DeclareOption{english}{
-    \renewcommand{\Lecture}{Lecture}
-    \renewcommand{\Lecturer}{Lecturer}
-    \renewcommand{\Supervisor}{Supervisor}
-    \renewcommand{\ExerciseNumber}{0}
-    \renewcommand{\ExerciseDate}{dd.mm.yyyy}
+    \def\tiexercise@lecture{tiexercise@lecture}
+    \def\tiexercise@lecturer{tiexercise@lecturer}
+    \def\tiexercise@supervisor{tiexercise@supervisor}
+    \def\tiexercise@date{dd.mm.yyyy}
 
-    \renewcommand{\ExerciseLabel}{Exercise}
-    \renewcommand{\AdditionalExerciseLabel}{Additional Exercise}
-    \renewcommand{\ProposedSolutionLabel}{Proposed Solution}
-    \renewcommand{\ProblemLabel}{Problem}
-    \renewcommand{\SolutionLabel}{Solution of Problem}
+    \def\tiexercise@exerciselabel{Exercise}
+    \def\tiexercise@additionalexerciselabel{Additional Exercise}
+    \def\tiexercise@proposedsolutionlabel{Proposed Solution}
+    \def\tiexercise@problemlabel{Problem}
+    \def\tiexercise@solutionlabel{Solution of Problem}
 
-    \renewcommand{\TitlePrefix}{\ExerciseLabel\ \ExerciseNumber}
+    \def\tiexercise@titleprefix{%
+        \tiexercise@exerciselabel\ \thetiexercise@ExerciseCounter%
+    }
 }
 
 \ProcessOptions\relax
 
-% Define commands to set lecture, lecturer, etc.
-\newcommand{\setlecture}[1]{\renewcommand{\Lecture}{#1}}
-\newcommand{\setlecturer}[1]{\renewcommand{\Lecturer}{#1}}
-\newcommand{\setsupervisor}[1]{\renewcommand{\Supervisor}{#1}}
-\newcommand{\setexercisenumber}[1]{\renewcommand{\ExerciseNumber}{#1}}
-\newcommand{\setexercisedate}[1]{\renewcommand{\ExerciseDate}{#1}}
-
+% TODO: Move this to the tiexercise class.
 % Page layout
 \setlength{\textheight}{25.5truecm}
 \setlength{\textwidth}{16.2truecm}
@@ -56,97 +52,104 @@
 \parindent=0pt
 \parskip=5pt
 
+% Initialize defaults.
+% TODO: Rename these.
+\def\tiexercise@basepath{.}
+\newcommand{\SolutionSuffix}{-solution}
+
+% Define the exercise, problem and solution counters. Note that the exercise
+% counter is only defined for convenience of error checking. It's never
+% actually incremented, but set manually for each exercise.
+\newcounter{tiexercise@ExerciseCounter}
+\newcounter{tiexercise@ProblemCounter}[section]
+\newcounter{tiexercise@SolutionCounter}[section]
+
+% Define the labelling scheme for enumerate items.
+\renewcommand{\labelenumi}{{\textbf{\alph{enumi})}}}
+\renewcommand{\labelenumii}{\textbf{\roman{enumii})}}
+
+% Define new environments.
+\newenvironment{problem}{
+    \stepcounter{tiexercise@ProblemCounter}
+    \textsf{%
+        \pagebreak[3]%
+        \textbf{\tiexercise@problemlabel\ \thetiexercise@ProblemCounter.}%
+    }
+}{
+    \vspace*{1cm}
+}
+\newenvironment{solution}{
+    \stepcounter{tiexercise@SolutionCounter}
+    \textsf{%
+        \pagebreak[3]%
+        \textbf{\large{\tiexercise@solutionlabel\ \thetiexercise@SolutionCounter}}%
+    } \\[2mm]
+}{
+    \vspace*{1cm}
+}
+
+% Define commands to set lecture, lecturer, etc.
+\newcommand{\setlecture}[1]{\def\tiexercise@lecture{#1}}
+\newcommand{\setlecturer}[1]{\def\tiexercise@lecturer{#1}}
+\newcommand{\setsupervisor}[1]{\def\tiexercise@supervisor{#1}}
+\newcommand{\setexercisenumber}[1]{\setcounter{tiexercise@ExerciseCounter}{#1}}
+\newcommand{\setexercisedate}[1]{\def\tiexercise@date{#1}}
+
+% Our counters are zero-based now and incremented before they're used. Hence
+% the #1-1 in the commands below.
+\newcommand{\setfirstproblem}[1][1]{\setcounter{tiexercise@ProblemCounter}{#1-1}}
+\newcommand{\setfirstsolution}[1][1]{\setcounter{tiexercise@SolutionCounter}{#1-1}}
+
+\newcommand{\setbasepath}[1]{\def\tiexercise@basepath{#1}}
+\newcommand{\setsolutionsuffix}[1]{\def\SolutionSuffix{#1}}
+
 % Define the document headers.
-\newcommand{\ExerciseHeader}{
+\def\tiexercise@exerciseheader{
     \begin{center}
-        \LARGE \TitlePrefix\ \Lecture \\
-        \normalsize \Lecturer, \Supervisor \\
-        \ExerciseDate
+        \LARGE \tiexercise@titleprefix\ \tiexercise@lecture \\
+        \normalsize \tiexercise@lecturer, \tiexercise@supervisor \\
+        \tiexercise@date
     \end{center}
     \vspace{0.5cm}
 }
-\newcommand{\AdditionalExerciseHeader}{
+\def\tiexercise@additionalexerciseheader{
     \begin{center}
-        \LARGE \AdditionalExerciseLabel\ \Lecture \\
-        \normalsize \Lecturer, \Supervisor \\
-        \ExerciseDate
+        \LARGE \tiexercise@additionalexerciselabel\ \tiexercise@lecture \\
+        \normalsize \tiexercise@lecturer, \tiexercise@supervisor \\
+        \tiexercise@date
     \end{center}
     \vspace{0.5cm}
 }
-\newcommand{\SolutionHeader}{
+\def\tiexercise@solutionheader{
     \begin{center}
-        \LARGE \TitlePrefix\ \Lecture \\
-        - \ProposedSolutionLabel\ - \\[2mm]
-        \normalsize \Lecturer, \Supervisor \\
-        \ExerciseDate
+        \LARGE \tiexercise@titleprefix\ \tiexercise@lecture \\
+        - \tiexercise@proposedsolutionlabel\ - \\[2mm]
+        \normalsize \tiexercise@lecturer, \tiexercise@supervisor \\
+        \tiexercise@date
     \end{center}
     \vspace{0.5cm}
 }
 
 \newcommand{\insertexerciseheader}{
     \TIHeader
-    \ExerciseHeader
+    \tiexercise@exerciseheader
 }
 \newcommand{\insertadditionalexerciseheader}{
     \TIHeader
-    \AdditionalExerciseHeader
+    \tiexercise@additionalexerciseheader
 }
 \newcommand{\insertsolutionheader}{
     \TIHeader
-    \SolutionHeader
+    \tiexercise@solutionheader
 }
-
-% Define the labelling scheme for enumerate items.
-\renewcommand{\labelenumi}{{\textbf{\alph{enumi})}}}
-\renewcommand{\labelenumii}{\textbf{\roman{enumii})}}
-
-% Define exercise and problem counters. Note that the exercise counter is only
-% defined for convenience. It's never incremented, only set manually once for
-% each exercise.
-\newcounter{Exercise}
-\newcounter{Problem}[section]
-\newcounter{Solution}[section]
-
-% Our counters are zero-based now and incremented before they're used. Hence
-% the #1-1 in the commands below.
-\newcommand{\setfirstexercise}[1][1]{\setcounter{Exercise}{#1-1}}
-\newcommand{\setfirstproblem}[1][1]{\setcounter{Problem}{#1-1}}
-\newcommand{\setfirstsolution}[1][1]{\setcounter{Solution}{#1-1}}
-
-% Define new environments.
-\newenvironment{problem}{
-    \stepcounter{Problem}
-    \textsf{%
-        \pagebreak[3]%
-        \textbf{\ProblemLabel\ \theProblem.}%
-    }
-}{
-    \vspace*{1cm}
-}
-\newenvironment{solution}{
-    \stepcounter{Solution}
-    \textsf{%
-        \pagebreak[3]%
-        \textbf{\large{\SolutionLabel\ \theSolution}}%
-    } \\[2mm]
-}{
-    \vspace*{1cm}
-}
-
-\newcommand{\Basepath}{.}
-\newcommand{\setbasepath}[1]{\renewcommand{\Basepath}{#1}}
-\newcommand{\SolutionSuffix}{-solution}
-\newcommand{\setsolutionsuffix}[1]{\renewcommand{\SolutionSuffix}{#1}}
 
 \newcommand{\insertproblem}[2]{
-    \def\ExercisePath{\Basepath/section#1/#2.tex}
+    \def\ExercisePath{\tiexercise@basepath/section#1/#2.tex}
     \begin{flushleft}
         \begin{problem}
             \IfFileExists{\ExercisePath}{
-                    \subimport{\Basepath/section#1/}{#2.tex}
+                    \subimport{\tiexercise@basepath/section#1/}{#2.tex}
             }{
-                \\[2mm]
-                \vspace{-1cm}
                 \begin{center}
                     \textbf{-- \ExercisePath\ not found --}
                 \end{center}
@@ -155,15 +158,14 @@
     \end{flushleft}
 }
 \newcommand{\insertsolution}[2]{
-    \def\SolutionPath{\Basepath/section#1/#2\SolutionSuffix.tex}
+    \def\tiexercise@solutionpath{\tiexercise@basepath/section#1/#2\SolutionSuffix.tex}
     \begin{flushleft}
         \begin{solution}
-            \IfFileExists{\SolutionPath}{
-                \subimport{\Basepath/section#1/}{#2\SolutionSuffix.tex}
+            \IfFileExists{\tiexercise@solutionpath}{
+                \subimport{\tiexercise@basepath/section#1/}{#2\SolutionSuffix.tex}
             }{
-                \vspace{-1cm}
                 \begin{center}
-                    \textbf{-- \SolutionPath\ not found --}
+                    \textbf{-- \tiexercise@solutionpath\ not found --}
                 \end{center}
             }
         \end{solution}
@@ -173,12 +175,12 @@
 % Insert a problem and its solution if available. Only use this for the
 % exercise collection documents.
 \newcommand{\insertproblemandsolution}[2]{
-    \def\ExercisePath{\Basepath/section#1/#2.tex}
-    \def\SolutionPath{\Basepath/section#1/#2\SolutionSuffix.tex}
+    \def\ExercisePath{\tiexercise@basepath/section#1/#2.tex}
+    \def\tiexercise@solutionpath{\tiexercise@basepath/section#1/#2\SolutionSuffix.tex}
     \IfFileExists{\ExercisePath}{
         \textit{{\ExercisePath}:} \\
         \insertproblem{#1}{#2}
-        \textit{{\SolutionPath}:} \\
+        \textit{{\tiexercise@solutionpath}:} \\
         \insertsolution{#1}{#2}
     }{
         \begin{center}
