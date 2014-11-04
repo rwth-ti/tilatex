@@ -145,31 +145,29 @@
 
 \newcommand{\insertproblem}[2]{
     \def\ExercisePath{\tiexercise@basepath/section#1/#2.tex}
-    \begin{flushleft}
-        \begin{problem}
-            \IfFileExists{\ExercisePath}{
-                    \subimport{\tiexercise@basepath/section#1/}{#2.tex}
-            }{
-                \begin{center}
-                    \textbf{-- \ExercisePath\ not found --}
-                \end{center}
-            }
-        \end{problem}
-    \end{flushleft}
+    \begin{problem}
+        \IfFileExists{\ExercisePath}{
+                \subimport{\tiexercise@basepath/section#1/}{#2.tex}
+        }{
+            \begin{center}
+                \textbf{-- \ExercisePath\ not found --}
+            \end{center}
+        }
+    \end{problem}
+    \par
 }
 \newcommand{\insertsolution}[2]{
     \def\tiexercise@solutionpath{\tiexercise@basepath/section#1/#2\SolutionSuffix.tex}
-    \begin{flushleft}
-        \begin{solution}
-            \IfFileExists{\tiexercise@solutionpath}{
-                \subimport{\tiexercise@basepath/section#1/}{#2\SolutionSuffix.tex}
-            }{
-                \begin{center}
-                    \textbf{-- \tiexercise@solutionpath\ not found --}
-                \end{center}
-            }
-        \end{solution}
-    \end{flushleft}
+    \begin{solution}
+        \IfFileExists{\tiexercise@solutionpath}{
+            \subimport{\tiexercise@basepath/section#1/}{#2\SolutionSuffix.tex}
+        }{
+            \begin{center}
+                \textbf{-- \tiexercise@solutionpath\ not found --}
+            \end{center}
+        }
+    \end{solution}
+    \par
 }
 
 % Insert a problem and its solution if available. Only use this for the
