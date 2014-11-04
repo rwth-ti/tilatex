@@ -1,0 +1,31 @@
+# Maintainer: Niklas Koep  <niklas.koep@gmail.com>
+
+pkgname=texlive-tilatex
+pkgver=0.1
+pkgrel=1
+license=("BSD")
+depends=("texlive-core")
+pkgdesc="A LaTeX package providing common classes and packages used at TI"
+arch=('any')
+install=texlive-tilatex.install
+md5sums=("SKIP")
+_gitroot="git@git.ti.rwth-aachen.de:user/koep/tilatex"
+
+build() {
+    cd "${srcdir}"
+    msg "Connecting to GIT server...."
+
+    if [ ! -d "${pkgname}" ]; then
+        git clone --depth=1 "${_gitroot}" "${pkgname}" || return 1
+    fi
+
+    cd "${pkgname}"
+    git pull origin || return 1
+
+    msg "GIT checkout done"
+
+    _targetdir="${pkgdir}/usr/share/texmf/tex/latex/tilatex"
+    mkdir -p "${_targetdir}"
+    cp -R "${srcdir}/${pkgname}/src"/* "${_targetdir}"
+}
+
