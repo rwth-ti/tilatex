@@ -1,13 +1,17 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{tiexercise}[2014/11/04 v0.1]
 
+\DeclareOption{english}{
+    \PassOptionsToPackage{\CurrentOption}{tiexercise}
+}
+
 \DeclareOption*{
   \ClassWarning{tiexercise}{Unknown option '\CurrentOption'}
 }
 
 \ProcessOptions\relax
 
-% Load base class
+% Load the base class.
 \LoadClass[12pt,a4paper]{article}
 
 \usepackage{tiexercise}

@@ -9,7 +9,13 @@
 \def\tiexercise@lecture{Vorlesung}
 \def\tiexercise@lecturer{Dozent}
 \def\tiexercise@supervisor{Betreuer}
-\def\tiexercise@date{tt.mm.jjjj}
+\def\tiexercise@day{tt}
+\def\tiexercise@month{tt}
+\def\tiexercise@year{tt}
+
+\def\tiexercise@formatdate{%
+    \tiexercise@day.\tiexercise@month.\tiexercise@year%
+}
 
 % Define default text labels.
 \def\tiexercise@exerciselabel{Übung}
@@ -27,7 +33,6 @@
     \def\tiexercise@lecture{tiexercise@lecture}
     \def\tiexercise@lecturer{tiexercise@lecturer}
     \def\tiexercise@supervisor{tiexercise@supervisor}
-    \def\tiexercise@date{dd.mm.yyyy}
 
     \def\tiexercise@exerciselabel{Exercise}
     \def\tiexercise@additionalexerciselabel{Additional Exercise}
@@ -37,6 +42,10 @@
 
     \def\tiexercise@titleprefix{%
         \tiexercise@exerciselabel\ \thetiexercise@ExerciseCounter%
+    }
+
+    \def\tiexercise@formatdate{%
+        \tiexercise@month/\tiexercise@day/\tiexercise@year%
     }
 }
 
@@ -71,7 +80,9 @@
     \stepcounter{tiexercise@SolutionCounter}
     \textsf{%
         \pagebreak[3]%
-        \textbf{\large{\tiexercise@solutionlabel\ \thetiexercise@SolutionCounter}}%
+        \textbf{%
+            \large{\tiexercise@solutionlabel\ \thetiexercise@SolutionCounter}%
+        }%
     } \\[2mm]
 }{
     \vspace*{1cm}
@@ -82,12 +93,20 @@
 \newcommand{\setlecturer}[1]{\def\tiexercise@lecturer{#1}}
 \newcommand{\setsupervisor}[1]{\def\tiexercise@supervisor{#1}}
 \newcommand{\setexercisenumber}[1]{\setcounter{tiexercise@ExerciseCounter}{#1}}
-\newcommand{\setexercisedate}[1]{\def\tiexercise@date{#1}}
+\newcommand{\setexercisedate}[3]{
+    \def\tiexercise@day{#1}
+    \def\tiexercise@month{#2}
+    \def\tiexercise@year{#3}
+}
 
 % Our counters are zero-based now and incremented before they're used. Hence
 % the #1-1 in the commands below.
-\newcommand{\setfirstproblem}[1][1]{\setcounter{tiexercise@ProblemCounter}{#1-1}}
-\newcommand{\setfirstsolution}[1][1]{\setcounter{tiexercise@SolutionCounter}{#1-1}}
+\newcommand{\setfirstproblem}[1][1]{%
+    \setcounter{tiexercise@ProblemCounter}{#1-1}%
+}
+\newcommand{\setfirstsolution}[1][1]{%
+    \setcounter{tiexercise@SolutionCounter}{#1-1}%
+}
 
 \newcommand{\setbasepath}[1]{\def\tiexercise@basepath{#1}}
 \newcommand{\setsolutionsuffix}[1]{\def\SolutionSuffix{#1}}
@@ -97,7 +116,7 @@
     \begin{center}
         \LARGE \tiexercise@titleprefix\ \tiexercise@lecture \\
         \normalsize \tiexercise@lecturer, \tiexercise@supervisor \\
-        \tiexercise@date
+        \tiexercise@formatdate{}
     \end{center}
     \vspace{0.5cm}
 }
@@ -105,7 +124,7 @@
     \begin{center}
         \LARGE \tiexercise@additionalexerciselabel\ \tiexercise@lecture \\
         \normalsize \tiexercise@lecturer, \tiexercise@supervisor \\
-        \tiexercise@date
+        \tiexercise@formatdate{}
     \end{center}
     \vspace{0.5cm}
 }
@@ -114,7 +133,7 @@
         \LARGE \tiexercise@titleprefix\ \tiexercise@lecture \\
         - \tiexercise@proposedsolutionlabel\ - \\[2mm]
         \normalsize \tiexercise@lecturer, \tiexercise@supervisor \\
-        \tiexercise@date
+        \tiexercise@formatdate{}
     \end{center}
     \vspace{0.5cm}
 }
@@ -146,7 +165,9 @@
     \par
 }
 \newcommand{\insertsolution}[2]{
-    \def\tiexercise@solutionpath{\tiexercise@basepath/section#1/#2\SolutionSuffix.tex}
+    \def\tiexercise@solutionpath{%
+        \tiexercise@basepath/section#1/#2\SolutionSuffix.tex%
+    }
     \begin{solution}
         \IfFileExists{\tiexercise@solutionpath}{
             \subimport{\tiexercise@basepath/section#1/}{#2\SolutionSuffix.tex}
@@ -163,7 +184,9 @@
 % exercise collection documents.
 \newcommand{\insertproblemandsolution}[2]{
     \def\ExercisePath{\tiexercise@basepath/section#1/#2.tex}
-    \def\tiexercise@solutionpath{\tiexercise@basepath/section#1/#2\SolutionSuffix.tex}
+    \def\tiexercise@solutionpath{%
+        \tiexercise@basepath/section#1/#2\SolutionSuffix.tex%
+    }
     \IfFileExists{\ExercisePath}{
         \textit{{\ExercisePath}:} \\
         \insertproblem{#1}{#2}
