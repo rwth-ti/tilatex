@@ -1,12 +1,21 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{tiexercise}[2014/11/04 v0.1]
 
+% TODO: Wrap \insertproblem and \insertsolution in another convenience macro
+%       so we don't have to distinguish between the two in exercise documents.
+\def\tiexercise@insertheader{\insertexerciseheader}
+\DeclareOption{additionalexercise}{
+    \def\tiexercise@insertheader{\insertadditionalexerciseheader}
+}
+\DeclareOption{solution}{
+    \def\tiexercise@insertheader{\insertsolutionheader}
+}
+
 \DeclareOption{english}{
     \PassOptionsToPackage{\CurrentOption}{tiexercise}
 }
-
 \DeclareOption*{
-  \ClassWarning{tiexercise}{Unknown option '\CurrentOption'}
+    \ClassWarning{tiexercise}{Unknown option '\CurrentOption'}
 }
 
 \ProcessOptions\relax
@@ -24,6 +33,8 @@
 \pagestyle{empty}
 \parindent=0pt
 \parskip=5pt
+
+\AtBeginDocument{\tiexercise@insertheader}
 
 \endinput
 
