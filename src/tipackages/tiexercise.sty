@@ -9,9 +9,9 @@
 \def\tiexercise@lecture{Vorlesung}
 \def\tiexercise@lecturer{Dozent}
 \def\tiexercise@supervisor{Betreuer}
-\def\tiexercise@day{tt}
-\def\tiexercise@month{tt}
-\def\tiexercise@year{tt}
+\def\tiexercise@day{dd}
+\def\tiexercise@month{mm}
+\def\tiexercise@year{yyyy}
 
 \def\tiexercise@formatdate{%
     \tiexercise@day.\tiexercise@month.\tiexercise@year%
@@ -62,6 +62,7 @@
 \newcounter{tiexercise@ProblemCounter}[section]
 \newcounter{tiexercise@SolutionCounter}[section]
 
+% XXX: These shouldn't be used anymore. Use environments from tienv instead.
 % Define the labelling scheme for enumerate items.
 \renewcommand{\labelenumi}{{\textbf{\alph{enumi})}}}
 \renewcommand{\labelenumii}{\textbf{\roman{enumii})}}
@@ -116,7 +117,7 @@
     \begin{center}
         \LARGE \tiexercise@titleprefix\ \tiexercise@lecture \\
         \normalsize \tiexercise@lecturer, \tiexercise@supervisor \\
-        \tiexercise@formatdate{}
+        \tiexercise@formatdate
     \end{center}
     \vspace{0.5cm}
 }
@@ -124,7 +125,7 @@
     \begin{center}
         \LARGE \tiexercise@additionalexerciselabel\ \tiexercise@lecture \\
         \normalsize \tiexercise@lecturer, \tiexercise@supervisor \\
-        \tiexercise@formatdate{}
+        \tiexercise@formatdate
     \end{center}
     \vspace{0.5cm}
 }
@@ -133,7 +134,7 @@
         \LARGE \tiexercise@titleprefix\ \tiexercise@lecture \\
         - \tiexercise@proposedsolutionlabel\ - \\[2mm]
         \normalsize \tiexercise@lecturer, \tiexercise@supervisor \\
-        \tiexercise@formatdate{}
+        \tiexercise@formatdate
     \end{center}
     \vspace{0.5cm}
 }
@@ -155,7 +156,7 @@
     \def\ExercisePath{\tiexercise@basepath/section#1/#2.tex}
     \begin{problem}
         \IfFileExists{\ExercisePath}{
-                \subimport{\tiexercise@basepath/section#1/}{#2.tex}
+            \subimport{\tiexercise@basepath/section#1/}{#2.tex}
         }{
             \begin{center}
                 \textbf{-- \ExercisePath\ not found --}
