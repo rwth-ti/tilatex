@@ -11,7 +11,9 @@
     \def\tiexercise@inserttext{\insertsolution}
 }
 
+\def\tiexercise@language{ngerman}
 \DeclareOption{english}{
+    \def\tiexercise@language{\CurrentOption}
     \PassOptionsToPackage{\CurrentOption}{tiexercise}
 }
 \DeclareOption*{
@@ -34,7 +36,10 @@
 \parindent=0pt
 \parskip=5pt
 
-\AtBeginDocument{\tiexercise@insertheader}
+\AtBeginDocument{%
+    \expandafter\selectlanguage\expandafter{\tiexercise@language}%
+    \tiexercise@insertheader%
+}
 
 \newcommand{\inserttext}{\tiexercise@inserttext}
 
