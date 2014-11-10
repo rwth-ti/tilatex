@@ -61,11 +61,13 @@
 % TODO: Make this accept two arguments: the nonzero set and its regular
 %       argument.
 \DeclareMathOperator{\idop}{\mathbb{I}}
-
 \DeclareMathOperator{\diag}{diag} % Diagonal matrix
 \DeclareMathOperator{\kulop}{D} % Kullback-Leibler divergence
-\DeclareMathOperator{\probop}{P} % Probability measure
 \DeclareMathOperator{\transop}{I} % Transinformation (mutual information)
+
+% XXX: Defined for backwards-compabtility. We use a regular upper-case P for
+%      the probability measure.
+\newcommand*{\probop}{P} % Probability measure
 
 % Probability density functions
 \DeclareMathOperator{\scndist}{SCN}
