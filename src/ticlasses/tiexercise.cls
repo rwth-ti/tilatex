@@ -13,8 +13,8 @@
 
 \def\tiexercise@language{ngerman}
 \DeclareOption{english}{
-    \def\tiexercise@language{\CurrentOption}
-    \PassOptionsToPackage{\CurrentOption}{tiexercise}
+    \def\tiexercise@language{english}
+    \PassOptionsToPackage{english}{tiexercise}
 }
 \DeclareOption*{
     \ClassWarning{tiexercise}{Unknown option '\CurrentOption'}
