@@ -16,7 +16,7 @@
     \expandafter\def\expandafter\tiexercise@language\expandafter{%
         \CurrentOption%
     }
-    \PassOptionsToPackage{\CurrentOption}{tiexercise}
+    \PassOptionsToPackage{\CurrentOption}{tiproblem}
 }
 \DeclareOption*{
     \ClassWarning{tiexercise}{Unknown option '\CurrentOption'}
@@ -27,7 +27,7 @@
 % Load the base class.
 \LoadClass[12pt,a4paper]{article}
 
-\usepackage{tiexercise}
+\usepackage{tiproblem}
 
 % Page layout
 \setlength{\textheight}{25.5truecm}
