@@ -6,9 +6,11 @@
 \DeclareOption{additionalexercise}{
     \def\tiexercise@insertheader{\insertadditionalexerciseheader}
 }
+\newcommand*{\setfirstproblem}{\setproblemnumber}
 \DeclareOption{solution}{
     \def\tiexercise@insertheader{\insertsolutionheader}
     \def\tiexercise@inserttext{\insertsolution}
+    \renewcommand*{\setfirstproblem}{\setsolutionnumber}
 }
 
 \def\tiexercise@language{ngerman}

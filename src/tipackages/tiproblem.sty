@@ -95,18 +95,19 @@
 \newcommand{\setlecturer}[1]{\def\tiproblem@lecturer{#1}}
 \newcommand{\setsupervisor}[1]{\def\tiproblem@supervisor{#1}}
 \newcommand{\setexercisenumber}[1]{\setcounter{tiproblem@ExerciseCounter}{#1}}
-\newcommand{\setexercisedate}[3]{
-    \def\tiproblem@day{#1}
-    \def\tiproblem@month{#2}
-    \def\tiproblem@year{#3}
+\newcommand{\setexercisedate}[3]{%
+    \def\tiproblem@day{#1}%
+    \def\tiproblem@month{#2}%
+    \def\tiproblem@year{#3}%
 }
 
 % Our counters are zero-based now and incremented before they're used. Hence
-% the #1-1 in the commands below.
-\newcommand{\setfirstproblem}[1][1]{%
+% the `#1-1` in the commands below. Note that arithmetic expressions like
+% `#1-1` are made possible by the `calc` package.
+\newcommand*{\setproblemnumber}[1]{%
     \setcounter{tiproblem@ProblemCounter}{#1-1}%
 }
-\newcommand{\setfirstsolution}[1][1]{%
+\newcommand*{\setsolutionnumber}[1]{%
     \setcounter{tiproblem@SolutionCounter}{#1-1}%
 }
 
