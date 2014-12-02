@@ -54,7 +54,7 @@
 
 % Initialize defaults.
 \def\tiproblem@basepath{.}
-\newcommand{\SolutionSuffix}{-solution}
+\def\tiproblem@solutionsuffix{-solution}
 
 % Define the exercise, problem and solution counters. Note that the exercise
 % counter is only defined for convenience of error checking. It's never
@@ -111,7 +111,7 @@
 }
 
 \newcommand{\setbasepath}[1]{\def\tiproblem@basepath{#1}}
-\newcommand{\setsolutionsuffix}[1]{\def\SolutionSuffix{#1}}
+\newcommand{\setsolutionsuffix}[1]{\def\tiproblem@solutionsuffix{#1}}
 
 % Define the document headers.
 \def\tiproblem@exerciseheader{
@@ -168,11 +168,13 @@
 }
 \newcommand{\insertsolution}[2]{
     \def\tiproblem@solutionpath{%
-        \tiproblem@basepath/section#1/#2\SolutionSuffix.tex%
+        \tiproblem@basepath/section#1/#2\tiproblem@solutionsuffix.tex%
     }
     \begin{solution}
         \IfFileExists{\tiproblem@solutionpath}{
-            \subimport{\tiproblem@basepath/section#1/}{#2\SolutionSuffix.tex}
+            \subimport{\tiproblem@basepath/section#1/}{%
+                #2\tiproblem@solutionsuffix.tex%
+            }
         }{
             \begin{center}
                 \textbf{-- \tiproblem@solutionpath\ not found --}
@@ -187,7 +189,7 @@
 \newcommand{\insertproblemandsolution}[2]{
     \def\ExercisePath{\tiproblem@basepath/section#1/#2.tex}
     \def\tiproblem@solutionpath{%
-        \tiproblem@basepath/section#1/#2\SolutionSuffix.tex%
+        \tiproblem@basepath/section#1/#2\tiproblem@solutionsuffix.tex%
     }
     \IfFileExists{\ExercisePath}{
         \textit{{\ExercisePath}:} \\
