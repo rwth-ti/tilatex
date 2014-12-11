@@ -27,18 +27,9 @@
 \ProcessOptions\relax
 
 % Load the base class.
-\LoadClass[12pt,a4paper]{article}
+\LoadClass{tiarticle}
 
 \usepackage{tiproblem}
-
-% Page layout
-\setlength{\textheight}{25.5truecm}
-\setlength{\textwidth}{16.2truecm}
-\hoffset=-1cm
-\voffset=-2cm
-\pagestyle{empty}
-\parindent=0pt
-\parskip=5pt
 
 \AtBeginDocument{%
     \expandafter\selectlanguage\expandafter{\tiexercise@language}%
