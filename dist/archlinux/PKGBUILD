@@ -1,0 +1,32 @@
+# Maintainer: Niklas Koep  <niklas.koep@gmail.com>
+pkgname=tilatex-git
+pkgver=0.1
+pkgrel=1
+license=("MIT")
+depends=("texlive-core")
+pkgdesc="A collection of LaTeX packages and classes providing common
+functionality used at the Institute for Theoretical Information Technology, \
+RWTH Aachen University, Germany"
+arch=('any')
+install=latex-tilatex.install
+md5sums=("SKIP")
+_gitroot="git://github.com/rwth-ti/tilatex.git"
+
+build() {
+    cd "${srcdir}"
+    msg "Connecting to GIT server...."
+
+    if [ ! -d "${pkgname}" ]; then
+        git clone --depth=1 "${_gitroot}" "${pkgname}" || return 1
+    fi
+
+    cd "${pkgname}"
+    git pull origin || return 1
+
+    msg "GIT checkout done"
+
+    _targetdir="${pkgdir}/usr/share/texmf-dist/tex/latex"
+    mkdir -p "${_targetdir}"
+    cp -R "${srcdir}/${pkgname}/src" "${_targetdir}/tilatex"
+}
+
