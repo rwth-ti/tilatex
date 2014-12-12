@@ -1,3 +1,9 @@
+% Copyright (c) 2014 Institute for Theoretical Information Technology,
+%                    RWTH Aachen University
+%
+% This software may be modified and distributed under the terms of the MIT
+% license. See the LICENSE file for details.
+
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{tiexercise}[2014/11/04 v0.1]
 
