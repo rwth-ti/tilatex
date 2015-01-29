@@ -10,7 +10,6 @@
 \usepackage{tiinternal}
 \usepackage{tienv}
 \usepackage{timath}
-\usepackage{stmaryrd} % lightning symbol
 
 % Define placeholder values for lecture, lecturer, etc. We assume the lecture
 % is given in German by default.
@@ -28,6 +27,7 @@
 % Define default text labels.
 \def\tiproblem@exerciselabel{Übung}
 \def\tiproblem@additionalexerciselabel{Zusatzübung}
+\def\tiproblem@additionalexerciselabelsolution{Zusatzübung}
 \def\tiproblem@proposedsolutionlabel{Lösungsvorschlag}
 \def\tiproblem@problemlabel{Aufgabe}
 \def\tiproblem@solutionlabel{Lösung zu Aufgabe}
@@ -43,7 +43,8 @@
     \def\tiproblem@supervisor{tiproblem@supervisor}
 
     \def\tiproblem@exerciselabel{Exercise}
-    \def\tiproblem@additionalexerciselabel{Additional Exercise}
+    \def\tiproblem@additionalexerciselabel{Review Exercise}
+    \def\tiproblem@additionalexerciselabelsolution{Review Exercise}
     \def\tiproblem@proposedsolutionlabel{Proposed Solution}
     \def\tiproblem@problemlabel{Problem}
     \def\tiproblem@solutionlabel{Solution of Problem}
@@ -138,6 +139,15 @@
     \end{center}
     \vspace{0.5cm}
 }
+\def\tiproblem@additionalexercisesolutionheader{
+    \begin{center}
+        \LARGE \tiproblem@additionalexerciselabel\ \tiproblem@lecture \\
+        - \tiproblem@proposedsolutionlabel\ - \\[2mm]
+        \normalsize \tiproblem@lecturer, \tiproblem@supervisor \\
+        \tiproblem@formatdate
+    \end{center}
+    \vspace{0.5cm}
+}
 \def\tiproblem@solutionheader{
     \begin{center}
         \LARGE \tiproblem@titleprefix\ \tiproblem@lecture \\
@@ -155,6 +165,10 @@
 \newcommand{\insertadditionalexerciseheader}{
     \TIHeader
     \tiproblem@additionalexerciseheader
+}
+\newcommand{\insertadditionalexercisesolutionheader}{
+    \TIHeader
+    \tiproblem@additionalexercisesolutionheader
 }
 \newcommand{\insertsolutionheader}{
     \TIHeader

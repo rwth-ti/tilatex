@@ -12,6 +12,11 @@
 \DeclareOption{additionalexercise}{
     \def\tiexercise@insertheader{\insertadditionalexerciseheader}
 }
+\DeclareOption{additionalexercisesolution}{
+    \def\tiexercise@insertheader{\insertadditionalexercisesolutionheader}
+    \def\tiexercise@inserttext{\insertsolution}
+    
+}
 \newcommand*{\setfirstproblem}{\setproblemnumber}
 \DeclareOption{solution}{
     \def\tiexercise@insertheader{\insertsolutionheader}
