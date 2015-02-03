@@ -7,6 +7,8 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{tiexercise}[2014/11/04 v0.1]
 
+\newcommand*{\setfirstproblem}{\setproblemnumber}
+
 \def\tiexercise@insertheader{\insertexerciseheader}
 \def\tiexercise@inserttext{\insertproblem}
 \DeclareOption{additionalexercise}{
@@ -15,9 +17,8 @@
 \DeclareOption{additionalexercisesolution}{
     \def\tiexercise@insertheader{\insertadditionalexercisesolutionheader}
     \def\tiexercise@inserttext{\insertsolution}
-    
+
 }
-\newcommand*{\setfirstproblem}{\setproblemnumber}
 \DeclareOption{solution}{
     \def\tiexercise@insertheader{\insertsolutionheader}
     \def\tiexercise@inserttext{\insertsolution}
