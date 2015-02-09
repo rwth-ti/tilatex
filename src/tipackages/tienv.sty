@@ -54,7 +54,11 @@
 
 \ProcessOptions\relax
 
-% Define enumeratea environment with item lables 1., 2., etc.
+% Define enumref environment with bold \ref'able labels a), b), c), etc.
+\newlist{enumref}{enumerate}{1}
+\setlist[enumref]{label=\textbf{\alph*)}}
+
+% Define enumeratea environment with item labels 1., 2., etc.
 \newlist{enumeratea}{enumerate}{1}
 \setlist[enumeratea]{label=\arabic*.}
 
