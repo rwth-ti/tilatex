@@ -4,6 +4,7 @@ pkgver=0.1
 pkgrel=1
 license=("MIT")
 depends=("texlive-core")
+makedepends=("git")
 pkgdesc="A collection of LaTeX packages and classes providing common \
 functionality used at the Institute for Theoretical Information Technology, \
 RWTH Aachen University, Germany"
