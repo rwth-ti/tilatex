@@ -10,6 +10,9 @@ Packages
 
 [Packages are available at the openSUSE Build Service.](https://software.opensuse.org/download.html?project=home%3Arothe38&package=tilatex)
 
+The [project page](https://build.opensuse.org/package/show/home:rothe38/tilatex)
+on OBS.
+
 Versioning
 ----------
 
@@ -49,4 +52,13 @@ This should also trigger a rebuild of all packages.
 A rebuild of all packages can be triggered manually using the following command.
 
     $ osc rebuild home:rothe38 tilatex --all
+
+Manual install
+--------------
+
+*This is not recommended. Use the packages provided above.*
+
+    $ mkdir -p ~/texmf/tex/latex
+    $ cd ~/texmf/tex/latex
+    $ for i in /path/to/tilatex/src/* ; do ln -s ${i} . ; done
 
