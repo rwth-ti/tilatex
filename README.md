@@ -27,24 +27,26 @@ For this, we use the [openSUSE Build Service](https://build.opensuse.org/).
 
 First, install the [Open Build Service command line tool](https://en.opensuse.org/openSUSE:OSC).
 
-You can trigger the download of package specific files (e.g. Spec File,
-`PKGBUILD`) as follows (defined in `_service` in the OBS repository).
+Check out the repository.
+
+    $ osc co home:rothe38 tilatex
+
+Update the `_service` file to download the new sources and commit the changes.
+
+    $ pwd
+    /path/to/home:rothe38/tilatex
+    $ $EDITOR _service
+    $ osc commit
+
+This commit should trigger a download of all files in `_service` and
+trigger a rebuild of all packages.
+
+You can trigger the download of package specific files manually as follows.
 This should also trigger a rebuild of all packages.
 
     $ osc service remoterun home:rothe38 tilatex
 
-A rebuild of all packages can be triggered using the following command.
+A rebuild of all packages can be triggered manually using the following command.
 
     $ osc rebuild home:rothe38 tilatex --all
-
-Checking out the repository (only needed if you have to edit the
-`_service` file.
-
-    $ osc co home:rothe38 tilatex
-
-Commit changes to the `_service` file.
-
-    $ pwd
-    /path/to/home:rothe38/tilatex
-    $ osc commit
 
