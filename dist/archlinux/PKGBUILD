@@ -1,27 +1,21 @@
 # Maintainer: Niklas Koep  <niklas.koep@gmail.com>
-pkgname=tilatex-git
-pkgver=r83.77d0eaf
+pkgname=tilatex
+pkgver=20150218
 pkgrel=1
 license=("MIT")
 depends=("texlive-core")
-makedepends=("git")
 pkgdesc="A collection of LaTeX packages and classes providing common \
 functionality used at the Institute for Theoretical Information Technology, \
 RWTH Aachen University, Germany"
-arch=('any')
+arch=("any")
+provides=("tilatex")
 install=tilatex.install
-source=("$pkgname"::"git://github.com/rwth-ti/tilatex.git")
-md5sums=("SKIP")
-
-pkgver() {
-    cd "$srcdir/$pkgname"
-    printf "r%s.%s" "$(git rev-list --count HEAD)" \
-        "$(git rev-parse --short HEAD)"
-}
+source=("https://github.com/rwth-ti/${pkgname}/archive/${pkgver}.tar.gz")
+md5sums=("f84f582fb0b89b24947d44beb9045708")
 
 package() {
     _targetdir="${pkgdir}/usr/share/texmf-dist/tex/latex"
     mkdir -p "${_targetdir}"
-    cp -R "${srcdir}/${pkgname}/src" "${_targetdir}/tilatex"
+    cp -R "${srcdir}/${pkgname}-${pkgver}/src" "${_targetdir}/tilatex"
 }
 
