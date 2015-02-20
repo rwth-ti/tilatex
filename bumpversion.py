@@ -184,7 +184,7 @@ def main():
             "There is no tag for version `{:s}` yet".format(version_string))
 
     # We issue the actual file updates in a secondary loop so that we don't end
-    # up with a few udpated and a few outdated files.
+    # up with a few updated and a few outdated files.
     for file_ in files:
         # This modifies the the File's Version instance.
         file_.update()
