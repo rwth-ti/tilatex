@@ -11,7 +11,7 @@ arch=("any")
 provides=("tilatex")
 install=tilatex.install
 source=("https://github.com/rwth-ti/${pkgname}/archive/${pkgver}.tar.gz")
-md5sums=("f84f582fb0b89b24947d44beb9045708")
+md5sums=("SKIP")
 
 package() {
     _targetdir="${pkgdir}/usr/share/texmf-dist/tex/latex"
