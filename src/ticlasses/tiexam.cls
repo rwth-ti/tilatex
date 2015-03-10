@@ -150,6 +150,8 @@
 }
 
 \AtEndDocument{
+    % Insert blank pages at the end of the document if we're not compiling a
+    % solution or handout document.
     % TODO: Add a better abstraction for this so we can re-use it when
     %       inserting the individiaul problems.
     \clearpage
@@ -191,8 +193,8 @@
             \input{\csname tiexam@problemsource\the\value{tiexam@LoopCounter} \endcsname}
         \end{problem}
         \clearpage
-        % Insert blank pages after the problem page if the `problemsonly`
-        % option wasn't passed to the document class.
+        % Insert blank pages after the problem page if we're not compiling a
+        % solution or handout document.
         \ifx\tiexam@solution\undefined
         {
             \ifx\tiexam@handout\undefined
