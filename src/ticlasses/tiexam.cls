@@ -8,7 +8,8 @@
 \ProvidesClass{tiexam}[2015/03/10 v0.1]
 
 % Initialize defaults.
-\def\tiexam@emptypages{3}
+\def\tiexam@emptypagecount{3}
+\def\tiexam@auxiliarypagecount{0}
 \def\tiexam@language{ngerman}
 \def\tiexam@lecture{Vorlesung}
 \def\tiexam@lecturer{Dozent}
@@ -48,13 +49,17 @@
 
 \usepackage{tiproblem}
 
-\newcommand{\setnumberofemptypages}[1]{
-    \def\tiexam@emptypages{#1}
+% Define class commands.
+\newcommand*{\setemptypagelayout}[2]{
+    \def\tiexam@emptypagecount{#1}
+    \def\tiexam@auxiliarypagecount{#2}
 }
+
 \newcommand{\setexamdate}[2]{
     \def\tiexam@examdate{#1}
     \def\tiexam@examtime{#2}
 }
+
 \newcommand*{\setexamresultsdescription}[1]{
     \def\tiexam@examresultsdescription{#1}
 }
@@ -159,7 +164,7 @@
     {
         \ifx\tiexam@handout\undefined
         {
-            \loop\ifnum\value{tiexam@ProblemPageCounter} < 6\relax
+            \loop\ifnum\value{tiexam@ProblemPageCounter} < \tiexam@auxiliarypagecount\relax
             \null\clearpage
             \stepcounter{tiexam@ProblemPageCounter}
             \repeat
@@ -199,7 +204,7 @@
         {
             \ifx\tiexam@handout\undefined
             {
-                \loop\ifnum\value{tiexam@ProblemPageCounter} < \tiexam@emptypages\relax
+                \loop\ifnum\value{tiexam@ProblemPageCounter} < \tiexam@emptypagecount\relax
                 \null\clearpage
                 \stepcounter{tiexam@ProblemPageCounter}
                 \repeat
