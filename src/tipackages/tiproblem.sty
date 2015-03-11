@@ -65,6 +65,7 @@
 
 % Initialize defaults.
 \def\tiproblem@basepath{.}
+\def\tiproblem@searchpath{.}
 \def\tiproblem@solutionsuffix{-solution}
 
 % Define the exercise, problem and solution counters. Note that the exercise
@@ -123,6 +124,7 @@
 }
 
 \newcommand{\setbasepath}[1]{\def\tiproblem@basepath{#1}}
+\newcommand{\setsearchpath}[1]{\def\tiproblem@searchpath{#1}}
 \newcommand{\setsolutionsuffix}[1]{\def\tiproblem@solutionsuffix{#1}}
 
 % Define the document headers.
@@ -191,6 +193,14 @@
     \end{problem}
     \par
 }
+
+\newcommand{\insertproblemfile}[1]{
+    \begin{problem}
+        \subimport{\tiproblem@searchpath/}{#1.tex}
+    \end{problem}
+    \par
+}
+
 \newcommand{\insertsolution}[2]{
     \def\tiproblem@solutionpath{%
         \tiproblem@basepath/section#1/#2\tiproblem@solutionsuffix.tex%
@@ -205,6 +215,13 @@
                 \textbf{-- \tiproblem@solutionpath\ not found --}
             \end{center}
         }
+    \end{solution}
+    \par
+}
+
+\newcommand{\insertsolutionfile}[1]{
+    \begin{solution}
+        \subimport{\tiproblem@searchpath/}{#1\tiproblem@solutionsuffix.tex}
     \end{solution}
     \par
 }

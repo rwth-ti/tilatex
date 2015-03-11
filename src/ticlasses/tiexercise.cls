@@ -11,24 +11,27 @@
 
 \def\tiexercise@insertheader{\insertexerciseheader}
 \def\tiexercise@inserttext{\insertproblem}
+\def\tiexercise@insertfile{\insertproblemfile}
 \DeclareOption{additionalexercise}{
     \def\tiexercise@insertheader{\insertadditionalexerciseheader}
 }
 \DeclareOption{additionalexercisesolution}{
     \def\tiexercise@insertheader{\insertadditionalexercisesolutionheader}
     \def\tiexercise@inserttext{\insertsolution}
+    \def\tiexercise@insertfile{\insertsolutionfile}
 
 }
 \DeclareOption{solution}{
     \def\tiexercise@insertheader{\insertsolutionheader}
     \def\tiexercise@inserttext{\insertsolution}
+    \def\tiexercise@insertfile{\insertsolutionfile}
     \renewcommand*{\setfirstproblem}{\setsolutionnumber}
 }
 
 \def\tiexercise@language{ngerman}
 \DeclareOption{english}{
-    \expandafter\def\expandafter\tiexercise@language\expandafter{%
-        \CurrentOption%
+    \expandafter\def\expandafter\tiexercise@language\expandafter{
+        \CurrentOption
     }
     \PassOptionsToPackage{\CurrentOption}{tiproblem}
 }
@@ -43,12 +46,13 @@
 
 \usepackage{tiproblem}
 
-\AtBeginDocument{%
-    \expandafter\selectlanguage\expandafter{\tiexercise@language}%
-    \tiexercise@insertheader%
+\AtBeginDocument{
+    \expandafter\selectlanguage\expandafter{\tiexercise@language}
+    \tiexercise@insertheader
 }
 
 \newcommand{\inserttext}{\tiexercise@inserttext}
+\newcommand{\insertfile}{\tiexercise@insertfile}
 
 \endinput
 
