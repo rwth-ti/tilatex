@@ -15,6 +15,7 @@
 \def\tiexam@lecturer{Dozent}
 \def\tiexam@examdate{Donnerstag, 1. Januar 1970}
 \def\tiexam@examtime{0:00 Uhr}
+\def\tiexam@passmark{25}
 \def\tiexam@examresultsdescription{
     Die Klausurergebnisse werden voraussichtlich am Donnerstag, den 01.01.1970,
     auf der Institutshomepage bekanntgegeben. \\[20mm] Die korrigierten
@@ -55,9 +56,13 @@
     \def\tiexam@auxiliarypagecount{#2}
 }
 
-\newcommand{\setexamdate}[2]{
+\newcommand*{\setexamdate}[2]{
     \def\tiexam@examdate{#1}
     \def\tiexam@examtime{#2}
+}
+
+\newcommand*{\setpassmark}[1]{
+    \def\tiexam@passmark{#1}
 }
 
 \newcommand*{\setexamresultsdescription}[1]{
@@ -125,8 +130,8 @@
                 Bei der Korrektur werden \textbf{nur} die Lösungen auf diesen
                 Blättern berücksichtigt. Das Entfernen der Heftklammern ist
                 \textbf{nicht} erlaubt.
-            \item[2) \phantom{al}] Die Klausur ist mit mindestens \textbf{25
-                Punkten} bestanden.
+            \item[2) \phantom{al}] Die Klausur ist mit mindestens
+                \textbf{\tiexam@passmark~Punkten} bestanden.
             \item[3) \phantom{al}] Die Reihenfolge der Bearbeitung der Aufgaben
                 kann beliebig gewählt werden. Die Lösung der Aufgaben soll so
                 erfolgen, dass der Lösungsweg deutlich erkennbar ist.
