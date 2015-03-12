@@ -17,10 +17,10 @@
 \def\tiexam@examtime{0:00 Uhr}
 \def\tiexam@examresultsdescription{
     Die Klausurergebnisse werden voraussichtlich am Donnerstag, den 01.01.1970,
-    auf der Institutshomepage bekanntgegeben.\\[0.2cm] Die korrigierten
+    auf der Institutshomepage bekanntgegeben. \\[20mm] Die korrigierten
     Klausuren können am Freitag, den 01.01.1970, um 0 Uhr im Seminarraum 24 A
     407 des Lehrstuhls für Theoretische Informationstechnik, Sommerfeldstr. 24,
-    eingesehen werden. \\[0.5cm]
+    eingesehen werden. \\[5mm]
 }
 
 \DeclareOption{english}{
@@ -64,22 +64,27 @@
     \def\tiexam@examresultsdescription{#1}
 }
 
-\newcommand*{\tiexam@makecoverpage}{
-    % TODO: Add a \tiexam@insertheader macro.
-    \parbox[t]{10cm}{%
+% Define internal class commands.
+\newcommand{\tiexam@insertheader}{%
+    \pbox[t]{\textwidth}{%
+        \vspace{0mm}
         \includegraphics[width=1.2cm]{ti_veclogo}%
-        \textsf{\small Lehrstuhl für} \\
-        \textsf{\large Theoretische Informationstechnik}%
-    }
-    \hfill
-    \parbox[t]{5.5cm}{%
-        \includegraphics[width=5.5cm]{RWTHAachenUniversity}%
+        \textsf{\small{Lehrstuhl für}} \\
+        \textsf{\large{Theoretische Informationstechnik}}
     }%
-    \vspace{0.5cm} \hrule \vspace{0.5cm} \noindent
+    \hfill
+    \pbox[t]{\textwidth}{
+        \vspace{0mm}
+        \includegraphics[height=1.5cm]{RWTHAachenUniversity}
+    }%
+    \vspace{5mm}\hrule\vspace{5mm}
+    \textbf{\tiproblem@lecturer}
+}
 
-    \noindent\textbf{\tiproblem@lecturer} \\[8mm]
+\newcommand*{\tiexam@makecoverpage}{
+    \tiexam@insertheader \\[8mm]
     \centerline{\small
-        \tabcolsep0.5cm
+        \tabcolsep5mm
         \begin{tabular}{|c|c|c|c||c|}
             \hline
             &&&& \\
@@ -101,14 +106,13 @@
             &&&& \\
             \hline
         \end{tabular}
-    } \\[20pt]
-
+    } \\[8mm]
     \begin{center}
-        {\large \textbf{\tiproblem@lecture}} \\[0.2cm]
-        \textbf{Prüfungsklausur} \\[0.2cm]
+        {\large \textbf{\tiproblem@lecture}} \\[2mm]
+        \textbf{Prüfungsklausur} \\[2mm]
         \tiexam@examdate,~\tiexam@examtime \\
     \end{center}
-    \vspace*{0.3cm}
+    \vspace*{5mm}
     Name: \hrulefill\hrulefill \phantom{a} Matr.-Nr.: \hrulefill \\[5mm]
     Fachrichtung: \hrulefill  \\[5mm]
     \textbf{\underline{Bitte beachten Sie Folgendes:}}
@@ -117,7 +121,7 @@
         \begin{description}
             \item[1) \phantom{al}] Die Klausur besteht aus \textbf{4 Aufgaben}.
                 Bitte prüfen Sie die Vollständigkeit Ihres Exemplars nach.
-                \\[0.2cm] Bei der Korrektur werden \textbf{nur} die Lösungen
+                \\[2mm] Bei der Korrektur werden \textbf{nur} die Lösungen
                 auf diesen Blättern berücksichtigt. Das Entfernen der
                 Heftklammern ist \textbf{nicht} erlaubt.
             \item[2) \phantom{al}] Die Klausur ist mit mindestens \textbf{25
@@ -134,7 +138,7 @@
         % XXX: Oh my, such an elegant solution!
         Zur Kenntnis genommen: \phantom{hjkhjkhjkhjk}\hrulefill \\
         \phantom{lalalalalalallklkklkalalalalalalalalllllllllklkjlkjlkjlkjlkja}
-        \hspace*{2.0cm}(Unterschrift)\phantom{lalalalalalalalalalalalalala}
+        \hspace*{20mm}(Unterschrift)\phantom{lalalalalalalalalalalalalala}
     }
     \clearpage
 }
