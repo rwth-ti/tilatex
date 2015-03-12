@@ -119,11 +119,12 @@
     {
         \footnotesize
         \begin{description}
-            \item[1) \phantom{al}] Die Klausur besteht aus \textbf{4 Aufgaben}.
-                Bitte prüfen Sie die Vollständigkeit Ihres Exemplars nach.
-                \\[2mm] Bei der Korrektur werden \textbf{nur} die Lösungen
-                auf diesen Blättern berücksichtigt. Das Entfernen der
-                Heftklammern ist \textbf{nicht} erlaubt.
+            \item[1) \phantom{al}] Die Klausur besteht aus
+                \textbf{\the\value{tiexam@ProblemCounter} Aufgaben}. Bitte
+                prüfen Sie die Vollständigkeit Ihres Exemplars nach. \\[2mm]
+                Bei der Korrektur werden \textbf{nur} die Lösungen auf diesen
+                Blättern berücksichtigt. Das Entfernen der Heftklammern ist
+                \textbf{nicht} erlaubt.
             \item[2) \phantom{al}] Die Klausur ist mit mindestens \textbf{25
                 Punkten} bestanden.
             \item[3) \phantom{al}] Die Reihenfolge der Bearbeitung der Aufgaben
