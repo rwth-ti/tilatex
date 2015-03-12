@@ -13,8 +13,11 @@
 \def\tiexam@language{ngerman}
 \def\tiexam@lecture{Vorlesung}
 \def\tiexam@lecturer{Dozent}
-\def\tiexam@examdate{Donnerstag, 1. Januar 1970}
-\def\tiexam@examtime{0:00 Uhr}
+\def\tiexam@examday{1}
+\def\tiexam@exammonth{1}
+\def\tiexam@examyear{1970}
+\def\tiexam@examhour{0}
+\def\tiexam@examminute{0}
 \def\tiexam@passmark{25}
 \def\tiexam@examresultsdescription{
     Die Klausurergebnisse werden voraussichtlich am Donnerstag, den 01.01.1970,
@@ -25,10 +28,9 @@
 }
 
 \DeclareOption{english}{
-    \expandafter\def\expandafter\tiexam@language\expandafter{
-        \CurrentOption
-    }
-    \PassOptionsToPackage{\CurrentOption}{tiproblem}
+    \expandafter\def\expandafter\tiexam@language\expandafter{\CurrentOption}
+    % FIXME: This gives an error.
+    % \PassOptionsToPackage{\CurrentOption}{tiproblem}
 }
 
 \DeclareOption{solution}{
@@ -56,9 +58,12 @@
     \def\tiexam@auxiliarypagecount{#2}
 }
 
-\newcommand*{\setexamdate}[2]{
-    \def\tiexam@examdate{#1}
-    \def\tiexam@examtime{#2}
+\newcommand*{\setexamdate}[5]{
+    \def\tiexam@examday{#1}
+    \def\tiexam@exammonth{#2}
+    \def\tiexam@examyear{#3}
+    \def\tiexam@examhour{#4}
+    \def\tiexam@examminute{#5}
 }
 
 \newcommand*{\setpassmark}[1]{
@@ -86,6 +91,10 @@
     \textbf{\tiproblem@lecturer}
 }
 
+% TODO: Redefine the time format if the `english` class option is given.
+\newtimeformat{tiexam@timeformat}{\twodigit{\THEHOUR}:\twodigit{\THEMINUTE}~Uhr}
+\settimeformat{tiexam@timeformat}
+
 \newcommand*{\tiexam@makecoverpage}{
     \tiexam@insertheader \\[8mm]
     \centerline{\small
@@ -96,8 +105,7 @@
             1 & 2 & 3 & 4 & $\sum$ \\
             &&&& \\
             % FIXME: Do this in a loop to support a variable number of
-            %        problems. This is nontrivial though due to the use of
-            %        ampersands and backslashes.
+            %        problems. This is nontrivial as & and \\ terminate cells.
             \fbox{\csname tiexam@problempoints0 \endcsname} &
             \fbox{\csname tiexam@problempoints1 \endcsname} &
             \fbox{\csname tiexam@problempoints2 \endcsname} &
@@ -115,7 +123,9 @@
     \begin{center}
         {\large \textbf{\tiproblem@lecture}} \\[2mm]
         \textbf{Prüfungsklausur} \\[2mm]
-        \tiexam@examdate,~\tiexam@examtime \\
+        \dayofweekname{\tiexam@examday}{\tiexam@exammonth}{\tiexam@examyear},~%
+        \formatdate{\tiexam@examday}{\tiexam@exammonth}{\tiexam@examyear},~%
+        \formattime{\tiexam@examhour}{\tiexam@examminute}{00} \\
     \end{center}
     \vspace*{5mm}
     Name: \hrulefill\hrulefill \phantom{a} Matr.-Nr.: \hrulefill \\[5mm]
@@ -147,41 +157,6 @@
         \hspace*{20mm}(Unterschrift)\phantom{lalalalalalalalalalalalalala}
     }
     \clearpage
-}
-
-\AtBeginDocument{
-    % Select the proper language.
-    \expandafter\selectlanguage\expandafter{\tiexam@language}
-
-    \ifx\tiexam@solution\undefined
-    {
-        \ifx\tiexam@handout\undefined
-        {
-            \tiexam@makecoverpage
-        }
-        \else\relax\fi
-    }
-    \else\relax\fi
-}
-
-\AtEndDocument{
-    % Insert blank pages at the end of the document if we're not compiling a
-    % solution or handout document.
-    % TODO: Add a better abstraction for this so we can re-use it when
-    %       inserting the individiaul problems.
-    \clearpage
-    \ifx\tiexam@solution\undefined
-    {
-        \ifx\tiexam@handout\undefined
-        {
-            \loop\ifnum\value{tiexam@ProblemPageCounter} < \tiexam@auxiliarypagecount\relax
-            \null\clearpage
-            \stepcounter{tiexam@ProblemPageCounter}
-            \repeat
-        }
-        \else\relax\fi
-    }
-    \else\relax\fi
 }
 
 \newcounter{tiexam@ProblemCounter}
@@ -225,6 +200,42 @@
         \setcounter{tiexam@ProblemPageCounter}{0}
         \stepcounter{tiexam@LoopCounter}
     \repeat
+}
+
+\AtBeginDocument{
+    % Select the proper language.
+    \expandafter\selectlanguage\expandafter{\tiexam@language}
+
+    % Add the cover page page if needed.
+    \ifx\tiexam@solution\undefined
+    {
+        \ifx\tiexam@handout\undefined
+        {
+            \tiexam@makecoverpage
+        }
+        \else\relax\fi
+    }
+    \else\relax\fi
+}
+
+\AtEndDocument{
+    % Insert blank pages at the end of the document if we're not compiling a
+    % solution or handout document.
+    % TODO: Add a better abstraction for this so we can re-use it when
+    %       inserting the individiaul problems.
+    \clearpage
+    \ifx\tiexam@solution\undefined
+    {
+        \ifx\tiexam@handout\undefined
+        {
+            \loop\ifnum\value{tiexam@ProblemPageCounter} < \tiexam@auxiliarypagecount\relax
+            \null\clearpage
+            \stepcounter{tiexam@ProblemPageCounter}
+            \repeat
+        }
+        \else\relax\fi
+    }
+    \else\relax\fi
 }
 
 \endinput
