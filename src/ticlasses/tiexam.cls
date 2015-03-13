@@ -151,7 +151,7 @@
                 Taschenrechner.
             \item[5) \phantom{al}] \tiexam@examresultsdescription
         \end{description}
-        Zur Kenntniss genommen:\hfill
+        Zur Kenntnis genommen:\hfill
         \begin{minipage}[t]{10cm}
             \centering
             \hrulefill \\
