@@ -161,12 +161,6 @@
     \clearpage
 }
 
-
-
-
-
-
-
 \newcounter{tiexam@ProblemCounter}
 \newcounter{tiexam@TotalPointsCounter}
 \newcommand*{\defineexamproblem}[2]{
