@@ -128,8 +128,8 @@
         \formattime{\tiexam@examhour}{\tiexam@examminute}{00} \\
     \end{center}
     \vspace*{5mm}
-    Name: \hrulefill\hrulefill \phantom{a} Matr.-Nr.: \hrulefill \\[5mm]
-    Fachrichtung: \hrulefill  \\[5mm]
+    Name:~\hrulefill\hrulefill~~Matr.-Nr.:~\hrulefill \\[5mm]
+    Fachrichtung:~\hrulefill \\[5mm]
     \textbf{\underline{Bitte beachten Sie Folgendes:}}
     {
         \footnotesize
@@ -151,13 +151,21 @@
                 Taschenrechner.
             \item[5) \phantom{al}] \tiexam@examresultsdescription
         \end{description}
-        % XXX: Oh my, such an elegant solution!
-        Zur Kenntnis genommen: \phantom{hjkhjkhjkhjk}\hrulefill \\
-        \phantom{lalalalalalallklkklkalalalalalalalalllllllllklkjlkjlkjlkjlkja}
-        \hspace*{20mm}(Unterschrift)\phantom{lalalalalalalalalalalalalala}
+        Zur Kenntniss genommen:\hfill
+        \begin{minipage}[t]{10cm}
+            \centering
+            \hrulefill \\
+            (Unterschrift)
+        \end{minipage}%
     }
     \clearpage
 }
+
+
+
+
+
+
 
 \newcounter{tiexam@ProblemCounter}
 \newcounter{tiexam@TotalPointsCounter}
