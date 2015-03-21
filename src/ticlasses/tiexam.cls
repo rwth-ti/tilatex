@@ -185,8 +185,14 @@
     \def\tiexam@examresultsdescription{#1}
 }
 
+% Define internal counters.
+\newcounter{tiexam@ProblemCounter}
+\newcounter{tiexam@TotalPointsCounter}
+\newcounter{tiexam@ProblemPageCounter}
+\newcounter{tiexam@LoopCounter}
+
 % Define internal class commands.
-\newcommand{\tiexam@insertheader}{%
+\newcommand*{\tiexam@insertheader}{%
     \pbox[t]{\textwidth}{%
         \vspace{0mm}
         \includegraphics[width=1.2cm]{ti_veclogo}%
@@ -202,28 +208,52 @@
     \textbf{\tiproblem@lecturer}
 }
 
+% Definitions to generate the points table
+\newtoks\tiexam@layouttokens\tiexam@layouttokens{}
+\newtoks\tiexam@paddingtokens\tiexam@paddingtokens{}
+\newtoks\tiexam@problemtokens\tiexam@problemtokens{}
+\newtoks\tiexam@pointtokens\tiexam@pointtokens{}
+
+\newcommand*{\tiexam@addgenerictokens}{%
+    \tiexam@layouttokens\expandafter{\the\tiexam@layouttokens c|}%
+    \tiexam@paddingtokens\expandafter{\the\tiexam@paddingtokens &}%
+}
+\newcommand*{\tiexam@addproblemtoken}[1]{%
+    \edef\tiexam@tmp{\tiexam@problemtokens{\the\tiexam@problemtokens#1 &}}%
+    \tiexam@tmp%
+}
+\newcommand*{\tiexam@addpointtoken}[1]{%
+    \edef\tiexam@tmp{\tiexam@pointtokens{\the\tiexam@pointtokens\noexpand\fbox{#1} &}}%
+    \tiexam@tmp%
+}
+
 \newcommand*{\tiexam@makecoverpage}{
+    \setcounter{tiexam@LoopCounter}{0}
+    \loop\ifnum\value{tiexam@LoopCounter} < \the\value{tiexam@ProblemCounter}
+        \tiexam@addgenerictokens%
+        \tiexam@addpointtoken{\csname tiexam@problempoints\the\value{tiexam@LoopCounter} \endcsname}%
+        % This is ugly, but we want the problem count to start at 1, so we have
+        % to increase the loop counter before appending the problem count
+        % token.
+        \stepcounter{tiexam@LoopCounter}%
+        \tiexam@addproblemtoken{\the\value{tiexam@LoopCounter}}%
+    \repeat
+
     \tiexam@insertheader \\[8mm]
     \centerline{\small
         \tabcolsep5mm
-        \begin{tabular}{|c|c|c|c||c|}
+        \begin{tabular}{|\the\tiexam@layouttokens|c|}
             \hline
-            &&&& \\
-            1 & 2 & 3 & 4 & $\sum$ \\
-            &&&& \\
-            % FIXME: Do this in a loop to support a variable number of
-            %        problems. This is nontrivial as & and \\ terminate cells.
-            \fbox{\csname tiexam@problempoints0 \endcsname} &
-            \fbox{\csname tiexam@problempoints1 \endcsname} &
-            \fbox{\csname tiexam@problempoints2 \endcsname} &
-            \fbox{\csname tiexam@problempoints3 \endcsname} &
-            \fbox{\the\value{tiexam@TotalPointsCounter}} \\
-            &&&& \\
+            \the\tiexam@paddingtokens \\
+            \the\tiexam@problemtokens $\sum$ \\
+            \the\tiexam@paddingtokens \\
+            \the\tiexam@pointtokens \fbox{\the\value{tiexam@TotalPointsCounter}} \\
+            \the\tiexam@paddingtokens \\
             \hline
-            &&&& \\
-            &&&& \\
-            &&&& \\
-            &&&& \\
+            \the\tiexam@paddingtokens \\
+            \the\tiexam@paddingtokens \\
+            \the\tiexam@paddingtokens \\
+            \the\tiexam@paddingtokens \\
             \hline
         \end{tabular}
     } \\[8mm]
@@ -244,8 +274,6 @@
     \clearpage
 }
 
-\newcounter{tiexam@ProblemCounter}
-\newcounter{tiexam@TotalPointsCounter}
 \newcommand*{\defineexamproblem}[2]{
     \expandafter\def\csname
         tiexam@problemsource\the\value{tiexam@ProblemCounter} \endcsname{#1}
@@ -255,10 +283,29 @@
     \stepcounter{tiexam@ProblemCounter}
 }
 
-\newcounter{tiexam@LoopCounter}
-\newcounter{tiexam@ProblemPageCounter}
+\newcommand{\tiexam@insertemptypages}[1]{
+    \setcounter{tiexam@ProblemPageCounter}{0}
+    \clearpage
+    \iftiexam@solution
+        \relax
+    \else
+    {
+        \iftiexam@handout
+            \relax
+        \else
+            \loop\ifnum\value{tiexam@ProblemPageCounter} < #1\relax
+            \null\clearpage
+            \stepcounter{tiexam@ProblemPageCounter}
+            \repeat
+        \fi
+    }
+    \fi
+    \setcounter{tiexam@ProblemPageCounter}{0}
+}
+
 \newcommand*{\insertexamproblems}{
-    \loop\ifnum\value{tiexam@LoopCounter} < \value{tiexam@ProblemCounter}\relax
+    \setcounter{tiexam@LoopCounter}{0}
+    \loop\ifnum\value{tiexam@LoopCounter} < \the\value{tiexam@ProblemCounter}\relax
         \begin{problem}
             \iftiexam@handout
                 \relax
@@ -270,21 +317,7 @@
         \clearpage
         % Insert blank pages after the problem page if we're not compiling a
         % solution or handout document.
-        \iftiexam@solution
-            \relax
-        \else
-        {
-            \iftiexam@handout
-                \relax
-            \else
-                \loop\ifnum\value{tiexam@ProblemPageCounter} < \tiexam@emptypagecount\relax
-                \null\clearpage
-                \stepcounter{tiexam@ProblemPageCounter}
-                \repeat
-            \fi
-        }
-        \fi
-        \setcounter{tiexam@ProblemPageCounter}{0}
+        \tiexam@insertemptypages{\tiexam@emptypagecount}
         \stepcounter{tiexam@LoopCounter}
     \repeat
 }
@@ -308,25 +341,7 @@
 }
 
 \AtEndDocument{
-    % Insert blank pages at the end of the document if we're not compiling a
-    % solution or handout document.
-    % TODO: Add a better abstraction for this so we can re-use it when
-    %       inserting the individiaul problems.
-    \clearpage
-    \iftiexam@solution
-        \relax
-    \else
-    {
-        \iftiexam@handout
-            \relax
-        \else
-            \loop\ifnum\value{tiexam@ProblemPageCounter} < \tiexam@auxiliarypagecount\relax
-            \null\clearpage
-            \stepcounter{tiexam@ProblemPageCounter}
-            \repeat
-        \fi
-    }
-    \fi
+    \tiexam@insertemptypages{\tiexam@auxiliarypagecount}
 }
 
 \endinput
