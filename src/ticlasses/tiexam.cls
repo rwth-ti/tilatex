@@ -20,8 +20,6 @@
 \tiexam@solutionfalse
 \DeclareOption{solution}{
     \tiexam@solutiontrue
-    % TODO: Remove this.
-    \def\tiexam@solution{1}
 }
 
 \newif\iftiexam@handout
@@ -272,7 +270,9 @@
         \clearpage
         % Insert blank pages after the problem page if we're not compiling a
         % solution or handout document.
-        \ifx\tiexam@solution\undefined
+        \iftiexam@solution
+            \relax
+        \else
         {
             \iftiexam@handout
                 \relax
@@ -283,7 +283,7 @@
                 \repeat
             \fi
         }
-        \else\relax\fi
+        \fi
         \setcounter{tiexam@ProblemPageCounter}{0}
         \stepcounter{tiexam@LoopCounter}
     \repeat
@@ -294,7 +294,9 @@
     \expandafter\selectlanguage\expandafter{\tiexam@language}
 
     % Add the cover page page if needed.
-    \ifx\tiexam@solution\undefined
+    \iftiexam@solution
+        \relax
+    \else
     {
         \iftiexam@handout
             \relax
@@ -302,7 +304,7 @@
             \tiexam@makecoverpage
         \fi
     }
-    \else\relax\fi
+    \fi
 }
 
 \AtEndDocument{
@@ -311,7 +313,9 @@
     % TODO: Add a better abstraction for this so we can re-use it when
     %       inserting the individiaul problems.
     \clearpage
-    \ifx\tiexam@solution\undefined
+    \iftiexam@solution
+        \relax
+    \else
     {
         \iftiexam@handout
             \relax
@@ -322,7 +326,7 @@
             \repeat
         \fi
     }
-    \else\relax\fi
+    \fi
 }
 
 \endinput
