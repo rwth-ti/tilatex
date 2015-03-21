@@ -28,8 +28,6 @@
 \tiexam@handoutfalse
 \DeclareOption{handout}{
     \tiexam@handouttrue
-    % TODO: Remove this.
-    \def\tiexam@handout{1}
 }
 
 \DeclareOption*{
@@ -264,10 +262,10 @@
 \newcommand*{\insertexamproblems}{
     \loop\ifnum\value{tiexam@LoopCounter} < \value{tiexam@ProblemCounter}\relax
         \begin{problem}
-            \ifx\tiexam@handout\undefined
-                (\csname tiexam@problempoints\the\value{tiexam@LoopCounter} \endcsname~\tiexam@pointslabel) \\
-            \else
+            \iftiexam@handout
                 \relax
+            \else
+                (\csname tiexam@problempoints\the\value{tiexam@LoopCounter} \endcsname~\tiexam@pointslabel) \\
             \fi
             \input{\csname tiexam@problemsource\the\value{tiexam@LoopCounter} \endcsname}
         \end{problem}
@@ -276,14 +274,14 @@
         % solution or handout document.
         \ifx\tiexam@solution\undefined
         {
-            \ifx\tiexam@handout\undefined
-            {
+            \iftiexam@handout
+                \relax
+            \else
                 \loop\ifnum\value{tiexam@ProblemPageCounter} < \tiexam@emptypagecount\relax
                 \null\clearpage
                 \stepcounter{tiexam@ProblemPageCounter}
                 \repeat
-            }
-            \else\relax\fi
+            \fi
         }
         \else\relax\fi
         \setcounter{tiexam@ProblemPageCounter}{0}
@@ -298,11 +296,11 @@
     % Add the cover page page if needed.
     \ifx\tiexam@solution\undefined
     {
-        \ifx\tiexam@handout\undefined
-        {
+        \iftiexam@handout
+            \relax
+        \else
             \tiexam@makecoverpage
-        }
-        \else\relax\fi
+        \fi
     }
     \else\relax\fi
 }
@@ -315,14 +313,14 @@
     \clearpage
     \ifx\tiexam@solution\undefined
     {
-        \ifx\tiexam@handout\undefined
-        {
+        \iftiexam@handout
+            \relax
+        \else
             \loop\ifnum\value{tiexam@ProblemPageCounter} < \tiexam@auxiliarypagecount\relax
             \null\clearpage
             \stepcounter{tiexam@ProblemPageCounter}
             \repeat
-        }
-        \else\relax\fi
+        \fi
     }
     \else\relax\fi
 }
