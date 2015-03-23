@@ -57,10 +57,15 @@
 % Set language-specific options.
 \iftiexam@english
     % Set date and time formats.
-    % TODO: Re-define the date format to look like Friday, 27th March, 2015
-    % TODO: Re-define the time format to read hh:mm a.m./p.m.
-    \def\tiexam@setdateformat{}
-    \settimeformat{ampmtime}
+    \newdateformat{tiexam@examdateformat}{%
+        \dayofweekname{\THEDAY}{\THEMONTH}{\THEYEAR},~%
+        \ordinaldate{\THEDAY}~\monthname[\THEMONTH],~\THEYEAR%
+    }
+    \def\tiexam@setdateformat{\tiexam@examdateformat}
+    \newtimeformat{tiexam@timeformat}{%
+        \twodigit{\THEHOURXII}:\twodigit{\THEMINUTE}~\amorpmname%
+    }
+    \settimeformat{tiexam@timeformat}
 
     % Initialize default labels.
     \def\tiexam@examlabel{Written examination}
@@ -315,8 +320,6 @@
             \input{\csname tiexam@problemsource\the\value{tiexam@LoopCounter} \endcsname}
         \end{problem}
         \clearpage
-        % Insert blank pages after the problem page if we're not compiling a
-        % solution or handout document.
         \tiexam@insertemptypages{\tiexam@emptypagecount}
         \stepcounter{tiexam@LoopCounter}
     \repeat
