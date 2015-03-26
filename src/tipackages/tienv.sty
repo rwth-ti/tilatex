@@ -24,33 +24,37 @@
 
 % Define the environments.
 \theoremstyle{definition}
-\newtheorem{tienv@theorem}{Theorem}[section]
-\newtheorem{tienv@lemma}[tienv@theorem]{Lemma}
-\newtheorem{tienv@proposition}[tienv@theorem]{Proposition}
-\newtheorem{tienv@corollary}[tienv@theorem]{\tienv@corollarylabel}
-\newtheorem{tienv@definition}[tienv@theorem]{Definition}
-\newtheorem{tienv@example}[tienv@theorem]{\tienv@examplelabel}
+\ifx\thesection\undefined
+    \relax
+\else
+    \newtheorem{tienv@theorem}{Theorem}[section]
+    \newtheorem{tienv@lemma}[tienv@theorem]{Lemma}
+    \newtheorem{tienv@proposition}[tienv@theorem]{Proposition}
+    \newtheorem{tienv@corollary}[tienv@theorem]{\tienv@corollarylabel}
+    \newtheorem{tienv@definition}[tienv@theorem]{Definition}
+    \newtheorem{tienv@example}[tienv@theorem]{\tienv@examplelabel}
 
-% Command to define a wrapper environment for the hidden ones defined above.
-% We use it to be able to control the placement and style of optional arguments
-% to amsthm environments.
-\newcommand*{\defineenvironment}[1]{%
-    \DeclareDocumentEnvironment{#1}{o}{%
-        \IfNoValueTF{##1}{%
-            \begin{tienv@#1}%
+    % Command to define a wrapper environment for the hidden ones defined above.
+    % We use it to be able to control the placement and style of optional arguments
+    % to amsthm environments.
+    \newcommand*{\defineenvironment}[1]{%
+        \DeclareDocumentEnvironment{#1}{o}{%
+            \IfNoValueTF{##1}{%
+                \begin{tienv@#1}%
+            }{%
+                \begin{tienv@#1}(\textit{##1})%
+            }
         }{%
-            \begin{tienv@#1}(\textit{##1})%
+            \end{tienv@#1}%
         }
-    }{%
-        \end{tienv@#1}%
     }
-}
-\defineenvironment{theorem}
-\defineenvironment{lemma}
-\defineenvironment{proposition}
-\defineenvironment{corollary}
-\defineenvironment{definition}
-\defineenvironment{example}
+    \defineenvironment{theorem}
+    \defineenvironment{lemma}
+    \defineenvironment{proposition}
+    \defineenvironment{corollary}
+    \defineenvironment{definition}
+    \defineenvironment{example}
+\fi
 
 \ProcessOptions\relax
 
@@ -66,7 +70,7 @@
 \newlist{enumeratei}{enumerate}{1}
 \setlist[enumeratei]{label=(\roman*)}
 
-% Define enumeratea environment with item lables a), b), etc.
+% Define enumerateal environment with item lables a), b), etc.
 \newlist{enumerateal}{enumerate}{1}
 \setlist[enumerateal]{label=\alph*)}
 
