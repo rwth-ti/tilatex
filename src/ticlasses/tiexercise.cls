@@ -30,8 +30,8 @@
 
 \def\tiexercise@language{ngerman}
 \DeclareOption{english}{
-    \expandafter\def\expandafter\tiexercise@language\expandafter{
-        \CurrentOption
+    \expandafter\def\expandafter\tiexercise@language\expandafter{%
+        \CurrentOption%
     }
     \PassOptionsToPackage{\CurrentOption}{tiproblem}
 }
