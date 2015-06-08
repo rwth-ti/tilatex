@@ -77,7 +77,7 @@
         homepage of the institute. \\[2mm] The corrected exams can be
         inspected on Friday, 01 January 1970, 0:00am at the Seminarraum 24 A
         407 of the Institute for Theoretical Information Technology,
-        Sommerfeldstr. 24. \\[5mm]
+        Sommerfeldstr.\,24. \\[5mm]
     }
     \def\tiexam@studentinfoform{
         Name:~\hrulefill\hrulefill~~Matr.-No.:~\hrulefill \\[5mm]
