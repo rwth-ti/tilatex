@@ -12,6 +12,8 @@
 % Load the base class.
 \LoadClass[12pt,a4paper]{article}
 
+\usepackage[colorlinks=true]{hyperref}
+
 % Page layout
 \setlength{\textheight}{25.5truecm}
 \setlength{\textwidth}{16.2truecm}
