@@ -25,6 +25,8 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{arrows,matrix,positioning,patterns}
 
 % Misc
 \usepackage{import}     % Import .tex files
@@ -43,12 +45,15 @@
 
 % Color definitions
 \definecolor{Ti_gray}{rgb}{.7, .705, .71}
+% \definecolor{Ti_gray}{RGB}{207 209 210}
+% \definecolor{rwthblue}{RGB}{0 114 188}
 
 % Page header. Mind the `%` signs which are necessary to typeset the logo
 % without causing line breaks and spaces in the layout!
 \newcommand{\TIHeader}{
     \includegraphics[height=1cm]{RWTHAachenUniversity}
     \colorbox{blue}{%
+    % \colorbox{rwthblue}{%
         \textcolor{Ti_gray}{%
             \large \qquad \textsf{%
                 Lehrstuhl für Theoretische Informationstechnik}%
