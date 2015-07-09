@@ -28,6 +28,12 @@
     \tiexam@handouttrue
 }
 
+\newif\iftiexam@showpoints
+\tiexam@showpointsfalse
+\DeclareOption{showpoints}{
+    \tiexam@showpointstrue
+}
+
 \DeclareOption*{
     \ClassWarning{tiexam}{Unknown option '\CurrentOption'}
 }
@@ -313,6 +319,11 @@
     \loop\ifnum\value{tiexam@LoopCounter} < \the\value{tiexam@ProblemCounter}\relax
         \begin{problem}
             \iftiexam@handout
+                \iftiexam@showpoints
+                  % FIXME: This is this same as a few lines down, so wrap it in
+                  %        a macro for reuse instead.
+                  (\csname tiexam@problempoints\the\value{tiexam@LoopCounter} \endcsname~\tiexam@pointslabel) \\
+                \fi
                 \relax
             \else
                 (\csname tiexam@problempoints\the\value{tiexam@LoopCounter} \endcsname~\tiexam@pointslabel) \\
