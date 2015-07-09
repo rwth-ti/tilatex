@@ -316,19 +316,20 @@
   \setcounter{tiexam@ProblemPageCounter}{0}
 }
 
+\newcommand*{\tiexam@printpoints}[1]{%
+  (\csname tiexam@problempoints\the\value{#1} \endcsname~\tiexam@pointslabel)%
+}
 \newcommand*{\insertexamproblems}{
   \setcounter{tiexam@LoopCounter}{0}
   \loop\ifnum\value{tiexam@LoopCounter} < \the\value{tiexam@ProblemCounter}\relax
     \begin{problem}
       \iftiexam@handout
         \iftiexam@showpoints
-          % FIXME: This is this same as a few lines down, so wrap it in a macro
-          %        for reuse instead.
-          (\csname tiexam@problempoints\the\value{tiexam@LoopCounter} \endcsname~\tiexam@pointslabel) \\
+          \tiexam@printpoints{tiexam@LoopCounter} \\
         \fi
         \relax
       \else
-        (\csname tiexam@problempoints\the\value{tiexam@LoopCounter} \endcsname~\tiexam@pointslabel) \\
+        \tiexam@printpoints{tiexam@LoopCounter} \\
       \fi
       \input{\csname tiexam@problemsource\the\value{tiexam@LoopCounter} \endcsname}
     \end{problem}
