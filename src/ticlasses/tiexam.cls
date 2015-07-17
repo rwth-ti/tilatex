@@ -58,8 +58,6 @@
   % Initialize default labels.
   \def\tiexam@examlabel{Written examination}
   \def\tiexam@pointslabel{points}
-  \def\tiexam@lecture{Lecture}
-  \def\tiexam@lecturer{Lecturer}
   \def\tiexam@examresultsdescription{
     The results will be published on Tuesday, 26 August 2014, 16:00 on the
     homepage of the institute. \\[2mm] The corrected exams can be inspected on
@@ -95,14 +93,12 @@
       \centering
       \hrulefill \\
       (Signature)
-    \end{minipage}%
+    \end{minipage}
   }
 \else
   % Initialize default labels.
   \def\tiexam@examlabel{Prüfungsklausur}
   \def\tiexam@pointslabel{Punkte}
-  \def\tiexam@lecture{Vorlesung}
-  \def\tiexam@lecturer{Dozent}
   \def\tiexam@examresultsdescription{
     Die Klausurergebnisse werden voraussichtlich am Donnerstag, den 01.01.1970,
     auf der Institutshomepage bekanntgegeben. \\[2mm] Die korrigierten
@@ -197,7 +193,7 @@
     \tiexam@addproblemtoken{\the\value{tiexam@LoopCounter}}%
   \repeat
 
-  % \textbf{\small\tiproblem@lecturer} \\[8mm]
+  \tiinternal@contentvpadding
   \centerline{\small
     \tabcolsep5mm
     \begin{tabular}{|\the\tiexam@layouttokens|c|}
@@ -214,13 +210,13 @@
       \the\tiexam@paddingtokens \\
       \hline
     \end{tabular}
-  } \\[5mm]
+  }
+  \tiinternal@contentvpadding
   \begin{center}
     {\large\textbf{\tiexam@examlabel}} \\[2mm]
-    \tidate@insertdate,~%
-    \tidate@inserttime \\
+    \tidate@insertdate,~\tidate@inserttime \\
   \end{center}
-  \vspace*{5mm}
+  \tiinternal@contentvpadding
   \tiexam@studentinfoform
   \textbf{\underline{\tiexam@disclaimer:}}
   {
@@ -263,7 +259,7 @@
 \newcommand*{\tiexam@printpoints}[1]{%
   (\csname tiexam@problempoints\the\value{#1} \endcsname~\tiexam@pointslabel)%
 }
-\newcommand*{\insertexamproblems}{
+\newcommand*{\tiexam@insertexamproblems}{
   \setcounter{tiexam@LoopCounter}{0}
   \loop\ifnum\value{tiexam@LoopCounter} < \the\value{tiexam@ProblemCounter}\relax
     \begin{problem}
@@ -285,8 +281,7 @@
 
 \AtBeginDocument{
   % Select the proper language.
-  \expandafter\selectlanguage\expandafter{\tiexam@language}
-
+  \expandafter\selectlanguage\expandafter{\tiexam@language}%
   % Add the cover page page if requested.
   \iftiexam@solution
     \relax
@@ -299,11 +294,11 @@
     \fi
   }
   \fi
+  % Insert the actual problem descriptions.
+  \tiexam@insertexamproblems
 }
 
-\AtEndDocument{
-  \tiexam@insertemptypages{\tiexam@auxiliarypagecount}
-}
+\AtEndDocument{\tiexam@insertemptypages{\tiexam@auxiliarypagecount}}
 
 \endinput
 

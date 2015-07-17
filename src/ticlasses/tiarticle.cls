@@ -40,14 +40,14 @@
     \begin{minipage}[b]{0.45\columnwidth}
       \textbf{\textsf{\tiarticle@documenttitle}}
     \end{minipage}
-    \hfill%
-    \includegraphics[width=0.5\columnwidth]{tilogo_ci}%
+    \hfill
+    \includegraphics[width=0.5\columnwidth]{tilogo_ci}
   \end{minipage}
-  \vspace{2.5mm}%
-  \hrule%
-  \vspace{1mm}%
-  \textbf{\footnotesize\tiarticle@authors}%
-  \tiinternal@contentvpadding%
+  \vspace{2.5mm}
+  \hrule
+  \vspace{1mm}
+  \textbf{\footnotesize\tiarticle@authors}
+  \tiinternal@contentvpadding
 }
 
 \AtBeginDocument{\tiarticle@inserttiheader}
