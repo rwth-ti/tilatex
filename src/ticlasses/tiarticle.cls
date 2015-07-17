@@ -15,13 +15,42 @@
 \usepackage[colorlinks=true]{hyperref}
 
 % Page layout
-\setlength{\textheight}{25.5truecm}
-\setlength{\textwidth}{16.2truecm}
-\hoffset=-1cm
-\voffset=-2cm
 \pagestyle{empty}
+\usepackage[
+  left=2.5cm,
+  right=2.5cm,
+  top=2cm,
+  bottom=3cm
+]{geometry}
 \parindent=0pt
 \parskip=5pt
+
+\newcommand*{\setdocumenttitle}[1]{
+  \def\tiarticle@documenttitle{#1}
+}
+\setdocumenttitle{}
+
+\newcommand*{\setauthors}[1]{
+  \def\tiarticle@authors{#1}
+}
+\setauthors{}
+
+\newcommand{\tiarticle@inserttiheader}{
+  \begin{minipage}{\columnwidth}
+    \begin{minipage}[b]{0.45\columnwidth}
+      \textbf{\textsf{\tiarticle@documenttitle}}
+    \end{minipage}
+    \hfill%
+    \includegraphics[width=0.5\columnwidth]{tilogo_ci}%
+  \end{minipage}
+  \vspace{2.5mm}%
+  \hrule%
+  \vspace{1mm}%
+  \textbf{\footnotesize\tiarticle@authors}%
+  \tiinternal@contentvpadding%
+}
+
+\AtBeginDocument{\tiarticle@inserttiheader}
 
 \endinput
 

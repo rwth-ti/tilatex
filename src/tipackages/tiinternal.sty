@@ -43,35 +43,38 @@
 \usepackage{pbox}       % Minimum-width variant of `\parbox`
 \usepackage{datetime}   % Support for date formatting
 
-% Color definitions
-\definecolor{Ti_gray}{rgb}{.7, .705, .71}
-% \definecolor{Ti_gray}{RGB}{207 209 210}
-% \definecolor{rwthblue}{RGB}{0 114 188}
+\def\tiinternal@contentvpadding{\vspace*{5mm}}
 
-% Page header. Mind the `%` signs which are necessary to typeset the logo
-% without causing line breaks and spaces in the layout!
-\newcommand{\TIHeader}{
-    \includegraphics[height=1cm]{RWTHAachenUniversity}
-    \colorbox{blue}{%
-    % \colorbox{rwthblue}{%
-        \textcolor{Ti_gray}{%
-            \large \qquad \textsf{%
-                Lehrstuhl für Theoretische Informationstechnik}%
-        }%
-        \hspace{0.56cm}%
-        \includegraphics[height=1cm]{Ti_gray}%
-    }
-    \vspace{0.3cm} \hrule \vspace{0.3cm}
+\hyphenation{
+  A-dress-be-reich
+  A-dress-be-rei-che
+  A-dress-be-rei-chen
+  an-ge-ge-be-nen
+  an-kom-men-de
+  An-kunfts-in-ten-si-tät
+  Ant-wort-zeit
+  be-trach-tet
+  De-ko-die-rungs-sche-ma
+  durch-schnitt-lich
+  Ein-ga-be-ver-tei-lung
+  Fluss-glei-chung
+  Fluss-glei-chun-gen
+  ge-fil-ter-ten
+  Halb-werts-zeit
+  Impf-be-reit-schaft
+  ir-re-du-zi-bel
+  Netz-werk
+  Pa-ra-me-ter
+  Rou-ting-ma-trix
+  Rou-ting-wahr-schein-lich-kei-ten
+  To-des-pro-zess
+  ver-blei-ben-de
+  Ver-tei-lungs-funk-ti-on
+  Wahr-schein-lich-keit
+  Wahr-schein-lich-kei-ten
+  gleich-verteilter
+  Huff-man
 }
-
-\hyphenation{A-dress-be-reich A-dress-be-rei-che A-dress-be-rei-chen
-an-ge-ge-be-nen an-kom-men-de An-kunfts-in-ten-si-tät Ant-wort-zeit
-be-trach-tet De-ko-die-rungs-sche-ma durch-schnitt-lich Ein-ga-be-ver-tei-lung
-Fluss-glei-chung Fluss-glei-chun-gen ge-fil-ter-ten Halb-werts-zeit
-Impf-be-reit-schaft ir-re-du-zi-bel Netz-werk Pa-ra-me-ter Rou-ting-ma-trix
-Rou-ting-wahr-schein-lich-kei-ten To-des-pro-zess ver-blei-ben-de
-Ver-tei-lungs-funk-ti-on Wahr-schein-lich-keit Wahr-schein-lich-kei-ten
-gleich-verteilter Huff-man}
 
 \endinput
 
