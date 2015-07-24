@@ -64,12 +64,12 @@
 \iftiexam@english
   % Set date and time formats.
   \newdateformat{tiexam@examdateformat}{%
-      \dayofweekname{\THEDAY}{\THEMONTH}{\THEYEAR},~%
-      \ordinaldate{\THEDAY}~\monthname[\THEMONTH],~\THEYEAR%
+    \dayofweekname{\THEDAY}{\THEMONTH}{\THEYEAR},~%
+    \ordinaldate{\THEDAY}~\monthname[\THEMONTH],~\THEYEAR%
   }
   \def\tiexam@setdateformat{\tiexam@examdateformat}
   \newtimeformat{tiexam@timeformat}{%
-      \twodigit{\THEHOURXII}:\twodigit{\THEMINUTE}~\amorpmname%
+    \twodigit{\THEHOURXII}:\twodigit{\THEMINUTE}~\amorpmname%
   }
   \settimeformat{tiexam@timeformat}
 
@@ -333,8 +333,9 @@
       \fi
       \input{\csname tiexam@problemsource\the\value{tiexam@LoopCounter} \endcsname}
     \end{problem}
-    \clearpage
     \tiexam@insertemptypages{\tiexam@emptypagecount}
+    % Force new problem to start on the left (even page).
+    \ifodd\value{page}\hbox{}\newpage\fi
     \stepcounter{tiexam@LoopCounter}
   \repeat
 }
