@@ -335,7 +335,11 @@
     \end{problem}
     \tiexam@insertemptypages{\tiexam@emptypagecount}
     % Force new problem to start on the left (even page).
-    \ifodd\value{page}\hbox{}\newpage\fi
+    \iftiexam@solution
+      \relax
+    \else
+      \ifodd\value{page}\hbox{}\newpage\fi
+    \fi
     \stepcounter{tiexam@LoopCounter}
   \repeat
 }
