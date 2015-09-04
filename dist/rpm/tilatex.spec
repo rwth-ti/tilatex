@@ -2,7 +2,7 @@
 %define texmf_dir %{_datadir}/texlive/texmf-dist/tex/latex/tilatex
 
 Name: tilatex
-Version: 20150218
+Version: 20150904
 Release: 1%{?dist}
 Summary: LaTeX packages and classes for TI
 BuildArch: noarch

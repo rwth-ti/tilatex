@@ -1,6 +1,6 @@
 # Maintainer: Niklas Koep  <niklas.koep@gmail.com>
 pkgname=tilatex
-pkgver=20150218
+pkgver=20150904
 pkgrel=1
 license=("MIT")
 depends=("texlive-core")
