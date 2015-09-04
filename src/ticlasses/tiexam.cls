@@ -338,7 +338,13 @@
     \iftiexam@solution
       \relax
     \else
-      \ifodd\value{page}\hbox{}\newpage\fi
+    {
+      \iftiexam@handout
+        \relax
+      \else
+        \ifodd\value{page}\hbox{}\newpage\fi
+      \fi
+    }
     \fi
     \stepcounter{tiexam@LoopCounter}
   \repeat
