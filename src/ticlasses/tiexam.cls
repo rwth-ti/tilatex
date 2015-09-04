@@ -13,6 +13,7 @@
 \DeclareOption{english}{
   \tiexam@englishtrue
   \expandafter\def\expandafter\tiexam@language\expandafter{\CurrentOption}
+  \PassOptionsToPackage{\CurrentOption}{tidate}
   \PassOptionsToPackage{\CurrentOption}{tiproblem}
 }
 
@@ -44,40 +45,19 @@
 \LoadClass{tiarticle}
 
 % Load other dependencies.
+\usepackage{tidate}
 \usepackage{tiproblem}
 
-% Overwrite datetime's am/pm formats.
-\renewcommand{\amname}{a.m.}
-\renewcommand{\pmname}{p.m.}
-
 % Language agnostic defaults
-\def\tiexam@examday{1}
-\def\tiexam@exammonth{1}
-\def\tiexam@examyear{1970}
-\def\tiexam@examhour{0}
-\def\tiexam@examminute{0}
 \def\tiexam@passmark{25}
 \def\tiexam@emptypagecount{3}
 \def\tiexam@auxiliarypagecount{0}
 
 % Set language-specific options.
 \iftiexam@english
-  % Set date and time formats.
-  \newdateformat{tiexam@examdateformat}{%
-    \dayofweekname{\THEDAY}{\THEMONTH}{\THEYEAR},~%
-    \ordinaldate{\THEDAY}~\monthname[\THEMONTH],~\THEYEAR%
-  }
-  \def\tiexam@setdateformat{\tiexam@examdateformat}
-  \newtimeformat{tiexam@timeformat}{%
-    \twodigit{\THEHOURXII}:\twodigit{\THEMINUTE}~\amorpmname%
-  }
-  \settimeformat{tiexam@timeformat}
-
   % Initialize default labels.
   \def\tiexam@examlabel{Written examination}
   \def\tiexam@pointslabel{points}
-  \def\tiexam@lecture{Lecture}
-  \def\tiexam@lecturer{Lecturer}
   \def\tiexam@examresultsdescription{
     The results will be published on Tuesday, 26 August 2014, 16:00 on the
     homepage of the institute. \\[2mm] The corrected exams can be inspected on
@@ -113,25 +93,12 @@
       \centering
       \hrulefill \\
       (Signature)
-    \end{minipage}%
+    \end{minipage}
   }
 \else
-  % Set date and time formats.
-  \newdateformat{tiexam@examdateformat}{%
-    \dayofweekname{\THEDAY}{\THEMONTH}{\THEYEAR},~%
-    \twodigit{\THEDAY}.~\monthname[\THEMONTH]~\THEYEAR%
-  }
-  \def\tiexam@setdateformat{\tiexam@examdateformat}
-  \newtimeformat{tiexam@timeformat}{%
-    \twodigit{\THEHOUR}:\twodigit{\THEMINUTE}~Uhr%
-  }
-  \settimeformat{tiexam@timeformat}
-
   % Initialize default labels.
   \def\tiexam@examlabel{Prüfungsklausur}
   \def\tiexam@pointslabel{Punkte}
-  \def\tiexam@lecture{Vorlesung}
-  \def\tiexam@lecturer{Dozent}
   \def\tiexam@examresultsdescription{
     Die Klausurergebnisse werden voraussichtlich am Donnerstag, den 01.01.1970,
     auf der Institutshomepage bekanntgegeben. \\[2mm] Die korrigierten
@@ -178,14 +145,6 @@
   \def\tiexam@auxiliarypagecount{#2}
 }
 
-\newcommand*{\setexamdate}[5]{
-  \def\tiexam@examday{#1}
-  \def\tiexam@exammonth{#2}
-  \def\tiexam@examyear{#3}
-  \def\tiexam@examhour{#4}
-  \def\tiexam@examminute{#5}
-}
-
 \newcommand*{\setpassmark}[1]{
   \def\tiexam@passmark{#1}
 }
@@ -199,23 +158,6 @@
 \newcounter{tiexam@TotalPointsCounter}
 \newcounter{tiexam@ProblemPageCounter}
 \newcounter{tiexam@LoopCounter}
-
-% Define internal class commands.
-\newcommand*{\tiexam@insertheader}{%
-  \pbox[t]{\textwidth}{%
-    \vspace{0mm}
-    \includegraphics[width=1.2cm]{ti_veclogo}%
-    \textsf{\small{Lehrstuhl für}} \\
-    \textsf{\large{Theoretische Informationstechnik}}
-  }%
-  \hfill
-  \pbox[t]{\textwidth}{
-    \vspace{0mm}
-    \includegraphics[height=1.5cm]{RWTHAachenUniversity}
-  }%
-  \vspace{5mm}\hrule\vspace{5mm}
-  \textbf{\tiproblem@lecturer}
-}
 
 % Definitions to generate the points table
 \newtoks\tiexam@layouttokens\tiexam@layouttokens{}
@@ -251,7 +193,7 @@
     \tiexam@addproblemtoken{\the\value{tiexam@LoopCounter}}%
   \repeat
 
-  \tiexam@insertheader \\[8mm]
+  \tiinternal@contentvpadding
   \centerline{\small
     \tabcolsep5mm
     \begin{tabular}{|\the\tiexam@layouttokens|c|}
@@ -268,15 +210,13 @@
       \the\tiexam@paddingtokens \\
       \hline
     \end{tabular}
-  } \\[8mm]
+  }
+  \tiinternal@contentvpadding
   \begin{center}
-    {\large \textbf{\tiproblem@lecture}} \\[2mm]
-    \textbf{\tiexam@examlabel} \\[2mm]
-    \tiexam@setdateformat
-    \formatdate{\tiexam@examday}{\tiexam@exammonth}{\tiexam@examyear},~%
-    \formattime{\tiexam@examhour}{\tiexam@examminute}{00} \\
+    {\large\textbf{\tiexam@examlabel}} \\[2mm]
+    \tidate@insertdate,~\tidate@inserttime \\
   \end{center}
-  \vspace*{5mm}
+  \tiinternal@contentvpadding
   \tiexam@studentinfoform
   \textbf{\underline{\tiexam@disclaimer:}}
   {
@@ -288,12 +228,12 @@
 }
 
 \newcommand*{\defineexamproblem}[2]{
-    \expandafter\def\csname
-        tiexam@problemsource\the\value{tiexam@ProblemCounter} \endcsname{#1}
-    \expandafter\def\csname
-        tiexam@problempoints\the\value{tiexam@ProblemCounter} \endcsname{#2}
-    \addtocounter{tiexam@TotalPointsCounter}{#2}
-    \stepcounter{tiexam@ProblemCounter}
+  \expandafter\def\csname
+    tiexam@problemsource\the\value{tiexam@ProblemCounter} \endcsname{#1}
+  \expandafter\def\csname
+    tiexam@problempoints\the\value{tiexam@ProblemCounter} \endcsname{#2}
+  \addtocounter{tiexam@TotalPointsCounter}{#2}
+  \stepcounter{tiexam@ProblemCounter}
 }
 
 \newcommand{\tiexam@insertemptypages}[1]{
@@ -319,7 +259,7 @@
 \newcommand*{\tiexam@printpoints}[1]{%
   (\csname tiexam@problempoints\the\value{#1} \endcsname~\tiexam@pointslabel)%
 }
-\newcommand*{\insertexamproblems}{
+\newcommand*{\tiexam@insertexamproblems}{
   \setcounter{tiexam@LoopCounter}{0}
   \loop\ifnum\value{tiexam@LoopCounter} < \the\value{tiexam@ProblemCounter}\relax
     \begin{problem}
@@ -352,9 +292,8 @@
 
 \AtBeginDocument{
   % Select the proper language.
-  \expandafter\selectlanguage\expandafter{\tiexam@language}
-
-  % Add the cover page page if needed.
+  \expandafter\selectlanguage\expandafter{\tiexam@language}%
+  % Add the cover page page if requested.
   \iftiexam@solution
     \relax
   \else
@@ -366,11 +305,11 @@
     \fi
   }
   \fi
+  % Insert the actual problem descriptions.
+  \tiexam@insertexamproblems
 }
 
-\AtEndDocument{
-  \tiexam@insertemptypages{\tiexam@auxiliarypagecount}
-}
+\AtEndDocument{\tiexam@insertemptypages{\tiexam@auxiliarypagecount}}
 
 \endinput
 

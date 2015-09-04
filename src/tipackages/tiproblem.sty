@@ -8,6 +8,7 @@
 \ProvidesPackage{tiproblem}[2014/10/22 v0.1]
 
 \usepackage{tiinternal}
+\usepackage{tidate}
 \usepackage{tienv}
 \usepackage{timath}
 
@@ -16,13 +17,6 @@
 \def\tiproblem@lecture{Vorlesung}
 \def\tiproblem@lecturer{Dozent}
 \def\tiproblem@supervisor{Betreuer}
-\def\tiproblem@day{dd}
-\def\tiproblem@month{mm}
-\def\tiproblem@year{yyyy}
-
-\def\tiproblem@formatdate{%
-    \tiproblem@day.\tiproblem@month.\tiproblem@year%
-}
 
 % Define default text labels.
 \def\tiproblem@exerciselabel{Übung}
@@ -33,29 +27,27 @@
 \def\tiproblem@solutionlabel{Lösung zu Aufgabe}
 
 \def\tiproblem@titleprefix{%
-    \thetiproblem@ExerciseCounter.\ \tiproblem@exerciselabel%
+  \thetiproblem@ExerciseCounter.\ \tiproblem@exerciselabel%
 }
 
 % Handle package options
 \DeclareOption{english}{
-    \def\tiproblem@lecture{Lecture}
-    \def\tiproblem@lecturer{Lecturer}
-    \def\tiproblem@supervisor{Supervisor}
+  \def\tiproblem@lecture{Lecture}
+  \def\tiproblem@lecturer{Lecturer}
+  \def\tiproblem@supervisor{Supervisor}
 
-    \def\tiproblem@exerciselabel{Exercise}
-    \def\tiproblem@additionalexerciselabel{Review Exercise}
-    \def\tiproblem@additionalexerciselabelsolution{Review Exercise}
-    \def\tiproblem@proposedsolutionlabel{Proposed Solution}
-    \def\tiproblem@problemlabel{Problem}
-    \def\tiproblem@solutionlabel{Solution of Problem}
+  \def\tiproblem@exerciselabel{Exercise}
+  \def\tiproblem@additionalexerciselabel{Review Exercise}
+  \def\tiproblem@additionalexerciselabelsolution{Review Exercise}
+  \def\tiproblem@proposedsolutionlabel{Proposed Solution}
+  \def\tiproblem@problemlabel{Problem}
+  \def\tiproblem@solutionlabel{Solution of Problem}
 
-    \def\tiproblem@titleprefix{%
-        \tiproblem@exerciselabel\ \thetiproblem@ExerciseCounter%
-    }
+  \def\tiproblem@titleprefix{%
+    \tiproblem@exerciselabel\ \thetiproblem@ExerciseCounter%
+  }
 
-    \def\tiproblem@formatdate{%
-        \tiproblem@year-\tiproblem@month-\tiproblem@day%
-    }
+  \PassOptionsToPackage{\CurrentOption}{tidate}
 }
 
 \ProcessOptions\relax
@@ -79,24 +71,24 @@
 
 % Define new environments.
 \newenvironment{problem}{
-    \stepcounter{tiproblem@ProblemCounter}
-    \textsf{%
-        \pagebreak[3]%
-        \textbf{\tiproblem@problemlabel\ \thetiproblem@ProblemCounter.}%
-    }
+  \stepcounter{tiproblem@ProblemCounter}
+  \textsf{%
+    \pagebreak[3]%
+    \textbf{\tiproblem@problemlabel\ \thetiproblem@ProblemCounter.}%
+  }
 }{
-    \vspace*{1cm}
+  \vspace*{1cm}
 }
 \newenvironment{solution}{
-    \stepcounter{tiproblem@SolutionCounter}
-    \textsf{%
-        \pagebreak[3]%
-        \textbf{%
-            \large{\tiproblem@solutionlabel\ \thetiproblem@SolutionCounter}%
-        }%
-    } \\[2mm]
+  \stepcounter{tiproblem@SolutionCounter}
+  \textsf{%
+    \pagebreak[3]%
+    \textbf{%
+      \large{\tiproblem@solutionlabel\ \thetiproblem@SolutionCounter}%
+    }%
+  } \\[2mm]
 }{
-    \vspace*{1cm}
+  \vspace*{1cm}
 }
 
 % Define commands to set lecture, lecturer, etc.
@@ -104,20 +96,15 @@
 \newcommand{\setlecturer}[1]{\def\tiproblem@lecturer{#1}}
 \newcommand{\setsupervisor}[1]{\def\tiproblem@supervisor{#1}}
 \newcommand{\setexercisenumber}[1]{\setcounter{tiproblem@ExerciseCounter}{#1}}
-\newcommand{\setexercisedate}[3]{%
-    \def\tiproblem@day{#1}%
-    \def\tiproblem@month{#2}%
-    \def\tiproblem@year{#3}%
-}
 
 % Our counters are zero-based now and incremented before they're used. Hence
 % the `#1-1` in the commands below. Note that arithmetic expressions like
 % `#1-1` are made possible by the `calc` package.
 \newcommand*{\setproblemnumber}[1]{%
-    \setcounter{tiproblem@ProblemCounter}{#1-1}%
+  \setcounter{tiproblem@ProblemCounter}{#1-1}%
 }
 \newcommand*{\setsolutionnumber}[1]{%
-    \setcounter{tiproblem@SolutionCounter}{#1-1}%
+  \setcounter{tiproblem@SolutionCounter}{#1-1}%
 }
 
 \newcommand{\setbasepath}[1]{\def\tiproblem@basepath{#1}}
@@ -126,118 +113,115 @@
 
 % Define the document headers.
 \def\tiproblem@exerciseheader{
-    \begin{center}
-        \LARGE \tiproblem@titleprefix\ \tiproblem@lecture \\
-        \normalsize \tiproblem@lecturer, \tiproblem@supervisor \\
-        \tiproblem@formatdate
-    \end{center}
-    \vspace{0.5cm}
+  \parbox{\textwidth}{%
+    \centering%
+    \LARGE \tiproblem@titleprefix \\
+    % FIXME: This line is repeated in every macro.
+    \normalsize \tidate@insertdate%
+  }%
+  \tiinternal@contentvpadding
 }
 \def\tiproblem@additionalexerciseheader{
-    \begin{center}
-        \LARGE \tiproblem@additionalexerciselabel\ \tiproblem@lecture \\
-        \normalsize \tiproblem@lecturer, \tiproblem@supervisor \\
-        \tiproblem@formatdate
-    \end{center}
-    \vspace{0.5cm}
+  \begin{center}
+    \LARGE \tiproblem@additionalexerciselabel\ \tiproblem@lecture \\
+    \normalsize \tiproblem@lecturer, \tiproblem@supervisor \\
+    \tidate@insertdate
+  \end{center}
+  \vspace{0.5cm}
 }
 \def\tiproblem@additionalexercisesolutionheader{
-    \begin{center}
-        \LARGE \tiproblem@additionalexerciselabel\ \tiproblem@lecture \\
-        - \tiproblem@proposedsolutionlabel\ - \\[2mm]
-        \normalsize \tiproblem@lecturer, \tiproblem@supervisor \\
-        \tiproblem@formatdate
-    \end{center}
-    \vspace{0.5cm}
+  \begin{center}
+    \LARGE \tiproblem@additionalexerciselabel\ \tiproblem@lecture \\
+    - \tiproblem@proposedsolutionlabel\ - \\[2mm]
+    \normalsize \tiproblem@lecturer, \tiproblem@supervisor \\
+    \tidate@insertdate
+  \end{center}
+  \vspace{0.5cm}
 }
 \def\tiproblem@solutionheader{
-    \begin{center}
-        \LARGE \tiproblem@titleprefix\ \tiproblem@lecture \\
-        - \tiproblem@proposedsolutionlabel\ - \\[2mm]
-        \normalsize \tiproblem@lecturer, \tiproblem@supervisor \\
-        \tiproblem@formatdate
-    \end{center}
-    \vspace{0.5cm}
+  \begin{center}
+    \LARGE \tiproblem@titleprefix\ \tiproblem@lecture \\
+    - \tiproblem@proposedsolutionlabel\ - \\[2mm]
+    \normalsize \tiproblem@lecturer, \tiproblem@supervisor \\
+    \tidate@insertdate
+  \end{center}
+  \vspace{0.5cm}
 }
 
 \newcommand{\insertexerciseheader}{
-    \TIHeader
-    \tiproblem@exerciseheader
+  \tiproblem@exerciseheader
 }
 \newcommand{\insertadditionalexerciseheader}{
-    \TIHeader
-    \tiproblem@additionalexerciseheader
+  \tiproblem@additionalexerciseheader
 }
 \newcommand{\insertadditionalexercisesolutionheader}{
-    \TIHeader
-    \tiproblem@additionalexercisesolutionheader
+  \tiproblem@additionalexercisesolutionheader
 }
 \newcommand{\insertsolutionheader}{
-    \TIHeader
-    \tiproblem@solutionheader
+  \tiproblem@solutionheader
 }
 
 \newcommand{\insertproblem}[2]{
-    \def\ExercisePath{\tiproblem@basepath/section#1/#2.tex}
-    \begin{problem}
-        \IfFileExists{\ExercisePath}{
-            \subimport{\tiproblem@basepath/section#1/}{#2.tex}
-        }{
-            \begin{center}
-                \textbf{-- \ExercisePath\ not found --}
-            \end{center}
-        }
-    \end{problem}
-    \par
+  \def\ExercisePath{\tiproblem@basepath/section#1/#2.tex}
+  \begin{problem}
+    \IfFileExists{\ExercisePath}{
+      \subimport{\tiproblem@basepath/section#1/}{#2.tex}
+    }{
+      \begin{center}
+        \textbf{-- \ExercisePath\ not found --}
+      \end{center}
+    }
+  \end{problem}
+  \par
 }
 
 \newcommand{\insertproblemfile}[1]{
-    \begin{problem}
-        \subimport{\tiproblem@searchpath/}{#1.tex}
-    \end{problem}
-    \par
+  \begin{problem}
+    \subimport{\tiproblem@searchpath/}{#1.tex}
+  \end{problem}
+  \par
 }
 
 \newcommand{\insertsolution}[2]{
-    \def\tiproblem@solutionpath{%
-        \tiproblem@basepath/section#1/#2\tiproblem@solutionsuffix.tex%
+  \def\tiproblem@solutionpath{%
+    \tiproblem@basepath/section#1/#2\tiproblem@solutionsuffix.tex%
+  }
+  \begin{solution}
+    \IfFileExists{\tiproblem@solutionpath}{
+      \subimport{\tiproblem@basepath/section#1/}{%
+        #2\tiproblem@solutionsuffix.tex%
+      }
+    }{
+      \begin{center}
+        \textbf{-- \tiproblem@solutionpath\ not found --}
+      \end{center}
     }
-    \begin{solution}
-        \IfFileExists{\tiproblem@solutionpath}{
-            \subimport{\tiproblem@basepath/section#1/}{%
-                #2\tiproblem@solutionsuffix.tex%
-            }
-        }{
-            \begin{center}
-                \textbf{-- \tiproblem@solutionpath\ not found --}
-            \end{center}
-        }
-    \end{solution}
-    \par
+  \end{solution}
+  \par
 }
 
 \newcommand{\insertsolutionfile}[1]{
-    \begin{solution}
-        \subimport{\tiproblem@searchpath/}{#1\tiproblem@solutionsuffix.tex}
-    \end{solution}
-    \par
+  \begin{solution}
+    \subimport{\tiproblem@searchpath/}{#1\tiproblem@solutionsuffix.tex}
+  \end{solution}
+  \par
 }
 
 % Insert a problem and its solution if available. Only use this for the
 % exercise collection documents.
 \newcommand{\insertproblemandsolution}[2]{
-    \def\ExercisePath{\tiproblem@basepath/section#1/#2.tex}
-    \def\tiproblem@solutionpath{%
-        \tiproblem@basepath/section#1/#2\tiproblem@solutionsuffix.tex%
-    }
-    \IfFileExists{\ExercisePath}{
-        \textit{{\ExercisePath}:} \\
-        \insertproblem{#1}{#2}
-        \textit{{\tiproblem@solutionpath}:} \\
-        \insertsolution{#1}{#2}
-        \noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}%
-        \vspace{1cm}
-    }{}
+  \def\ExercisePath{\tiproblem@basepath/section#1/#2.tex}
+  \def\tiproblem@solutionpath{%
+    \tiproblem@basepath/section#1/#2\tiproblem@solutionsuffix.tex%
+  }
+  \IfFileExists{\ExercisePath}{
+    \textit{{\ExercisePath}:} \\
+    \insertproblem{#1}{#2}
+    \textit{{\tiproblem@solutionpath}:} \\
+    \insertsolution{#1}{#2}
+    \noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}%
+    \vspace{1cm}
+  }{}
 }
 
 \endinput
