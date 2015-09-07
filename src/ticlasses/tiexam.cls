@@ -259,7 +259,7 @@
 \newcommand*{\tiexam@printpoints}[1]{%
   (\csname tiexam@problempoints\the\value{#1} \endcsname~\tiexam@pointslabel)%
 }
-\newcommand*{\tiexam@insertexamproblems}{
+\newcommand*{\insertexamproblems}{
   \setcounter{tiexam@LoopCounter}{0}
   \loop\ifnum\value{tiexam@LoopCounter} < \the\value{tiexam@ProblemCounter}\relax
     \begin{problem}
@@ -305,8 +305,6 @@
     \fi
   }
   \fi
-  % Insert the actual problem descriptions.
-  \tiexam@insertexamproblems
 }
 
 \AtEndDocument{\tiexam@insertemptypages{\tiexam@auxiliarypagecount}}
