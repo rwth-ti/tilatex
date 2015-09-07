@@ -22,12 +22,6 @@
 \renewcommand{\amname}{a.m.}
 \renewcommand{\pmname}{p.m.}
 
-\def\tidate@examday{1}
-\def\tidate@exammonth{1}
-\def\tidate@examyear{1970}
-\def\tidate@examhour{0}
-\def\tidate@examminute{0}
-
 \iftidate@english
   \newdateformat{tidate@examdateformat}{%
     \dayofweekname{\THEDAY}{\THEMONTH}{\THEYEAR},~%
@@ -57,6 +51,7 @@
   \def\tidate@hour{#4}
   \def\tidate@minute{#5}
 }
+\setdate{1}{1}{1970}{0}{0}
 
 \newcommand*{\tidate@insertdate}{%
   \tidate@setdateformat%
