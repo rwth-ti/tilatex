@@ -27,11 +27,7 @@
   \renewcommand*{\setfirstproblem}{\setsolutionnumber}
 }
 
-\def\tiexercise@language{ngerman}
 \DeclareOption{english}{
-  \expandafter\def\expandafter\tiexercise@language\expandafter{%
-    \CurrentOption%
-  }
   \PassOptionsToClass{\CurrentOption}{tiarticle}
   \PassOptionsToPackage{\CurrentOption}{tiproblem}
 }
@@ -46,11 +42,9 @@
 
 \usepackage{tiproblem}
 
-\AtBeginDocument{
-  \expandafter\selectlanguage\expandafter{\tiexercise@language}
-  \tiexercise@insertheader
-}
+\AtBeginDocument{\tiexercise@insertheader}
 
+% For backwards compatibility
 \newcommand{\inserttext}{\tiexercise@inserttext}
 \newcommand{\insertfile}{\tiexercise@insertfile}
 

@@ -7,8 +7,10 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{tiarticle}[2014/12/09 v0.1]
 
+\def\tiarticle@language{ngerman}
 \def\tiarticle@logo{rwth_ti_de_rgb}
 \DeclareOption{english}{
+  \expandafter\def\expandafter\tiarticle@language\expandafter{\CurrentOption}
   \def\tiarticle@logo{rwth_ti_en_rgb}
 }
 
@@ -22,6 +24,8 @@
 \LoadClass[12pt,a4paper]{article}
 
 \usepackage[colorlinks=true]{hyperref}
+
+\usepackage{tiinternal}
 
 % Page layout
 \pagestyle{empty}
@@ -64,7 +68,10 @@
   \tiinternal@contentvpadding
 }
 
-\AtBeginDocument{\tiarticle@inserttiheader}
+\AtBeginDocument{
+  \expandafter\selectlanguage\expandafter{\tiarticle@language}
+  \tiarticle@inserttiheader
+}
 
 \endinput
 

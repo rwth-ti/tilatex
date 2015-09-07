@@ -7,12 +7,10 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{tiexam}[2015/03/10 v0.1]
 
-\def\tiexam@language{ngerman}
 \newif\iftiexam@english
 \tiexam@englishfalse
 \DeclareOption{english}{
   \tiexam@englishtrue
-  \expandafter\def\expandafter\tiexam@language\expandafter{\CurrentOption}
   \PassOptionsToClass{\CurrentOption}{tiarticle}
   \PassOptionsToPackage{\CurrentOption}{tidate}
   \PassOptionsToPackage{\CurrentOption}{tiproblem}
@@ -292,8 +290,6 @@
 }
 
 \AtBeginDocument{
-  % Select the proper language.
-  \expandafter\selectlanguage\expandafter{\tiexam@language}%
   % Add the cover page page if requested.
   \iftiexam@solution
     \relax
