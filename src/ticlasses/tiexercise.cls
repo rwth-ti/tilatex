@@ -32,6 +32,7 @@
   \expandafter\def\expandafter\tiexercise@language\expandafter{%
     \CurrentOption%
   }
+  \PassOptionsToClass{\CurrentOption}{tiarticle}
   \PassOptionsToPackage{\CurrentOption}{tiproblem}
 }
 \DeclareOption*{

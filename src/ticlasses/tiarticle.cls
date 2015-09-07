@@ -7,6 +7,15 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{tiarticle}[2014/12/09 v0.1]
 
+\def\tiarticle@logo{rwth_ti_de_rgb}
+\DeclareOption{english}{
+  \def\tiarticle@logo{rwth_ti_en_rgb}
+}
+
+\DeclareOption*{
+  \ClassWarning{tiexam}{Unknown option '\CurrentOption'}
+}
+
 \ProcessOptions\relax
 
 % Load the base class.
@@ -35,17 +44,22 @@
 }
 \setauthors{}
 
+% The corporate identity logo has an 8 mm border around its bounding box. We
+% (arbitrarily) scale the logo by 0.625 so it's approximately as large as it
+% would be with width=0.5\columnwidth. This means we need to pad the document
+% title and author list by 8 mm * 0.625 = 0.5 mm so the gaps match.
+\def\tiarticle@padding{5mm}
 \newcommand{\tiarticle@inserttiheader}{
   \begin{minipage}{\columnwidth}
     \begin{minipage}[b]{0.45\columnwidth}
       \textbf{\textsf{\tiarticle@documenttitle}}
+      \vspace{\tiarticle@padding}
     \end{minipage}
     \hfill
-    \includegraphics[width=0.5\columnwidth]{tilogo_ci}
+    \includegraphics[scale=0.625]{\tiarticle@logo}
   \end{minipage}
-  \vspace{2.5mm}
   \hrule
-  \vspace{1mm}
+  \vspace{\tiarticle@padding}
   \textbf{\footnotesize\tiarticle@authors}
   \tiinternal@contentvpadding
 }

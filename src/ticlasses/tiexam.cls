@@ -13,6 +13,7 @@
 \DeclareOption{english}{
   \tiexam@englishtrue
   \expandafter\def\expandafter\tiexam@language\expandafter{\CurrentOption}
+  \PassOptionsToClass{\CurrentOption}{tiarticle}
   \PassOptionsToPackage{\CurrentOption}{tidate}
   \PassOptionsToPackage{\CurrentOption}{tiproblem}
 }
