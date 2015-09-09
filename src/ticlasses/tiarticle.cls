@@ -65,7 +65,7 @@
   \hrule
   \vspace{\tiarticle@padding}
   \textbf{\footnotesize\tiarticle@authors}
-  \tiinternal@contentvpadding
+  \tiinternal@contentvpadding \\
 }
 
 \AtBeginDocument{
