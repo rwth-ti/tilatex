@@ -16,16 +16,10 @@
   \PassOptionsToPackage{\CurrentOption}{tiproblem}
 }
 
-\newif\iftiexam@solution
-\tiexam@solutionfalse
-\DeclareOption{solution}{
-  \tiexam@solutiontrue
-}
-
-\newif\iftiexam@handout
-\tiexam@handoutfalse
-\DeclareOption{handout}{
-  \tiexam@handouttrue
+\newif\iftiexam@compact
+\tiexam@compactfalse
+\DeclareOption{compact}{
+  \tiexam@compacttrue
 }
 
 \newif\iftiexam@showpoints
@@ -238,18 +232,14 @@
 \newcommand{\tiexam@insertemptypages}[1]{
   \setcounter{tiexam@ProblemPageCounter}{0}
   \clearpage
-  \iftiexam@solution
+  \iftiexam@compact
     \relax
   \else
   {
-    \iftiexam@handout
-      \relax
-    \else
-      \loop\ifnum\value{tiexam@ProblemPageCounter} < #1\relax
-      \null\clearpage
-      \stepcounter{tiexam@ProblemPageCounter}
-      \repeat
-    \fi
+    \loop\ifnum\value{tiexam@ProblemPageCounter} < #1\relax
+    \null\clearpage
+    \stepcounter{tiexam@ProblemPageCounter}
+    \repeat
   }
   \fi
   \setcounter{tiexam@ProblemPageCounter}{0}
@@ -262,7 +252,7 @@
   \setcounter{tiexam@LoopCounter}{0}
   \loop\ifnum\value{tiexam@LoopCounter} < \the\value{tiexam@ProblemCounter}\relax
     \begin{problem}
-      \iftiexam@handout
+      \iftiexam@compact
         \iftiexam@showpoints
           \tiexam@printpoints{tiexam@LoopCounter} \\
         \fi
@@ -274,15 +264,11 @@
     \end{problem}
     \tiexam@insertemptypages{\tiexam@emptypagecount}
     % Force new problem to start on the left (even page).
-    \iftiexam@solution
+    \iftiexam@compact
       \relax
     \else
     {
-      \iftiexam@handout
-        \relax
-      \else
-        \ifodd\value{page}\hbox{}\newpage\fi
-      \fi
+      \ifodd\value{page}\hbox{}\newpage\fi
     }
     \fi
     \stepcounter{tiexam@LoopCounter}
@@ -290,17 +276,10 @@
 }
 
 \AtBeginDocument{
-  % Add the cover page page if requested.
-  \iftiexam@solution
+  \iftiexam@compact
     \relax
   \else
-  {
-    \iftiexam@handout
-      \relax
-    \else
-      \tiexam@makecoverpage
-    \fi
-  }
+    \tiexam@makecoverpage
   \fi
 }
 
