@@ -14,14 +14,12 @@
   \def\tiarticle@logo{rwth_ti_en_rgb}
 }
 
-\DeclareOption*{
-  \ClassWarning{tiexam}{Unknown option '\CurrentOption'}
-}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 
 \ProcessOptions\relax
 
 % Load the base class.
-\LoadClass[12pt,a4paper]{article}
+\LoadClass[a4paper,12pt]{article}
 
 \usepackage[colorlinks=true]{hyperref}
 
@@ -60,7 +58,7 @@
       \vspace{\tiarticle@padding}
     \end{minipage}
     \hfill
-    \includegraphics[scale=0.625]{\tiarticle@logo}
+    \includegraphics[scale=0.625]{\tiarticle@logo.pdf}
   \end{minipage}
   \hrule
   \vspace{\tiarticle@padding}
