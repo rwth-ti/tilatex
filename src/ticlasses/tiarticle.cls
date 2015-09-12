@@ -19,7 +19,7 @@
 \ProcessOptions\relax
 
 % Load the base class.
-\LoadClass[a4paper,12pt]{article}
+\LoadClass[a4paper]{article}
 
 \usepackage[colorlinks=true]{hyperref}
 
@@ -54,7 +54,8 @@
 \newcommand{\tiarticle@inserttiheader}{
   \begin{minipage}{\columnwidth}
     \begin{minipage}[b]{0.45\columnwidth}
-      \textbf{\textsf{\tiarticle@documenttitle}}
+      \fontsize{10.95pt}{1em}\selectfont
+       \textbf{\textsf{\tiarticle@documenttitle}}
       \vspace{\tiarticle@padding}
     \end{minipage}
     \hfill

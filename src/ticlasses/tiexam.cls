@@ -35,7 +35,7 @@
 \ProcessOptions\relax
 
 % Load the base class.
-\LoadClass{tiarticle}
+\LoadClass[12pt]{tiarticle}
 
 % Load other dependencies.
 \usepackage{tidate}
