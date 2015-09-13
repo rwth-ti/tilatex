@@ -1,0 +1,70 @@
+\documentclass[english]{tithesisnotice}
+
+\usepackage{wrapfig}
+\usepackage{csquotes}
+
+\setdocumenttitle{Master Thesis}
+\setthesistitle{A Thesis About Nothing}
+\setthesissubtitle{Absolutely Nothing}
+
+\begin{document}
+
+\heading{Research Area}
+Playground equipment
+
+\heading{Keywords}
+Latex sales, industrial smoothing, significant shrinkage
+
+\heading{Description}
+\begin{wrapfigure}{R}{0.25\textwidth}
+  \begin{center}
+    \begin{tikzpicture}
+      \matrix (m)
+        [matrix of math nodes,row sep=3em,column sep=4em,minimum width=2em]
+      {
+         F_t(x) & F(x) \\
+         A_t & A \\
+      };
+      \path[-stealth]
+        (m-1-1) edge node [left] {$\mathcal{B}_X$} (m-2-1)
+                edge [double] node [below] {$\mathcal{B}_t$} (m-1-2)
+        (m-2-1.east|-m-2-2) edge node [below] {$\mathcal{B}_T$}
+                node [above] {$\exists$} (m-2-2)
+        (m-1-2) edge node [right] {$\mathcal{B}_T$} (m-2-2)
+                edge [dashed,-] (m-2-1);
+    \end{tikzpicture}
+  \end{center}
+\end{wrapfigure}
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
+vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
+dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
+eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
+sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+sanctus est Lorem ipsum dolor sit amet.
+
+\heading{Goal}
+Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit
+lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure
+dolor in hendrerit in vulputate velit esse
+
+\heading{Requirements}
+\begin{itemize}
+  \item Something in sports
+  \item Pinkish hue
+  \item Experience as a talkshow host
+\end{itemize}
+
+\heading{Contact}
+\begin{itemize}
+  \item \contact{Art Vandelay}{art@vandelay-industries.com}{27740}
+  \item \contact{H.E. Pennypacker}{pennypacker@rich-industrialists.com}{27740}
+\end{itemize}
+
+\end{document}
+
