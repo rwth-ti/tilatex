@@ -7,12 +7,30 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{tithesisnotice}[2015/09/07 v0.1]
 
+\DeclareOption{bachelor}{
+  \def\tithesisnotice@type{Bachelor}
+}
+
+\DeclareOption{master}{
+  \def\tithesisnotice@type{Master}
+}
+
+\def\tithesisnotice@typesuffix{arbeit}
+\DeclareOption{english}{
+  \def\tithesisnotice@typesuffix{\ Thesis}
+  \PassOptionsToClass{\CurrentOption}{tiarticle}
+}
+
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{tiarticle}}
+
+\ExecuteOptions{bachelor}
 
 \ProcessOptions\relax
 
 % Load the base class.
 \LoadClass[11pt]{tiarticle}
+
+\setdocumenttitle{\tithesisnotice@type\tithesisnotice@typesuffix}
 
 \hypersetup{hidelinks}
 

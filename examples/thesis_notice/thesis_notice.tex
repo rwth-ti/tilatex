@@ -1,14 +1,20 @@
-\documentclass[english]{tithesisnotice}
+\documentclass[master,english]{tithesisnotice}
+% Available class options are `bachelor`, `master`, and `english`. The meanings
+% are as follows:
+%
+%   bachelor:   sets the document title for a bachelor thesis (default)
+%   master:     sets the document title for a master thesis
+%   english:    self-explanatory
 
 \usepackage{wrapfig}
 \usepackage{csquotes}
 
-\setdocumenttitle{Master Thesis}
 \setthesistitle{A Thesis About Nothing}
 \setthesissubtitle{Absolutely Nothing}
 
 \begin{document}
 
+% Use the \heading macro to separate sections.
 \heading{Research Area}
 Playground equipment
 
@@ -62,6 +68,8 @@ dolor in hendrerit in vulputate velit esse
 
 \heading{Contact}
 \begin{itemize}
+  % Use the \contact macro to typeset name, email address and phone number.
+  % Note that the RWTH phone prefix is prepended automatically.
   \item \contact{Art Vandelay}{art@vandelay-industries.com}{27740}
   \item \contact{H.E. Pennypacker}{pennypacker@rich-industrialists.com}{27740}
 \end{itemize}
