@@ -1,18 +1,136 @@
-% Copyright (c) 2015 Institute for Theoretical Information Technology,
-%                    RWTH Aachen University
+% \iffalse meta-comment
 %
-% This software may be modified and distributed under the terms of the MIT
-% license. See the LICENSE file for details.
-
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{tiexam}[2015/03/10 v0.1]
-
+% Copyright (C) 2015 by Niklas Koep <koep@ti.rwth-aachen.de>
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.2
+% of this license or (at your option) any later version.
+% The latest version of this license is in:
+%
+% http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of LaTeX
+% version 1999/12/01 or later.
+%
+% \fi
+%
+% \iffalse
+%<*driver>
+\ProvidesFile{tiexam.dtx}
+%</driver>
+%<class>\NeedsTeXFormat{LaTeX2e}
+%<class>\ProvidesClass{tiexam}
+%<*class>
+  [2015/09/13 v0.1 Base class for all tilatex classes]
+%</class>
+%<*driver>
+\documentclass{ltxdoc}
+\GetFileInfo{tiexam.dtx}
+\def\@author{Niklas Koep \\ \texttt{koep@ti.rwth-aachen.de}}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \title{The \textsf{tiexam} class\thanks{This document corresponds to
+    \textsf{tiexam}~\fileversion, dated \filedate.}}
+  \author{\@author}
+  \maketitle
+  \DocInput{tiexam.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \GetFileInfo{tiexam.dtx}
+%
+% \DoNotIndex{\newcommand,\newenvironment}
+%
+% This class is used to create exam and sample solution documents.
+%
+% \section{Class Options}
+% \DescribeMacro{english}
+% Set the exam language to English. This option causes any text labels to be
+% translated to English automatically. The option is also passed on to any
+% additional packages loaded by |tiexam| which need to adjust their behavior
+% based on the selected language.
+%
+% \DescribeMacro{compact}
+% This option suppresses the cover page and ignores empty page padding (cf.
+% |\setemptypagelayout|). Is is mainly intended for exam sample solution
+% documents and when initially designing exam problems.
+%
+% \DescribeMacro{showpoints}
+% This option forces the number of points achievable per problem to be printed
+% after the respective problem label. It only takes effect if used in
+% combination with the |compact| option.
+%
+% \section{Macros}
+% All macros described in this section have to be invoked in the document
+% preamble so that the cover page, which is generated from inside an
+% |\AtBeginDocument| hook, can be generated properly. As the typesetting of
+% problem descriptions is also handled via |\AtBeginDocument|, exam documents
+% will always contain an empty |document| section, i.e.
+% \begin{verbatim}
+%   \begin{document}
+%   \end{document}
+% \end{verbatim}
+%
+% \DescribeMacro{\setemptypagelayout}
+% The |\setemptypagelayout|\marg{base}\marg{aux} macro is used to configure the
+% number of empty pages to append after each problem (\meta{base}), as well as
+% the number of auxiliary pages to append at the end of the document
+% (\meta{aux}). Note that this option has no effect when the |compact| option
+% was used to load the |tiexam| class.
+%
+% \DescribeMacro{\setpassmark}
+% The |\setpassmark|\marg{passmark} macro is used to define the pass mark of an
+% exam. This value, which defaults to $25$, is then included in the exam
+% description on the cover page of the document.
+%
+% \DescribeMacro{\setexamresultsdescription}
+% This is a free-form macro to add a short description about the procedure for
+% announcing exam results, post-exam review dates, and so on. For German lectures,
+% the idea is to call |\setexamresultsdescription|\marg{description} like
+% \begin{verbatim}
+%   \setexamresultsdescription{%
+%     Die Klausurergebnisse werden voraussichtlich am Donnerstag, den
+%     01.01.1970, auf der Institutshomepage bekanntgegeben. \\[2mm] Die
+%     korrigierten Klausuren können am Freitag, den 01.01.1970, um 0 Uhr im
+%     Seminarraum 24 A 407 des Lehrstuhls für Theoretische Informationstechnik,
+%     Sommerfeldstr. 24, eingesehen werden. \\[5mm]
+%   }
+% \end{verbatim}
+% with the dates and places adjusted accordingly. For an English lecture, the
+% description should read something like
+% \begin{verbatim}
+%   \setexamresultsdescription{%
+%     The results will be published on Tuesday, 26 August 2014, 16:00 on the
+%     homepage of the institute. \\[2mm] The corrected exams can be inspected
+%     on Friday, 01 January 1970, 0:00am at the Seminarraum 24 A 407 of the
+%     Institute for Theoretical Information Technology, Sommerfeldstr.\,24.
+%     \\[5mm]
+%   }
+% \end{verbatim}
+% The \meta{description} value will be appended to the list of instructions on
+% the cover page as is.
+%
+% \DescribeMacro{\defineexamproblem}
+% This macro is used to specify the source file of an exam problem, as well as
+% the achievable points: |\defineexamproblem|\marg{filename}\marg{points}. Note
+% that \meta{filename}|.tex| refers to a file in the same directory as the exam
+% document.
+%
+% \StopEventually{\PrintIndex}
+%
+% \section{Implementation}
+%    \begin{macrocode}
 \newif\iftiexam@english
 \tiexam@englishfalse
 \DeclareOption{english}{
   \tiexam@englishtrue
   \PassOptionsToClass{\CurrentOption}{tiarticle}
-  \PassOptionsToPackage{\CurrentOption}{tidate}
+  \PassOptionsToPackage{\CurrentOption}{tidatetime}
   \PassOptionsToPackage{\CurrentOption}{tiproblem}
 }
 
@@ -34,14 +152,11 @@
 
 \ProcessOptions\relax
 
-% Load the base class.
 \LoadClass[12pt]{tiarticle}
 
-% Load other dependencies.
-\usepackage{tidate}
+\usepackage{tidatetime}
 \usepackage{tiproblem}
 
-% Language agnostic defaults
 \def\tiexam@passmark{25}
 \def\tiexam@emptypagecount{3}
 \def\tiexam@auxiliarypagecount{0}
@@ -207,7 +322,7 @@
   \tiinternal@contentvpadding
   \begin{center}
     {\large\textbf{\tiexam@examlabel}} \\[2mm]
-    \tidate@insertdate,~\tidate@inserttime \\
+    \insertdate,~\inserttime \\
   \end{center}
   \tiinternal@contentvpadding
   \tiexam@studentinfoform
@@ -248,7 +363,7 @@
 \newcommand*{\tiexam@printpoints}[1]{%
   (\csname tiexam@problempoints\the\value{#1} \endcsname~\tiexam@pointslabel)%
 }
-\newcommand*{\insertexamproblems}{
+\newcommand*{\tiexam@insertproblems}{
   \setcounter{tiexam@LoopCounter}{0}
   \loop\ifnum\value{tiexam@LoopCounter} < \the\value{tiexam@ProblemCounter}\relax
     \begin{problem}
@@ -281,9 +396,11 @@
   \else
     \tiexam@makecoverpage
   \fi
+  \tiexam@insertproblems
 }
 
 \AtEndDocument{\tiexam@insertemptypages{\tiexam@auxiliarypagecount}}
-
+%    \end{macrocode}
+% \Finale
 \endinput
 

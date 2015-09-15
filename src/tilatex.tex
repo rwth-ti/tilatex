@@ -1,0 +1,65 @@
+\documentclass{ltxdoc}
+
+\usepackage{hyperref}
+\usepackage{parskip}
+
+\usepackage{tidatetime}
+\usepackage{tienv}
+\usepackage{timath}
+\usepackage{tiproblem}
+
+\title{tilatex}
+\author{Niklas Koep \\ \texttt{koep@ti.rwth-aachen.de}}
+
+\hypersetup{colorlinks=true}
+
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+
+\begin{document}
+
+\selectlanguage{english}
+
+\maketitle
+
+\begin{abstract}
+  This document describes a collection of \LaTeX\ packages and classes
+  providing common functionality used at the Institute for Theoretical
+  Information Technology, RWTH Aachen University, Germany.
+\end{abstract}
+
+\section*{Introduction}
+Even though \texttt{tilatex} is designed in a modular fashion, its main use is
+facilitated by the various document classes that ship with \texttt{tilatex}.
+While individual packages often expose user-facing macros, these macros are
+generally intended to be used in conjunction with or by specific document
+classes. It is therefore not recommended to load packages by hand but rather
+base your document on one of the various classes described below. For instance,
+when typesetting a problem sheet for a tutorial, it is recommended to use the
+\texttt{titutorial} class, which automatically loads the \texttt{tiproblem}
+package, rather than loading the package manually. One reason for this is that
+\texttt{titutorial} wraps some of the lower level functionality of
+\texttt{tiproblem} in a more convenient interface for document authors. For
+this reason, the classes provided by \texttt{tilatex} are documented first.
+
+\tableofcontents
+
+% Classes
+\DocInclude{tiarticle}
+\DocInclude{tiexam}
+\DocInclude{titutorial}
+\DocInclude{tithesisnotice}
+
+% Packages
+\DocInclude{tidatetime}
+\DocInclude{tienv}
+% \DocInclude{tiinternal}
+% \DocInclude{timath}
+\DocInclude{tiproblem}
+
+% Examples
+% \DocInclude{examples}
+
+\end{document}
+

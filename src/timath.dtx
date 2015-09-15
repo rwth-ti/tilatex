@@ -1,0 +1,432 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2015 by Niklas Koep <koep@ti.rwth-aachen.de>
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.2
+% of this license or (at your option) any later version.
+% The latest version of this license is in:
+%
+% http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of LaTeX
+% version 1999/12/01 or later.
+%
+% \fi
+%
+% \iffalse
+%<package>\NeedsTeXFormat{LaTeX2e}
+%<package>\ProvidesPackage{timath}
+%<package>[2015/09/13 v0.1 Package of miscellaneous math macros]
+%
+%<*driver>
+\documentclass{ltxdoc}
+\GetFileInfo{timath.dtx}
+\def\@author{Niklas Koep \\ \texttt{koep@ti.rwth-aachen.de}}
+\usepackage{timath}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \title{The \textsf{timath} package\thanks{This document corresponds to
+    \textsf{timath}~\fileversion, last revised on \filedate.}}
+  \author{\@author}
+  \maketitle
+  \DocInput{timath.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \DoNotIndex{\newcommand,\newenvironment}
+%
+% This package provides a variety of mathematical macros used through the TI
+% script, as well as a few necessary additions to compile the problem
+% collection and tutorial sheets.
+%
+% \StopEventually{\PrintIndex}
+%
+% \section{Implementation}
+%    \begin{macrocode}
+\usepackage{amscd,amsfonts,amsmath,amssymb}
+\usepackage{xspace}
+
+\newcommand{\timath@safemath}[2]{\newcommand{#1}{\ensuremath{#2}\xspace}}
+
+% Sets
+\timath@safemath{\setR}{\mathbb{R}}
+\timath@safemath{\setZ}{\mathbb{Z}}
+\timath@safemath{\setN}{\mathbb{N}}
+\timath@safemath{\setQ}{\mathbb{Q}}
+\timath@safemath{\setC}{\mathbb{C}}
+\timath@safemath{\setI}{\mathbb{I}}
+
+\timath@safemath{\calS}{\mathcal{S}}
+\timath@safemath{\calT}{\mathcal{T}}
+\timath@safemath{\calC}{\mathcal{C}}
+\timath@safemath{\calD}{\mathcal{D}}
+\timath@safemath{\calF}{\mathcal{F}}
+
+\timath@safemath{\borelset}{\mathfrak{B}}
+\timath@safemath{\potset}{\mathfrak{P}}
+\timath@safemath{\eventset}{\mathfrak{A}}
+\timath@safemath{\sampleset}{\Omega}
+
+% Discrete signal sets
+\timath@safemath{\sigsetX}{\mathcal{X}}
+\timath@safemath{\sigsetY}{\mathcal{Y}}
+\timath@safemath{\sigsetZ}{\mathcal{Z}}
+\timath@safemath{\sigsetW}{\mathcal{W}}
+\timath@safemath{\sigsetA}{\mathcal{A}}
+\timath@safemath{\sigsetB}{\mathcal{B}}
+\timath@safemath{\sigsetC}{\mathcal{C}}
+
+% Probability distributions
+\DeclareMathOperator{\unidist}{U}
+\DeclareMathOperator{\bindist}{Bin}
+\DeclareMathOperator{\geodist}{Geo}
+\DeclareMathOperator{\poidist}{Poi}
+\DeclareMathOperator{\nordist}{N}
+\DeclareMathOperator{\recdist}{R}
+\DeclareMathOperator{\expdist}{Exp}
+\DeclareMathOperator{\erldist}{Erl}
+\DeclareMathOperator{\raydist}{Ray}
+\DeclareMathOperator{\nakdist}{Nak}
+\DeclareMathOperator{\gamdist}{\Gamma}
+\DeclareMathOperator{\ricdist}{Rice}
+\DeclareMathOperator{\logdist}{LogN}
+\DeclareMathOperator{\cndist}{CN}
+\DeclareMathOperator{\scndist}{SCN}
+
+% Operators and functions
+\DeclareMathOperator{\expop}{E}
+\DeclareMathOperator{\varop}{Var}
+\DeclareMathOperator{\covop}{Cov}
+\DeclareMathOperator{\corop}{Corr}
+% TODO: Replace the one use of this macro in the TI script.
+% \DeclareMathOperator{\idop}{id}
+\DeclareMathOperator{\traop}{tr}
+
+\DeclareMathOperator{\fourop}{\mathfrak{F}}
+
+\DeclareMathOperator{\imag}{Im}
+\DeclareMathOperator{\real}{Re}
+
+\DeclareMathOperator{\herm}{*}
+\DeclareMathOperator{\tran}{'}
+
+\DeclareMathOperator{\sinc}{si}
+
+\DeclareMathOperator{\info}{I}
+\DeclareMathOperator{\transinfo}{I}
+\DeclareMathOperator{\entropy}{H}
+\DeclareMathOperator{\kullback}{D}
+
+\DeclareMathOperator{\ld}{ld}
+
+\DeclareMathOperator{\diag}{diag}
+
+\timath@safemath{\de}{\mathrm{d}}
+\timath@safemath{\snr}{\mathrm{SNR}}
+
+\newcommand{\lefto}{\mathopen{}\left}
+\newcommand{\iid}{i.i.d.\@\xspace}
+
+% Boldface math letters
+\timath@safemath{\bZero}{\mathbf{0}}
+\timath@safemath{\bma}{\mathbf{a}}
+\timath@safemath{\bmb}{\mathbf{b}}
+\timath@safemath{\bmc}{\mathbf{c}}
+\timath@safemath{\bmd}{\mathbf{d}}
+\timath@safemath{\bme}{\mathbf{e}}
+\timath@safemath{\bmf}{\mathbf{f}}
+\timath@safemath{\bmg}{\mathbf{g}}
+\timath@safemath{\bmh}{\mathbf{h}}
+\timath@safemath{\bmi}{\mathbf{i}}
+\timath@safemath{\bmj}{\mathbf{j}}
+\timath@safemath{\bmk}{\mathbf{k}}
+\timath@safemath{\bml}{\mathbf{l}}
+\timath@safemath{\bmm}{\mathbf{m}}
+\timath@safemath{\bmn}{\mathbf{n}}
+\timath@safemath{\bmo}{\mathbf{o}}
+\timath@safemath{\bmp}{\mathbf{p}}
+\timath@safemath{\bmq}{\mathbf{q}}
+\timath@safemath{\bmr}{\mathbf{r}}
+\timath@safemath{\bms}{\mathbf{s}}
+\timath@safemath{\bmt}{\mathbf{t}}
+\timath@safemath{\bmu}{\mathbf{u}}
+\timath@safemath{\bmv}{\mathbf{v}}
+\timath@safemath{\bmw}{\mathbf{w}}
+\timath@safemath{\bmx}{\mathbf{x}}
+\timath@safemath{\bmy}{\mathbf{y}}
+\timath@safemath{\bmz}{\mathbf{z}}
+\timath@safemath{\bmnu}{\mathbf{\nu}}
+
+% Symbol definitions as used in the TI script (also see
+% http://latex-project.org/guides/fntguide.pdf):
+%   - OML == font encoding (TeX math italic)
+%   - cmm == font family (computer modern math italic)
+%   - b == font series (bold)
+%   - it == font shape (italic)
+
+% Boldface italic math letters
+\DeclareSymbolFont{BoldMath}{OML}{cmm}{b}{it}
+\DeclareMathSymbol{\boa}{\mathalpha}{BoldMath}{'141}
+\DeclareMathSymbol{\bob}{\mathalpha}{BoldMath}{'142}
+\DeclareMathSymbol{\boc}{\mathalpha}{BoldMath}{'143}
+\DeclareMathSymbol{\bod}{\mathalpha}{BoldMath}{'144}
+\DeclareMathSymbol{\boe}{\mathalpha}{BoldMath}{'145}
+\DeclareMathSymbol{\bog}{\mathalpha}{BoldMath}{'147}
+\DeclareMathSymbol{\boh}{\mathalpha}{BoldMath}{'150}
+\DeclareMathSymbol{\bom}{\mathalpha}{BoldMath}{'155}
+\DeclareMathSymbol{\bon}{\mathalpha}{BoldMath}{'156}
+\DeclareMathSymbol{\bop}{\mathalpha}{BoldMath}{'160}
+\DeclareMathSymbol{\boq}{\mathalpha}{BoldMath}{'161}
+\DeclareMathSymbol{\bor}{\mathalpha}{BoldMath}{'162}
+\DeclareMathSymbol{\bos}{\mathalpha}{BoldMath}{'163}
+\DeclareMathSymbol{\bot}{\mathalpha}{BoldMath}{'164}
+\DeclareMathSymbol{\bou}{\mathalpha}{BoldMath}{'165}
+\DeclareMathSymbol{\bov}{\mathalpha}{BoldMath}{'166}
+\DeclareMathSymbol{\bow}{\mathalpha}{BoldMath}{'167}
+\DeclareMathSymbol{\boxx}{\mathalpha}{BoldMath}{'170}
+\DeclareMathSymbol{\boy}{\mathalpha}{BoldMath}{'171}
+\DeclareMathSymbol{\boz}{\mathalpha}{BoldMath}{'172}
+\DeclareMathSymbol{\bolambda}{\mathalpha}{BoldMath}{'025}
+\DeclareMathSymbol{\bomu}{\mathalpha}{BoldMath}{'026}
+\DeclareMathSymbol{\bonu}{\mathalpha}{BoldMath}{'027}
+
+% Boldface italic capital math letters
+\DeclareMathSymbol{\boA}{\mathalpha}{BoldMath}{'101}
+\DeclareMathSymbol{\boB}{\mathalpha}{BoldMath}{'102}
+\DeclareMathSymbol{\boC}{\mathalpha}{BoldMath}{'103}
+\DeclareMathSymbol{\boD}{\mathalpha}{BoldMath}{'104}
+\DeclareMathSymbol{\boE}{\mathalpha}{BoldMath}{'105}
+\DeclareMathSymbol{\boF}{\mathalpha}{BoldMath}{'106}
+\DeclareMathSymbol{\boG}{\mathalpha}{BoldMath}{'107}
+\DeclareMathSymbol{\boH}{\mathalpha}{BoldMath}{'110}
+\DeclareMathSymbol{\boI}{\mathalpha}{BoldMath}{'111}
+\DeclareMathSymbol{\boK}{\mathalpha}{BoldMath}{'113}
+\DeclareMathSymbol{\boM}{\mathalpha}{BoldMath}{'115}
+\DeclareMathSymbol{\boO}{\mathalpha}{BoldMath}{'117}
+\DeclareMathSymbol{\boP}{\mathalpha}{BoldMath}{'120}
+\DeclareMathSymbol{\boQ}{\mathalpha}{BoldMath}{'121}
+\DeclareMathSymbol{\boR}{\mathalpha}{BoldMath}{'122}
+\DeclareMathSymbol{\boS}{\mathalpha}{BoldMath}{'123}
+\DeclareMathSymbol{\boT}{\mathalpha}{BoldMath}{'124}
+\DeclareMathSymbol{\boU}{\mathalpha}{BoldMath}{'125}
+\DeclareMathSymbol{\boV}{\mathalpha}{BoldMath}{'126}
+\DeclareMathSymbol{\boW}{\mathalpha}{BoldMath}{'127}
+\DeclareMathSymbol{\boX}{\mathalpha}{BoldMath}{'130}
+\DeclareMathSymbol{\boY}{\mathalpha}{BoldMath}{'131}
+\DeclareMathSymbol{\boZ}{\mathalpha}{BoldMath}{'132}
+
+% Boldface capital math letters
+\timath@safemath{\bA}{\mathbf{A}}
+\timath@safemath{\bB}{\mathbf{B}}
+\timath@safemath{\bC}{\mathbf{C}}
+\timath@safemath{\bD}{\mathbf{D}}
+\timath@safemath{\bE}{\mathbf{E}}
+\timath@safemath{\bF}{\mathbf{F}}
+\timath@safemath{\bG}{\mathbf{G}}
+\timath@safemath{\bH}{\mathbf{H}}
+\timath@safemath{\bI}{\mathbf{I}}
+\timath@safemath{\bJ}{\mathbf{J}}
+\timath@safemath{\bK}{\mathbf{K}}
+\timath@safemath{\bL}{\mathbf{L}}
+\timath@safemath{\bM}{\mathbf{M}}
+\timath@safemath{\bN}{\mathbf{N}}
+\timath@safemath{\bO}{\mathbf{O}}
+\timath@safemath{\bP}{\mathbf{P}}
+\timath@safemath{\bQ}{\mathbf{Q}}
+\timath@safemath{\bR}{\mathbf{R}}
+\timath@safemath{\bS}{\mathbf{S}}
+\timath@safemath{\bT}{\mathbf{T}}
+\timath@safemath{\bU}{\mathbf{U}}
+\timath@safemath{\bV}{\mathbf{V}}
+\timath@safemath{\bW}{\mathbf{W}}
+\timath@safemath{\bX}{\mathbf{X}}
+\timath@safemath{\bY}{\mathbf{Y}}
+\timath@safemath{\bZ}{\mathbf{Z}}
+\timath@safemath{\bSigma}{\mathbf{\Sigma}}
+\timath@safemath{\bLambda}{\mathbf{\Lambda}}
+\timath@safemath{\bGamma}{\mathbf{\Gamma}}
+\timath@safemath{\bOne}{\mathbf{1}}
+\timath@safemath{\bPi}{\mathbf{\Pi}}
+
+% Matrices
+\timath@safemath{\matA}{\boA}
+\timath@safemath{\matB}{\boB}
+\timath@safemath{\matC}{\boC}
+\timath@safemath{\matD}{\boD}
+\timath@safemath{\matE}{\boE}
+\timath@safemath{\matF}{\boF}
+\timath@safemath{\matG}{\boG}
+\timath@safemath{\matH}{\boH}
+\timath@safemath{\matI}{\boI}
+\timath@safemath{\matJ}{\boJ}
+\timath@safemath{\matK}{\boK}
+\timath@safemath{\matL}{\boL}
+\timath@safemath{\matM}{\boM}
+\timath@safemath{\matN}{\boN}
+\timath@safemath{\matO}{\boO}
+\timath@safemath{\matP}{\boP}
+\timath@safemath{\matQ}{\boQ}
+\timath@safemath{\matR}{\boR}
+\timath@safemath{\matS}{\boS}
+\timath@safemath{\matT}{\boT}
+\timath@safemath{\matU}{\boU}
+\timath@safemath{\matV}{\boV}
+\timath@safemath{\matW}{\boW}
+\timath@safemath{\matX}{\boX}
+\timath@safemath{\matY}{\boY}
+\timath@safemath{\matZ}{\boZ}
+\timath@safemath{\matZero}{\bZero}
+\timath@safemath{\matSigma}{\bSigma}
+\timath@safemath{\matLambda}{\bLambda}
+\timath@safemath{\matGamma}{\bGamma}
+\timath@safemath{\matOne}{\bOne}
+\timath@safemath{\matPi}{\bPi}
+
+% Vectors
+\timath@safemath{\veca}{\boa}
+\timath@safemath{\vecb}{\bob}
+\timath@safemath{\vecc}{\boc}
+\timath@safemath{\vecd}{\bod}
+\timath@safemath{\vece}{\boe}
+\timath@safemath{\vecf}{\bof}
+\timath@safemath{\vecg}{\bog}
+\timath@safemath{\vech}{\boh}
+\timath@safemath{\veci}{\boi}
+\timath@safemath{\vecj}{\boj}
+\timath@safemath{\veck}{\bok}
+\timath@safemath{\vecl}{\bol}
+\timath@safemath{\vecm}{\bom}
+\timath@safemath{\vecn}{\bon}
+\timath@safemath{\veco}{\boo}
+\timath@safemath{\vecp}{\bop}
+\timath@safemath{\vecq}{\boq}
+\timath@safemath{\vecr}{\bor}
+\timath@safemath{\vecs}{\bos}
+\timath@safemath{\vect}{\bot}
+\timath@safemath{\vecu}{\bou}
+\timath@safemath{\vecv}{\bov}
+\timath@safemath{\vecw}{\bow}
+\timath@safemath{\vecx}{\boxx}
+\timath@safemath{\vecy}{\boy}
+\timath@safemath{\vecz}{\boz}
+\timath@safemath{\veczero}{\bZero}
+\timath@safemath{\veclambda}{\bolambda}
+\timath@safemath{\vecmu}{\bomu}
+\timath@safemath{\vecnu}{\bonu}
+
+% Random vectors
+\timath@safemath{\rvecA}{\boA}
+\timath@safemath{\rvecB}{\boB}
+\timath@safemath{\rvecC}{\boC}
+\timath@safemath{\rvecD}{\boD}
+\timath@safemath{\rvecE}{\boE}
+\timath@safemath{\rvecF}{\boF}
+\timath@safemath{\rvecG}{\boG}
+\timath@safemath{\rvecH}{\boH}
+\timath@safemath{\rvecI}{\boI}
+\timath@safemath{\rvecJ}{\boJ}
+\timath@safemath{\rvecK}{\boK}
+\timath@safemath{\rvecL}{\boL}
+\timath@safemath{\rvecM}{\boM}
+\timath@safemath{\rvecN}{\boN}
+\timath@safemath{\rvecO}{\boO}
+\timath@safemath{\rvecP}{\boP}
+\timath@safemath{\rvecQ}{\boQ}
+\timath@safemath{\rvecR}{\boR}
+\timath@safemath{\rvecS}{\boS}
+\timath@safemath{\rvecT}{\boT}
+\timath@safemath{\rvecU}{\boU}
+\timath@safemath{\rvecV}{\boV}
+\timath@safemath{\rvecW}{\boW}
+\timath@safemath{\rvecX}{\boX}
+\timath@safemath{\rvecY}{\boY}
+\timath@safemath{\rvecZ}{\boZ}
+\timath@safemath{\rvecZero}{\bZero}
+
+% Probability vectors
+\timath@safemath{\probp}{\bmp}
+\timath@safemath{\probq}{\bmq}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ADDITIONAL MACROS NOT USED IN THE TI SCRIPT %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% TODO: Implement the macros below on top of the math macros from the TI
+%       script.
+
+% Vector/matrix operators
+\newcommand*{\conj}{^\ast} % Conjugate
+\newcommand*{\transp}{'} % Transpose
+\newcommand*{\inv}{^{-1}} % Inverse
+
+\newcommand*{\probop}{P} % Probability measure
+\DeclareMathOperator{\pcovop}{PCov}
+\DeclareMathOperator{\sgnop}{sgn}
+\DeclareMathOperator{\entop}{H}
+\DeclareMathOperator{\miop}{I}
+\DeclareMathOperator{\kulop}{D} % Kullback-Leibler divergence
+\DeclareMathOperator{\transop}{I} % Transinformation (mutual information)
+
+\DeclareMathOperator{\rdist}{R}
+\newcommand*{\Bin}[2]{\ensuremath{\operatorname{Bin}\left(#1,#2\right)}}
+\newcommand*{\Corr}[2]{\ensuremath{\operatorname{Corr}\left(#1,#2\right)}}
+\newcommand*{\Cov}[2]{\ensuremath{\operatorname{Cov}\left(#1,#2\right)}}
+\newcommand*{\Erl}[2]{\ensuremath{\operatorname{Erl}\left(#1,#2\right)}}
+\newcommand*{\Exp}[1]{\ensuremath{\operatorname{Exp}\left(#1\right)}}
+\newcommand*{\Geo}[1]{\ensuremath{\operatorname{Geo}\left(#1\right)}}
+\newcommand*{\Nak}[2]{\ensuremath{\operatorname{Nak}\left(#1,#2\right)}}
+\newcommand*{\Nor}[2]{\ensuremath{\operatorname{N}\left(#1,#2\right)}}
+\newcommand*{\Poi}[1]{\ensuremath{\operatorname{Poi}\left(#1\right)}}
+\newcommand*{\Ray}[1]{\ensuremath{\operatorname{Ray}\left(#1\right)}}
+\newcommand*{\Var}[1]{\ensuremath{\operatorname{Var}\left(#1\right)}}
+
+% Sets/fields
+\newcommand*{\C}{\ensuremath{\mathbb{C}}}
+\newcommand*{\F}{\ensuremath{\mathbb{F}}}
+\newcommand*{\N}{\ensuremath{\mathbb{N}}}
+\newcommand*{\R}{\ensuremath{\mathbb{R}}}
+\newcommand*{\RR}{\mathbb{R}}
+\newcommand*{\Rn}{\ensuremath{\mathbb{R}_-}}
+\newcommand*{\Rp}{\ensuremath{\mathbb{R}_+}}
+\newcommand*{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand*{\cC}{\ensuremath{\mathcal{C}}}
+\newcommand*{\cK}{\ensuremath{\mathcal{K}}}
+\newcommand*{\cM}{\ensuremath{\mathcal{M}}}
+\newcommand*{\cS}{\ensuremath{\mathcal{S}}}
+\newcommand*{\cT}{\ensuremath{\mathcal{T}}}
+\newcommand*{\cX}{\ensuremath{\mathcal{X}}}
+\newcommand*{\cY}{\ensuremath{\mathcal{Y}}}
+\newcommand*{\GF}{\mathbb{G}F}
+
+\DeclareMathOperator{\repart}{Re}
+\DeclareMathOperator{\impart}{Im}
+
+\newcommand{\abs}[1]{\ensuremath{\left|#1\right|}}
+
+\newcommand*{\Are}{\repart(\matA)}
+\newcommand*{\Aim}{\impart(\matA)}
+\newcommand*{\Ainvre}{\repart(\matA^{-1})}
+\newcommand*{\Ainvim}{\impart(\matA^{-1})}
+\newcommand*{\Bre}{\repart(\matB)}
+\newcommand*{\Bim}{\impart(\matB)}
+\newcommand*{\Binvre}{\repart(\matB^{-1})}
+\newcommand*{\Binvim}{\impart(\matB^{-1})}
+\newcommand*{\ABre}{\repart(\matA\matB)}
+\newcommand*{\ABim}{\impart(\matA\matB)}
+
+\DeclareMathSymbol{\bozero}{\mathalpha}{BoldMath}{'060}
+
+% XXX: This defines |\idop| as the indicator function, rather than the identity
+%      map.
+\DeclareMathOperator{\idop}{\mathbb{I}}
+%    \end{macrocode}
+%
+% \Finale
+\endinput
+

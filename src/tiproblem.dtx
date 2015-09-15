@@ -1,0 +1,256 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2015 by Niklas Koep <koep@ti.rwth-aachen.de>
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.2
+% of this license or (at your option) any later version.
+% The latest version of this license is in:
+%
+% http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of LaTeX
+% version 1999/12/01 or later.
+%
+% \fi
+%
+% \iffalse
+%<package>\NeedsTeXFormat{LaTeX2e}
+%<package>\ProvidesPackage{tiproblem}
+%<package>[2015/09/13 v0.1 Package of miscellaneous environments]
+%
+%<*driver>
+\documentclass{ltxdoc}
+\GetFileInfo{tiproblem.dtx}
+\def\@author{Niklas Koep \\ \texttt{koep@ti.rwth-aachen.de}}
+\usepackage{tiproblem}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \title{The \textsf{tiproblem} package\thanks{This document corresponds to
+    \textsf{tiproblem}~\fileversion, last revised on \filedate.}}
+  \author{\@author}
+  \maketitle
+  \DocInput{tiproblem.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \DoNotIndex{\newcommand,\newenvironment}
+%
+% This package implements various macros and environments to typeset problems
+% and sample solutions for tutorials and exams. Additionally, it provides a set
+% of macros that can be used to compile problem collection documents where
+% sample solutions immediately follow problem descriptions.
+%
+% \section{Package Options}
+% \DescribeMacro{english}
+% This option makes sure any labels produced by macros of this package are
+% properly translated to English.
+%
+% \section{Environments}
+% \DescribeEnv{problem}
+% The |problem| environment is used to typeset problem descriptions. The
+% problem text inside this environment is prefixed by a generic label and the
+% current value of the internal problem counter (cf. |\setproblemnumber|).
+%
+% \DescribeEnv{solution}
+% The |solution| environment is the counterpart to the |problem| environment
+% for typesetting solutions. Note that this environment uses its own internal
+% counter which can be adjusted by hand if necessary (cf.
+% |\setsolutionnumber|).
+%
+% \section{Macros}
+% \DescribeMacro{\setproblemnumber}
+% The |\setproblemnumber|\marg{number} macro can be used to modify the internal
+% problem counter. By default, the counter starts at $1$. This macro is
+% intended to be used if the problem count is suppposed to continuously
+% increase across problem sheets as the semester progresses rather than being
+% reset to $1$ for every problem sheet.
+%
+% \DescribeMacro{\setsolutionnumber}
+% This macro behaves like |\setproblemnumber|, but modifies the internal
+% solution counter instead of the problem counter.
+%
+% Note that the previous two macros only take effect if they are invoked in the
+% document preamble as their values are expanded inside the |\AtBeginDocument|
+% hook.
+%
+% \DescribeMacro{\setbasepath}
+% For the TI lecture, all available problems and sample solutions are collected
+% in a master document to ease the selection of problems for individual
+% tutorial sessions. Each problem is contained in a dedicated file that resides
+% in a folder whose name is of the form |sectionXX|, where |XX| denotes some
+% section number. In order to include problems and sample solutions straight
+% from the problem collection when typesetting problem sheets, the |tiproblem|
+% package needs to know where to look for problem files. This is achieved with
+% the |\setbasepath|\marg{path} macro which is used to point the package to the
+% root directory of a problem collection tree.
+%
+% \DescribeMacro{\setsearchpath}
+% When a problem and its solution are not part of a problem collection, it is
+% possible to directly include \LaTeX\ files containing problem descriptions or
+% sample solutions by using the |\insertproblemfromfile| or
+% |\insertsolutionfromfile| macro, respectively (see below). By default, these
+% files are assumed to reside in the same directory as the current document.
+% The |\setsearchpath|\marg{path} macro can be used to modify this search path
+% to allow including files from arbitrary directories.
+%
+% \DescribeMacro{\setsolutionsuffix}
+% Assume that the \LaTeX\ source code for a problem is contained in the file
+% |section13/012.tex| inside the master document directory tree. When
+% typesetting the master document, it is assumed that the sample solution for
+% this problem is located at |section13/012|\marg{suffix}|.tex|, where
+% \marg{suffix} denotes the suffix of solution documents. By default, this
+% suffix is |-solution| (note the leading dash). If a problem collection uses a
+% different naming convention, the |\setsolutionsuffix|\marg{suffix} macro can
+% be used to adjust the suffix accordingly.
+%
+% \DescribeMacro{\insertproblem}
+% The |\insertproblem|\marg{section}\marg{problem} macro inserts problem
+% \meta{problem}|.tex| from section \meta{section} of a problem collection into
+% the document. The macro fails gracefully if presented with an invalid
+% \meta{section}-\meta{problem} pair and outputs an error message in place of
+% the problem text.
+%
+% \DescribeMacro{\insertproblemfromfile}
+% By invoking |\insertproblemfromfile|\marg{filename}, the contents of the file
+% \meta{filename}|.tex| can be directly included in the document without being
+% part of a problem collection (cf. |\setsearchpath|).
+%
+% \DescribeMacro{\insertsolution}
+% The |\insertsolution|\marg{section}\marg{problem} macro inserts the solution
+% to problem \meta{problem} of section \meta{section} of a problem collection.
+% Similar to the behavior of |\insertproblem|, this macro also fails
+% gracefully.
+%
+% \DescribeMacro{\insertsolutionfromfile}
+% The |\insertsolutionfromfile|\marg{filename} macro is the natural counterpart
+% of the |\insertproblemfromfile| macro. It loads a sample solution from
+% \meta{filename}\meta{-suffix}|.tex| found in the directory configured through
+% |\setbasepath|.
+%
+% \StopEventually{\PrintIndex}
+%
+% \section{Implementation}
+%    \begin{macrocode}
+\usepackage{tienv}
+\usepackage{timath}
+
+\def\tiproblem@problemlabel{Aufgabe}
+\def\tiproblem@solutionlabel{Lösung zu Aufgabe}
+\DeclareOption{english}{
+  \def\tiproblem@problemlabel{Problem}
+  \def\tiproblem@solutionlabel{Solution of Problem}
+}
+\ProcessOptions\relax
+
+\newcounter{tiproblem@ProblemCounter}[section]
+\newcounter{tiproblem@SolutionCounter}[section]
+
+\newenvironment{problem}{%
+  \stepcounter{tiproblem@ProblemCounter}%
+  \par%
+  \textsf{%
+    \pagebreak[3]%
+    \textbf{\tiproblem@problemlabel\ \thetiproblem@ProblemCounter.}%
+  }%
+}{\vspace*{1cm}\par}
+
+\newenvironment{solution}{%
+  \stepcounter{tiproblem@SolutionCounter}%
+  \par%
+  \textsf{%
+    \pagebreak[3]%
+    \textbf{%
+      \large{\tiproblem@solutionlabel\ \thetiproblem@SolutionCounter}%
+    }%
+  } \\[2mm]
+}{\vspace*{1cm}\par}
+
+%    \end{macrocode}
+% Our counters are zero-based and incremented before they're evaluated. Hence
+% the |#1-1| in the commands below. Note that arithmetic expressions like
+% |#1-1| are made possible by the |calc| package included above.
+%    \begin{macrocode}
+\newcommand*{\setproblemnumber}[1]{%
+  \setcounter{tiproblem@ProblemCounter}{#1-1}%
+}
+\newcommand*{\setsolutionnumber}[1]{%
+  \setcounter{tiproblem@SolutionCounter}{#1-1}%
+}
+
+\newcommand{\setbasepath}[1]{\def\tiproblem@basepath{#1}}
+\setbasepath{.}
+
+\newcommand{\setsearchpath}[1]{\def\tiproblem@searchpath{#1}}
+\setsearchpath{.}
+
+\newcommand{\setsolutionsuffix}[1]{\def\tiproblem@solutionsuffix{#1}}
+\setsolutionsuffix{-solution}
+
+\newcommand{\insertproblem}[2]{
+  \def\tiproblem@exercisepath{\tiproblem@basepath/section#1/#2.tex}
+  \begin{problem}
+    \IfFileExists{\tiproblem@exercisepath}{
+      \subimport{\tiproblem@basepath/section#1/}{#2.tex}
+    }{
+      \begin{center}
+        \textbf{-- \tiproblem@exercisepath\ not found --}
+      \end{center}
+    }
+  \end{problem}
+}
+
+\newcommand{\insertproblemfromfile}[1]{
+  \begin{problem}
+    \subimport{\tiproblem@searchpath/}{#1.tex}
+  \end{problem}
+}
+
+\newcommand{\insertsolution}[2]{
+  \def\tiproblem@solutionpath{%
+    \tiproblem@basepath/section#1/#2\tiproblem@solutionsuffix.tex%
+  }
+  \begin{solution}
+    \IfFileExists{\tiproblem@solutionpath}{
+      \subimport{\tiproblem@basepath/section#1/}{%
+        #2\tiproblem@solutionsuffix.tex%
+      }
+    }{
+      \begin{center}
+        \textbf{-- \tiproblem@solutionpath\ not found --}
+      \end{center}
+    }
+  \end{solution}
+}
+
+\newcommand{\insertsolutionfromfile}[1]{
+  \begin{solution}
+    \subimport{\tiproblem@searchpath/}{#1\tiproblem@solutionsuffix.tex}
+  \end{solution}
+}
+
+% TODO: Move this to tiproblems.{dtx,cls}
+\newcommand{\insertproblemandsolution}[2]{
+  \def\tiproblem@exercisepath{\tiproblem@basepath/section#1/#2.tex}
+  \def\tiproblem@solutionpath{%
+    \tiproblem@basepath/section#1/#2\tiproblem@solutionsuffix.tex%
+  }
+  \IfFileExists{\tiproblem@exercisepath}{
+    \textit{{\tiproblem@exercisepath}:} \\
+    \insertproblem{#1}{#2}
+    \textit{{\tiproblem@solutionpath}:} \\
+    \insertsolution{#1}{#2}
+    \noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}%
+    \vspace{1cm}
+  }{}
+}
+%    \end{macrocode}
+%
+% \Finale
+\endinput
+

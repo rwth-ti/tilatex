@@ -1,0 +1,134 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2015 by Niklas Koep <koep@ti.rwth-aachen.de>
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.2
+% of this license or (at your option) any later version.
+% The latest version of this license is in:
+%
+% http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of LaTeX
+% version 1999/12/01 or later.
+%
+% \fi
+%
+% \iffalse
+%<package>\NeedsTeXFormat{LaTeX2e}
+%<package>\ProvidesPackage{tidatetime}
+%<package>[2015/09/13 v0.1 Package of miscellaneous environments]
+%
+%<*driver>
+\documentclass{ltxdoc}
+\GetFileInfo{tidatetime.dtx}
+\def\@author{Niklas Koep \\ \texttt{koep@ti.rwth-aachen.de}}
+\usepackage{tidatetime}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \title{The \textsf{tidatetime} package\thanks{This document corresponds to
+    \textsf{tidatetime}~\fileversion, last revised on \filedate.}}
+  \author{\@author}
+  \maketitle
+  \DocInput{tidatetime.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \DoNotIndex{\newcommand,\newenvironment}
+%
+% This package serves as a simple helper package to format date and time
+% strings. As such, it only exposes a single user-facing interface. The
+% provided information is then used internally to ease typesetting of problem
+% sheets and exam documents.
+%
+% \section{Package Options}
+% \DescribeMacro{english}
+% This option causes internal date strings to be formatted in a way that is
+% customary in English texts.
+%
+% \section{Macros}
+% \DescribeMacro{\setdate}
+% The |\setdate|\marg{day}\marg{month}\marg{year} macro is used to set the
+% internal date of the document. This information is needed when typesetting
+% date strings for exams and tutorial sheets.
+%
+% \DescribeMacro{\settime}
+% The |\settime|\marg{hour}\marg{minute} macro is used to set the internal time
+% of the document. This information is currently only needed when typesetting
+% exams.
+%
+% \DescribeMacro{\insertdate}
+% Insert the formatted date string.
+%
+% \DescribeMacro{\inserttime}
+% Insert the formatted time string.
+%
+% \StopEventually{\PrintIndex}
+%
+% \section{Implementation}
+%    \begin{macrocode}
+\newif\iftidatetime@english
+\tidatetime@englishfalse
+\DeclareOption{english}{
+  \tidatetime@englishtrue
+}
+\ProcessOptions\relax
+
+\usepackage{tiinternal}
+
+\renewcommand{\amname}{a.m.}
+\renewcommand{\pmname}{p.m.}
+
+\iftidatetime@english
+  \newdateformat{tidatetime@examdateformat}{%
+    \dayofweekname{\THEDAY}{\THEMONTH}{\THEYEAR},~%
+    \monthname[\THEMONTH]~{\THEDAY},~\THEYEAR%
+  }
+  \def\tidatetime@setdateformat{\tidatetime@examdateformat}
+  \newtimeformat{tidatetime@timeformat}{%
+    \twodigit{\THEHOURXII}:\twodigit{\THEMINUTE}~\amorpmname%
+  }
+  \settimeformat{tidatetime@timeformat}
+\else
+  \newdateformat{tidatetime@examdateformat}{%
+    \dayofweekname{\THEDAY}{\THEMONTH}{\THEYEAR},~%
+    \twodigit{\THEDAY}.~\monthname[\THEMONTH]~\THEYEAR%
+  }
+  \def\tidatetime@setdateformat{\tidatetime@examdateformat}
+  \newtimeformat{tidatetime@timeformat}{%
+    \twodigit{\THEHOUR}:\twodigit{\THEMINUTE}~Uhr%
+  }
+  \settimeformat{tidatetime@timeformat}
+\fi
+
+\newcommand*{\setdate}[3]{
+  \def\tidatetime@day{#1}
+  \def\tidatetime@month{#2}
+  \def\tidatetime@year{#3}
+}
+\setdate{1}{1}{1970}
+
+\newcommand*{\settime}[2]{
+  \def\tidatetime@hour{#1}
+  \def\tidatetime@minute{#2}
+}
+\settime{0}{0}
+
+\newcommand*{\insertdate}{%
+  \tidatetime@setdateformat%
+  \formatdate{\tidatetime@day}{\tidatetime@month}{\tidatetime@year}%
+}
+
+\newcommand*{\inserttime}{%
+  \formattime{\tidatetime@hour}{\tidatetime@minute}{00}%
+}
+%    \end{macrocode}
+%
+% \Finale
+\endinput
+

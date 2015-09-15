@@ -1,0 +1,166 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2015 by Niklas Koep <koep@ti.rwth-aachen.de>
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.2
+% of this license or (at your option) any later version.
+% The latest version of this license is in:
+%
+% http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of LaTeX
+% version 1999/12/01 or later.
+%
+% \fi
+%
+% \iffalse
+%<*driver>
+\ProvidesFile{titutorial.dtx}
+%</driver>
+%<class>\NeedsTeXFormat{LaTeX2e}
+%<class>\ProvidesClass{titutorial}
+%<*class>
+  [2015/09/13 v0.1 Base class for all tilatex classes]
+%</class>
+%<*driver>
+\documentclass{ltxdoc}
+\GetFileInfo{titutorial.dtx}
+\def\@author{Niklas Koep \\ \texttt{koep@ti.rwth-aachen.de}}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \title{The \textsf{titutorial} class\thanks{This document corresponds to
+    \textsf{titutorial}~\fileversion, dated \filedate.}}
+  \author{\@author}
+  \maketitle
+  \DocInput{titutorial.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \GetFileInfo{titutorial.dtx}
+%
+% \DoNotIndex{\newcommand,\newenvironment}
+%
+% This class is used to typeset problem and sample solution sheets for tutorial
+% sessions.
+%
+% \section{Class Options}
+% \DescribeMacro{english}
+% This option is intended to be used for problem sheets of English lectures.
+% It causes proper translations to be inserted in place of static labels.
+% Additionally, the option is passed on to any packages which may need to
+% adjust their behavior based on the selected language.
+%
+% \DescribeMacro{review}
+% This option is intended to typeset problem sheets for review tutorials. It
+% causes the regular tutorial header to be replaced by a header indicating the
+% fact that the problem sheet belongs to a review tutorial session.
+%
+% \DescribeMacro{solution}
+% Specifying this option will produce an additional label in the document
+% header to indicate that the document contains proposed solutions for a
+% problem sheet. Moreover, it causes sample solutions to be loaded in place of
+% problem descriptions when inserted via |\inserttext| or |\insertfile| (see
+% below).
+%
+% \section{Macros}
+% \DescribeMacro{\settutorialnumber}
+% The macro |\settutorialnumber|\marg{number} adjusts the internal tutorial
+% counter to specify the current tutorial session. This number gets included in
+% the document header to make it easier to distinguish problem sheets of
+% different sessions.
+%
+% \DescribeMacro{\inserttext}
+% Depending on whether the |solution| option was passed to the document class,
+% the macro |\inserttext|\marg{section}\marg{problem} either inserts problem
+% \meta{problem} or its solution from section \meta{section} of the problem
+% collection.
+%
+% \DescribeMacro{\insertfile}
+% Depending on whether the |solution| option was passed to the document class,
+% the macro |\insertfile|\marg{filename} either inserts the problem from file
+% \meta{filename}|.tex| or its solution \meta{filename}\meta{suffix}|.tex| (cf.
+% |\setsearchpath| and |\setsolutionsuffix| of the |tiproblem| package).
+%
+% \StopEventually{\PrintIndex}
+%
+% \section{Implementation}
+%    \begin{macrocode}
+\newif\iftitutorial@english
+\titutorial@englishfalse
+\DeclareOption{english}{
+  \titutorial@englishtrue
+  \PassOptionsToPackage{\CurrentOption}{tidatetime}
+  \PassOptionsToPackage{\CurrentOption}{tiproblem}
+  \PassOptionsToClass{\CurrentOption}{tiarticle}
+}
+
+\def\titutorial@titleprefix{%
+  \titutorial@tutoriallabel\ \thetitutorial@TutorialCounter%
+}
+\DeclareOption{review}{
+  \def\titutorial@titleprefix{%
+    \titutorial@reviewlabel
+  }
+}
+
+\def\inserttext{\insertproblem}
+\def\insertfile{\insertproblemfromfile}
+\newif\iftitutorial@solution
+\titutorial@solutionfalse
+\DeclareOption{solution}{
+  \titutorial@solutiontrue
+  % TODO: Do this conditionally inside of the macros.
+  \def\inserttext{\insertsolution}
+  \def\insertfile{\insertsolutionfromfile}
+}
+
+\DeclareOption*{\ClassWarning{titutorial}{Unknown option '\CurrentOption'}}
+\ProcessOptions\relax
+
+\LoadClass[12pt]{tiarticle}
+
+\usepackage{tidatetime}
+\usepackage{tiproblem}
+%    \end{macrocode}
+% We have to defer using unicode characters until this point to make sure the
+% |inputenc| package was loaded.
+%    \begin{macrocode}
+\def\titutorial@tutoriallabel{Übung}
+\def\titutorial@reviewlabel{Zusatzübung}
+\def\titutorial@proposedsolutionlabel{Lösungsvorschlag}
+\iftitutorial@english
+  \def\titutorial@tutoriallabel{Tutorial}
+  \def\titutorial@reviewlabel{Review}
+  \def\titutorial@proposedsolutionlabel{Proposed Solution}
+\fi
+%    \end{macrocode}
+% Define the tutorial counter. Note that it is never actually incremented with
+% |\stepcounter| but set manually for each tutorial.
+%    \begin{macrocode}
+\newcounter{titutorial@TutorialCounter}
+
+\newcommand{\settutorialnumber}[1]{\setcounter{titutorial@TutorialCounter}{#1}}
+
+\def\titutorial@insertheader{
+  \parbox{\textwidth}{%
+    \centering%
+    \LARGE \titutorial@titleprefix \\
+    \iftitutorial@solution
+      - \titutorial@proposedsolutionlabel\ - \\[2mm]
+    \fi
+    \normalsize \insertdate%
+  }%
+  \tiinternal@contentvpadding
+}
+
+\AtBeginDocument{\titutorial@insertheader}
+%    \end{macrocode}
+% \Finale
+\endinput
+

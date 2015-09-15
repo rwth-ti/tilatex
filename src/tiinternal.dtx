@@ -1,0 +1,128 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2015 by Niklas Koep <koep@ti.rwth-aachen.de>
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.2
+% of this license or (at your option) any later version.
+% The latest version of this license is in:
+%
+% http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of LaTeX
+% version 1999/12/01 or later.
+%
+% \fi
+%
+% \iffalse
+%<package>\NeedsTeXFormat{LaTeX2e}
+%<package>\ProvidesPackage{tiinternal}
+%<package>[2015/09/13 v0.1 Package of miscellaneous environments]
+%
+%<*driver>
+\documentclass{ltxdoc}
+\GetFileInfo{tiinternal.dtx}
+\def\@author{Niklas Koep \\ \texttt{koep@ti.rwth-aachen.de}}
+\usepackage{tiinternal}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \title{The \textsf{tiinternal} package\thanks{This document corresponds to
+    \textsf{tiinternal}~\fileversion, last revised on \filedate.}}
+  \author{\@author}
+  \maketitle
+  \DocInput{tiinternal.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \DoNotIndex{\newcommand,\newenvironment}
+%
+% This package imports a basic set of package dependencies needed throughout
+% different parts of |tilatex|. It is also used to define hyphenation rules for
+% words which are possibly unknown to |babel|.
+%
+% \StopEventually{\PrintIndex}
+%
+% \section{Implementation}
+% Input/font encoding and fonts
+%    \begin{macrocode}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{fix-cm}
+\usepackage{microtype}
+%    \end{macrocode}
+% Language settings
+%    \begin{macrocode}
+\usepackage[english,ngerman]{babel}
+\usepackage{ngerman}
+%    \end{macrocode}
+% Graphics
+%    \begin{macrocode}
+\usepackage{xcolor}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{arrows,matrix,positioning,patterns}
+%    \end{macrocode}
+% Misc
+%    \begin{macrocode}
+\usepackage{import}       % Import .tex files
+\usepackage{xparse}       % Proper support for optional arguments in macros
+\usepackage{nicefrac}     % Nice fractions
+\usepackage{calc}         % Support for basic arithmetic in latex
+\usepackage{polynom}      % Typesetting for polynomials
+\usepackage{listings}     % Code listing
+\usepackage{psfrag}       % Replace placeholder labels in EPS files
+\usepackage{mathtools}    % Collection of math macros
+\usepackage{marvosym}     % For Euro sign
+\usepackage{trfsigns}     % Symbols for fourier and laplace transformations
+\usepackage{stmaryrd}     % Lightning symbol
+\usepackage{pbox}         % Minimum-width variant of `\parbox`
+\usepackage{datetime}     % Support for date formatting
+\usepackage{filecontents} % Allows overwriting of existing files
+
+\def\tiinternal@contentvpadding{\vspace*{5mm}}
+
+\hyphenation{
+  A-dress-be-reich
+  A-dress-be-rei-che
+  A-dress-be-rei-chen
+  an-ge-ge-be-nen
+  an-kom-men-de
+  An-kunfts-in-ten-si-tät
+  Ant-wort-zeit
+  be-trach-tet
+  De-ko-die-rungs-sche-ma
+  durch-schnitt-lich
+  Ein-ga-be-ver-tei-lung
+  Fluss-glei-chung
+  Fluss-glei-chun-gen
+  ge-fil-ter-ten
+  Halb-werts-zeit
+  Impf-be-reit-schaft
+  ir-re-du-zi-bel
+  Netz-werk
+  Pa-ra-me-ter
+  Rou-ting-ma-trix
+  Rou-ting-wahr-schein-lich-kei-ten
+  To-des-pro-zess
+  ver-blei-ben-de
+  Ver-tei-lungs-funk-ti-on
+  Wahr-schein-lich-keit
+  Wahr-schein-lich-kei-ten
+  gleich-verteilter
+  Huff-man
+}
+%    \end{macrocode}
+%
+% \Finale
+\endinput
+

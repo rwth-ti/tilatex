@@ -1,0 +1,162 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2015 by Niklas Koep <koep@ti.rwth-aachen.de>
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.2
+% of this license or (at your option) any later version.
+% The latest version of this license is in:
+%
+% http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of LaTeX
+% version 1999/12/01 or later.
+%
+% \fi
+%
+% \iffalse
+%<*driver>
+\ProvidesFile{tithesisnotice.dtx}
+%</driver>
+%<class>\NeedsTeXFormat{LaTeX2e}
+%<class>\ProvidesClass{tithesisnotice}
+%<*class>
+  [2015/09/13 v0.1 Base class for all tilatex classes]
+%</class>
+%<*driver>
+\documentclass{ltxdoc}
+\GetFileInfo{tithesisnotice.dtx}
+\def\@author{Niklas Koep \\ \texttt{koep@ti.rwth-aachen.de}}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \title{The \textsf{tithesisnotice} class\thanks{This document corresponds to
+    \textsf{tithesisnotice}~\fileversion, dated \filedate.}}
+  \author{\@author}
+  \maketitle
+  \DocInput{tithesisnotice.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \GetFileInfo{tithesisnotice.dtx}
+%
+% \DoNotIndex{\newcommand,\newenvironment}
+%
+% This class is used to create thesis notices to be posted on the institute's
+% black board and/or website to inform students about available theses.
+%
+% \section{Class Options}
+% \DescribeMacro{bachelor}
+% This option, which is loaded by default, is used to create a bachelor thesis
+% notice. Using this option makes sure the document title is set accordingly.
+%
+% \DescribeMacro{master}
+% Use this option to create a master thesis notice.
+%
+% \DescribeMacro{english}
+% This option makes sure the document title is properly translated. Note that
+% this option is also forwarded to the |tiarticle| base class.
+%
+% \section{Macros}
+% \DescribeMacro{\setthesistitle}
+% Use |\setthesistitle|\marg{title} to set the thesis title to \marg{title}.
+%
+% \DescribeMacro{\setthesissubtitle}
+% Use |\setthesissubtitle|\marg{subtitle} to set the thesis subtitle to
+% \marg{subtitle}.
+%
+% \DescribeMacro{\heading}
+% Use |\heading|\marg{heading} at the beginning of a new section.  This macro
+% merely wraps \meta{heading} in |\textbf{}| and prepends some vertical
+% padding.
+%
+% \DescribeMacro{\contact}
+% Use |\contact|\marg{name}\marg{email}\marg{phonesuffix} to output a formatted
+% contact string for a thesis supervisor. Every thesis notice should end with
+% a |Contact| section containing a list of the corresponding thesis
+% supervisor(s). For consistency, it is therefore recommended to use
+% \begin{verbatim}
+%   \begin{itemize}
+%     \item
+%       \contact
+%         {H.E. Pennypacker}
+%         {pennypacker@rich-industrialists.com}
+%         {27740}
+%   \end{itemize}
+% \end{verbatim}
+% Note that \marg{phonesuffix} only expects the 5-digit RWTH phone suffix.
+%
+% \StopEventually{\PrintIndex}
+%
+% \section{Implementation}
+%    \begin{macrocode}
+\DeclareOption{bachelor}{
+  \def\tithesisnotice@type{Bachelor}
+}
+
+\DeclareOption{master}{
+  \def\tithesisnotice@type{Master}
+}
+
+\def\tithesisnotice@typesuffix{arbeit}
+\DeclareOption{english}{
+  \def\tithesisnotice@typesuffix{\ Thesis}
+  \PassOptionsToClass{\CurrentOption}{tiarticle}
+}
+
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{tiarticle}}
+
+\ExecuteOptions{bachelor}
+\ProcessOptions\relax
+
+\LoadClass[11pt]{tiarticle}
+
+\setdocumenttitle{\tithesisnotice@type\tithesisnotice@typesuffix}
+
+\hypersetup{hidelinks}
+
+\usepackage{enumitem}
+\setlist[itemize]{topsep=0pt}
+% FIXME: already loaded in tiinteral
+\usepackage{marvosym}
+
+\newcommand*{\setthesistitle}[1]{
+  \def\tithesisnotice@title{#1}
+}
+\setthesistitle{Thesis Title}
+
+\newcommand*{\setthesissubtitle}[1]{
+  \def\tithesisnotice@subtitle{#1}
+}
+\setthesissubtitle{}
+
+\newcommand*{\heading}[1]{%
+  \vspace*{3mm}\textbf{#1} \\
+}
+%    \end{macrocode}
+% From moderncviconsmarvosym.sty of moderncv:
+%    \begin{macrocode}
+\newcommand*{\tithesisnotice@marvosymbol}[1]{{%
+  \fontfamily{mvs}\fontencoding{U}\fontseries{m}\fontshape{n}%
+  \selectfont\char#1%
+}}
+\newcommand*{\contact}[3]{%
+  #1\quad\tithesisnotice@marvosymbol{66}\;\href{mailto:#2}{#2}\;\;%
+  \tithesisnotice@marvosymbol{84}\;+49 2421 80~#3%
+}
+
+\AtBeginDocument{
+  \begin{minipage}{\columnwidth}
+    \centering
+    \Large\textbf{\tithesisnotice@title} \\
+    \large\textbf{\tithesisnotice@subtitle}
+  \end{minipage}
+}
+%    \end{macrocode}
+% \Finale
+\endinput
+

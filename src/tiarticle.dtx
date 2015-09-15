@@ -1,0 +1,147 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2015 by Niklas Koep <koep@ti.rwth-aachen.de>
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.2
+% of this license or (at your option) any later version.
+% The latest version of this license is in:
+%
+% http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of LaTeX
+% version 1999/12/01 or later.
+%
+% \fi
+%
+% \iffalse
+%<*driver>
+\ProvidesFile{tiarticle.dtx}
+%</driver>
+%<class>\NeedsTeXFormat{LaTeX2e}
+%<class>\ProvidesClass{tiarticle}
+%<*class>
+  [2015/09/13 v0.1 Base class for all tilatex classes]
+%</class>
+%<*driver>
+\documentclass{ltxdoc}
+\EnableCrossrefs
+\GetFileInfo{tiarticle.dtx}
+\def\@author{Niklas Koep \\ \texttt{koep@ti.rwth-aachen.de}}
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \title{The \textsf{tiarticle} class\thanks{This document corresponds to
+    \textsf{tiarticle}~\fileversion, dated \filedate.}}
+  \author{\@author}
+  \maketitle
+  \DocInput{tiarticle.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \GetFileInfo{tiarticle.dtx}
+%
+% \DoNotIndex{\newcommand,\newenvironment}
+%
+% The |tiarticle| class serves as base class for all document classes in
+% |tilatex|. It provides common functionality like setting the language, the
+% document title, typesetting the institute header, and so on.
+%
+% \section{Class Options}
+% Since the |tiarticle| class is based on the standard |article| class, any
+% option valid for |article| is also accepted by the |tiarticle| class. By
+% default, we load the |article| class with the |a4paper| option.
+%
+% \DescribeMacro{english}
+% This is a convenience option to set the language of the document. Passing
+% this option will automatically call |babel|'s |\selectlanguage| macro at the
+% beginning of the document. By default, we load the |babel| package with the
+% |ngerman| option.
+%
+% \section{Macros}
+% \DescribeMacro{\setdocumenttitle}
+% Use |\setdocumenttitle|\marg{title} to change the document title to
+% \meta{title}. The document title will automatically be printed in the
+% document header. For instance, when typesetting a problem sheet for a
+% specific lecture, use |\setdocumenttitle| to set the lecture name.
+%
+% \DescribeMacro{\setauthors}
+% Use |\setauthors|\marg{authors} to specify the author list of the document.
+% This list will be placed right below the header. It is intended to be used
+% for problem sheets to list the lecture supervisor(s), as well the lecturer
+% when typesetting exam documents.
+%
+% \StopEventually{\PrintIndex}
+%
+% \section{Implementation}
+%
+%    \begin{macrocode}
+\def\tiarticle@language{ngerman}
+\def\tiarticle@logo{rwth_ti_de_rgb}
+\DeclareOption{english}{
+  \expandafter\def\expandafter\tiarticle@language\expandafter{\CurrentOption}
+  \def\tiarticle@logo{rwth_ti_en_rgb}
+}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+\ProcessOptions\relax
+
+\LoadClass[a4paper]{article}
+
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{tiinternal}
+
+\pagestyle{empty}
+\usepackage[
+  left=2.5cm,
+  right=2.5cm,
+  top=2cm,
+  bottom=3cm
+]{geometry}
+\parindent=0pt
+\parskip=5pt
+
+\newcommand*{\setdocumenttitle}[1]{
+  \def\tiarticle@documenttitle{#1}
+}
+\setdocumenttitle{}
+
+\newcommand*{\setauthors}[1]{
+  \def\tiarticle@authors{#1}
+}
+\setauthors{}
+%    \end{macrocode}
+% The corporate identity logo has an $8$ mm border around its bounding box. We
+% (arbitrarily) scale the logo by $0.625$ so it's approximately as large as it
+% would be with |width=0.5\columnwidth|. This means we need to pad the document
+% title and author list by $0.625 \cdot 8$ mm $= 0.5$ mm so the gaps match.
+% This is what we need |\tiarticle@padding| for.
+%    \begin{macrocode}
+\def\tiarticle@padding{5mm}
+\newcommand{\tiarticle@inserttiheader}{
+  \begin{minipage}{\columnwidth}
+    \begin{minipage}[b]{0.45\columnwidth}
+      \fontsize{10.95pt}{1em}\selectfont
+       \textbf{\textsf{\tiarticle@documenttitle}}
+      \vspace{\tiarticle@padding}
+    \end{minipage}
+    \hfill
+    \includegraphics[scale=0.625]{\tiarticle@logo.pdf}
+  \end{minipage}
+  \hrule
+  \vspace{\tiarticle@padding}
+  \textbf{\footnotesize\tiarticle@authors}
+  \tiinternal@contentvpadding \\
+}
+
+\AtBeginDocument{
+  \expandafter\selectlanguage\expandafter{\tiarticle@language}
+  \tiarticle@inserttiheader
+}
+%    \end{macrocode}
+%
+% \Finale
+\endinput
+

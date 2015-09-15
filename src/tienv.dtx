@@ -1,0 +1,108 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2015 by Niklas Koep <koep@ti.rwth-aachen.de>
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.2
+% of this license or (at your option) any later version.
+% The latest version of this license is in:
+%
+% http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of LaTeX
+% version 1999/12/01 or later.
+%
+% \fi
+%
+% \iffalse
+%<package>\NeedsTeXFormat{LaTeX2e}
+%<package>\ProvidesPackage{tienv}
+%<package>[2015/09/13 v0.1 Package of miscellaneous environments]
+%
+%<*driver>
+\documentclass{ltxdoc}
+\GetFileInfo{tienv.dtx}
+\def\@author{Niklas Koep \\ \texttt{koep@ti.rwth-aachen.de}}
+\usepackage{tienv}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \title{The \textsf{tienv} package\thanks{This document corresponds to
+    \textsf{tienv}~\fileversion, last revised on \filedate.}}
+  \author{\@author}
+  \maketitle
+  \DocInput{tienv.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \DoNotIndex{\newcommand,\newenvironment}
+%
+% This package provides several variants of the default |enumerate| environment
+% whose items are properly referenceable via |\ref{}| calls.
+%
+% \section{Macros}
+% \DescribeEnv{enumref}
+% Defines an environment with bold alphabetic item labels, e.g.
+% \begin{enumref}
+%   \item foo
+%   \item \label{item:second} bar
+% \end{enumref}
+% Referencing the second item produces \ref{item:second}.
+%
+% \DescribeEnv{enumeratea}
+% Defines an environment with arabic number labels, e.g.
+% \begin{enumeratea}
+%   \item foo
+%   \item bar
+% \end{enumeratea}
+%
+% \DescribeEnv{enumeratei}
+% Defines an environment with roman numerals as labels, e.g.
+% \begin{enumeratei}
+%   \item foo
+%   \item bar
+% \end{enumeratei}
+%
+% \DescribeEnv{enumerateal}
+% Defines an environment with alphabetic labels, e.g.
+% \begin{enumerateal}
+%   \item foo
+%   \item bar
+% \end{enumerateal}
+%
+% \DescribeEnv{enumeratenl}
+% Defines an environment for unlabeled lists, e.g.
+% \begin{enumeratenl}
+%   \item foo
+%   \item bar
+% \end{enumeratenl}
+%
+% \StopEventually{\PrintIndex}
+%
+% \section{Implementation}
+%    \begin{macrocode}
+\usepackage{enumitem}
+
+\newlist{enumref}{enumerate}{1}
+\setlist[enumref]{label=\textbf{\alph*)}}
+
+\newlist{enumeratea}{enumerate}{1}
+\setlist[enumeratea]{label=\arabic*.}
+
+\newlist{enumeratei}{enumerate}{1}
+\setlist[enumeratei]{label=(\roman*)}
+
+\newlist{enumerateal}{enumerate}{1}
+\setlist[enumerateal]{label=\alph*)}
+
+\newlist{enumeratenl}{enumerate}{1}
+\setlist[enumeratenl]{label=}
+%    \end{macrocode}
+%
+% \Finale
+\endinput
+
