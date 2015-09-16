@@ -1,29 +1,16 @@
 \documentclass{tiexam}
-% Available class options are `english`, `compact`, and `showpoints`. The
-% meanings are as follows:
-%
-%   english:    self-explanatory
-%   compact:    suppress cover page and empty page padding
-%   showpoints: show number of points for each problem when using `compact`
 
 \usepackage{pgfplots}
 
 \hypersetup{hidelinks}
 
-% Specify the number of pages to append after each problem, as well as the
-% number of backup sheets to append at the end of the document.
 \setemptypagelayout{1}{2}
-% Set the document/lecture title.
-\setdocumenttitle{Theoretische Informationstechnik I}
-% Set the document "authors". For exams, this should be the lecturer.
+\setdocumenttitle{Some Lecture}
 \setauthors{%
   Univ.-Prof. Dr. rer. nat. Rudolf Mathar, Univ.-Prof. Dr.-Ing. Anke Schmeink%
 }
-% Set the date and time for the exam.
 \setdate{31}{8}{2015}
 \settime{8}{30}
-% Specify the procedure (time and place) for announcing exam results, details
-% about post-exam review, etc.
 \setexamresultsdescription{%
   Die Klausurergebnisse werden voraussichtlich am Freitag, den 11.09.2015, auf
   der Institutshomepage bekanntgegeben.\\[0.2cm] Die korrigierten Klausuren
@@ -31,21 +18,7 @@
   Lehrstuhls für Theoretische Informationstechnik, ICT cubes, Kopernikusstr.
   16, eingesehen werden. \\[0.5cm]
 }
-% Define the pass mark (defaults to 25).
 \setpassmark{25}
-
-% Define the source documents, and number of points for each problem. In this
-% example, the problems are defined in the files `aufgabe1.tex`, etc.
-\begin{filecontents}{problem1.tex}
-  \begin{enumref}
-    \item Show that $\mathfrak{P} = \mathfrak{NP}$.
-  \end{enumref}
-\end{filecontents}
-\begin{filecontents}{problem2.tex}
-  \begin{enumref}
-    \item Show that the Riemann hypothesis holds.
-  \end{enumref}
-\end{filecontents}
 
 \defineexamproblem{problem1}{11}
 \defineexamproblem{problem2}{13}
