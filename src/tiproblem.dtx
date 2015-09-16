@@ -233,22 +233,6 @@
     \subimport{\tiproblem@searchpath/}{#1\tiproblem@solutionsuffix.tex}
   \end{solution}
 }
-
-% TODO: Move this to tiproblems.{dtx,cls}
-\newcommand{\insertproblemandsolution}[2]{
-  \def\tiproblem@exercisepath{\tiproblem@basepath/section#1/#2.tex}
-  \def\tiproblem@solutionpath{%
-    \tiproblem@basepath/section#1/#2\tiproblem@solutionsuffix.tex%
-  }
-  \IfFileExists{\tiproblem@exercisepath}{
-    \textit{{\tiproblem@exercisepath}:} \\
-    \insertproblem{#1}{#2}
-    \textit{{\tiproblem@solutionpath}:} \\
-    \insertsolution{#1}{#2}
-    \noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}%
-    \vspace{1cm}
-  }{}
-}
 %    \end{macrocode}
 %
 % \Finale

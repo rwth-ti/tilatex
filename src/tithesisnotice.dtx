@@ -121,8 +121,6 @@
 
 \usepackage{enumitem}
 \setlist[itemize]{topsep=0pt}
-% FIXME: already loaded in tiinteral
-\usepackage{marvosym}
 
 \newcommand*{\setthesistitle}[1]{
   \def\tithesisnotice@title{#1}
@@ -150,7 +148,7 @@
 }
 
 \AtBeginDocument{
-  \begin{minipage}{\columnwidth}
+  \begin{minipage}{\textwidth}
     \centering
     \Large\textbf{\tithesisnotice@title} \\
     \large\textbf{\tithesisnotice@subtitle}

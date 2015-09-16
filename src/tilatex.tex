@@ -43,11 +43,24 @@ package, rather than loading the package manually. One reason for this is that
 \texttt{tiproblem} in a more convenient interface for document authors. For
 this reason, the classes provided by \texttt{tilatex} are documented first.
 
+\section*{TODO}
+\begin{itemize}
+  \item clean up internal package dependencies and purge the
+    \texttt{tiinternal} package
+  \item use \texttt{etoolbox}'s boolean option handling
+    (\url{http://tex.stackexchange.com/questions/5894/latex-conditional-expression})
+    rather than \texttt{\textbackslash newif} primitives
+  \item add \texttt{\textbackslash problemexists} and \texttt{\textbackslash
+    solutionexists} macros to \texttt{tiproblem}
+\end{itemize}
+
+\pagebreak
 \tableofcontents
 
 % Classes
 \DocInclude{tiarticle}
 \DocInclude{tiexam}
+\DocInclude{tiproblemcollection}
 \DocInclude{titutorial}
 \DocInclude{tithesisnotice}
 
