@@ -156,10 +156,6 @@
 \usepackage{tidatetime}
 \usepackage{tiproblem}
 
-\def\tiexam@passmark{25}
-\def\tiexam@emptypagecount{3}
-\def\tiexam@auxiliarypagecount{0}
-
 \iftoggle{tiexam@english}{
   \def\tiexam@examlabel{Written examination}
   \def\tiexam@pointslabel{points}
@@ -243,14 +239,16 @@
   }
 }
 
+\newcommand*{\setpassmark}[1]{
+  \def\tiexam@passmark{#1}
+}
+\setpassmark{25}
+
 \newcommand*{\setemptypagelayout}[2]{
   \def\tiexam@emptypagecount{#1}
   \def\tiexam@auxiliarypagecount{#2}
 }
-
-\newcommand*{\setpassmark}[1]{
-  \def\tiexam@passmark{#1}
-}
+\setemptypagelayout{3}{4}
 
 \newcommand*{\setexamresultsdescription}[1]{
   \def\tiexam@examresultsdescription{#1}
@@ -343,12 +341,14 @@
   \setcounter{tiexam@ProblemPageCounter}{0}
   \clearpage
   \iftoggle{tiexam@compact}{}{
-    \loop\ifnum\value{tiexam@ProblemPageCounter} < #1\relax
-    \null\clearpage
-    \stepcounter{tiexam@ProblemPageCounter}
-    \repeat
+    \whileboolexpr
+      {test {\ifnumcomp{\value{tiexam@ProblemPageCounter}}{<}{#1}}}
+      {%
+        \hbox{}
+        \clearpage
+        \stepcounter{tiexam@ProblemPageCounter}
+      }
   }
-  \setcounter{tiexam@ProblemPageCounter}{0}
 }
 
 \newcommand*{\tiexam@printpoints}[1]{%
@@ -356,33 +356,32 @@
 }
 \newcommand*{\tiexam@insertproblems}{
   \setcounter{tiexam@LoopCounter}{0}
-  \loop\ifnum\value{tiexam@LoopCounter} < \the\value{tiexam@ProblemCounter}\relax
-    \begin{problem}
-      \iftoggle{tiexam@compact}{
-        \iftoggle{tiexam@showpoints}{
+  \whileboolexpr
+    {test {\ifnumcomp{\value{tiexam@LoopCounter}}{<}{\the\value{tiexam@ProblemCounter}}}}
+    {
+      \begin{problem}
+        \iftoggle{tiexam@compact}{%
+          \iftoggle{tiexam@showpoints}{%
+            \tiexam@printpoints{tiexam@LoopCounter} \\
+          }{}%
+        }{%
           \tiexam@printpoints{tiexam@LoopCounter} \\
-        }{}
-        \relax
-      }{
-        \tiexam@printpoints{tiexam@LoopCounter} \\
-      }
-      \input{\csname tiexam@problemsource\the\value{tiexam@LoopCounter} \endcsname}
-    \end{problem}
-    \tiexam@insertemptypages{\tiexam@emptypagecount}
-    \iftoggle{tiexam@compact}{}{
+        }
+        \input{\csname tiexam@problemsource\the\value{tiexam@LoopCounter} \endcsname}
+      \end{problem}
+      \tiexam@insertemptypages{\tiexam@emptypagecount}
+      \iftoggle{tiexam@compact}{}{%
 %    \end{macrocode}
 % Force new problem to start on the left (even page).
 %    \begin{macrocode}
-      \ifodd\value{page}\hbox{}\newpage\fi
+        \ifodd\value{page}\hbox{}\newpage\fi
+      }
+      \stepcounter{tiexam@LoopCounter}
     }
-    \stepcounter{tiexam@LoopCounter}
-  \repeat
 }
 
 \AtBeginDocument{
-  \iftoggle{tiexam@compact}{}{
-    \tiexam@makecoverpage
-  }
+  \iftoggle{tiexam@compact}{}{\tiexam@makecoverpage}
   \tiexam@insertproblems
 }
 
