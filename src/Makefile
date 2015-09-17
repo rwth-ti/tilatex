@@ -31,12 +31,12 @@ all: stycls doc
 
 stycls: $(STYCLS)
 
-doc: $(STYCLS) $(DOC)
+doc: $(DOC)
 
 $(STYCLS): $(NAME).ins $(DTX)
 	$(TEX) $<
 
-$(DOC): $(NAME).tex
+$(DOC): $(NAME).tex $(STYCLS)
 	$(TEX) $<
 	$(TEX) $<
 
