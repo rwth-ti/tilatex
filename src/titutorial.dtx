@@ -91,10 +91,11 @@
 %
 % \section{Implementation}
 %    \begin{macrocode}
-\newif\iftitutorial@english
-\titutorial@englishfalse
+\RequirePackage{etoolbox}
+
+\newtoggle{titutorial@english}
 \DeclareOption{english}{
-  \titutorial@englishtrue
+  \toggletrue{titutorial@english}
   \PassOptionsToPackage{\CurrentOption}{tidatetime}
   \PassOptionsToPackage{\CurrentOption}{tiproblem}
   \PassOptionsToClass{\CurrentOption}{tiarticle}
@@ -111,10 +112,9 @@
 
 \def\inserttext{\insertproblem}
 \def\insertfile{\insertproblemfromfile}
-\newif\iftitutorial@solution
-\titutorial@solutionfalse
+\newtoggle{titutorial@solution}
 \DeclareOption{solution}{
-  \titutorial@solutiontrue
+  \toggletrue{titutorial@solution}
   \def\inserttext{\insertsolution}
   \def\insertfile{\insertsolutionfromfile}
 }
@@ -133,11 +133,11 @@
 \def\titutorial@tutoriallabel{Übung}
 \def\titutorial@reviewlabel{Zusatzübung}
 \def\titutorial@proposedsolutionlabel{Lösungsvorschlag}
-\iftitutorial@english
+\iftoggle{titutorial@english}{
   \def\titutorial@tutoriallabel{Tutorial}
   \def\titutorial@reviewlabel{Review}
   \def\titutorial@proposedsolutionlabel{Proposed Solution}
-\fi
+}{}
 %    \end{macrocode}
 % Define the tutorial counter. Note that it is never actually incremented with
 % |\stepcounter| but set manually for each tutorial.
@@ -150,9 +150,9 @@
   \parbox{\textwidth}{%
     \centering%
     \LARGE \titutorial@titleprefix \\
-    \iftitutorial@solution
+    \iftoggle{titutorial@solution}{
       - \titutorial@proposedsolutionlabel\ - \\[2mm]
-    \fi
+    }{}
     \normalsize \insertdate%
   }%
   \tiinternal@contentvpadding

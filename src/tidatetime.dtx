@@ -70,10 +70,11 @@
 %
 % \section{Implementation}
 %    \begin{macrocode}
-\newif\iftidatetime@english
-\tidatetime@englishfalse
+\RequirePackage{etoolbox}
+
+\newtoggle{tidatetime@english}
 \DeclareOption{english}{
-  \tidatetime@englishtrue
+  \toggletrue{tidatetime@english}
 }
 \ProcessOptions\relax
 
@@ -82,7 +83,7 @@
 \renewcommand{\amname}{a.m.}
 \renewcommand{\pmname}{p.m.}
 
-\iftidatetime@english
+\iftoggle{tidatetime@english}{
   \newdateformat{tidatetime@examdateformat}{%
     \dayofweekname{\THEDAY}{\THEMONTH}{\THEYEAR},~%
     \monthname[\THEMONTH]~{\THEDAY},~\THEYEAR%
@@ -92,7 +93,7 @@
     \twodigit{\THEHOURXII}:\twodigit{\THEMINUTE}~\amorpmname%
   }
   \settimeformat{tidatetime@timeformat}
-\else
+}{
   \newdateformat{tidatetime@examdateformat}{%
     \dayofweekname{\THEDAY}{\THEMONTH}{\THEYEAR},~%
     \twodigit{\THEDAY}.~\monthname[\THEMONTH]~\THEYEAR%
@@ -102,7 +103,7 @@
     \twodigit{\THEHOUR}:\twodigit{\THEMINUTE}~Uhr%
   }
   \settimeformat{tidatetime@timeformat}
-\fi
+}
 
 \newcommand*{\setdate}[3]{
   \def\tidatetime@day{#1}
