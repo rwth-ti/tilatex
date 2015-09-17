@@ -161,9 +161,7 @@
 \def\tiexam@emptypagecount{3}
 \def\tiexam@auxiliarypagecount{0}
 
-% Set language-specific options.
 \iftiexam@english
-  % Initialize default labels.
   \def\tiexam@examlabel{Written examination}
   \def\tiexam@pointslabel{points}
   \def\tiexam@examresultsdescription{
@@ -204,7 +202,6 @@
     \end{minipage}
   }
 \else
-  % Initialize default labels.
   \def\tiexam@examlabel{Prüfungsklausur}
   \def\tiexam@pointslabel{Punkte}
   \def\tiexam@examresultsdescription{
@@ -247,7 +244,6 @@
   }
 \fi
 
-% Define class commands.
 \newcommand*{\setemptypagelayout}[2]{
   \def\tiexam@emptypagecount{#1}
   \def\tiexam@auxiliarypagecount{#2}
@@ -261,13 +257,11 @@
   \def\tiexam@examresultsdescription{#1}
 }
 
-% Define internal counters.
 \newcounter{tiexam@ProblemCounter}
 \newcounter{tiexam@TotalPointsCounter}
 \newcounter{tiexam@ProblemPageCounter}
 \newcounter{tiexam@LoopCounter}
 
-% Definitions to generate the points table
 \newtoks\tiexam@layouttokens\tiexam@layouttokens{}
 \newtoks\tiexam@paddingtokens\tiexam@paddingtokens{}
 \newtoks\tiexam@problemtokens\tiexam@problemtokens{}
@@ -295,8 +289,10 @@
     \tiexam@addpointtoken{%
       \csname tiexam@problempoints\the\value{tiexam@LoopCounter} \endcsname%
     }%
-    % This is ugly, but we want the problem count to start at 1, so we have to
-    % increase the loop counter before appending the problem count token.
+%    \end{macrocode}
+% This is ugly, but we want the problem count to start at 1, so we have to
+% increase the loop counter before appending the problem count token.
+%    \begin{macrocode}
     \stepcounter{tiexam@LoopCounter}%
     \tiexam@addproblemtoken{\the\value{tiexam@LoopCounter}}%
   \repeat
@@ -378,11 +374,13 @@
       \input{\csname tiexam@problemsource\the\value{tiexam@LoopCounter} \endcsname}
     \end{problem}
     \tiexam@insertemptypages{\tiexam@emptypagecount}
-    % Force new problem to start on the left (even page).
     \iftiexam@compact
       \relax
     \else
     {
+%    \end{macrocode}
+% Force new problem to start on the left (even page).
+%    \begin{macrocode}
       \ifodd\value{page}\hbox{}\newpage\fi
     }
     \fi
