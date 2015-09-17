@@ -90,6 +90,9 @@
 % the |\setbasepath|\marg{path} macro which is used to point the package to the
 % root directory of a problem collection tree.
 %
+% \textbf{Note:} Due to a technical limitation to do with \TeX's category
+% codes, \meta{path} must currently \textbf{not} contain any underscores.
+%
 % \DescribeMacro{\setsearchpath}
 % When a problem and its solution are not part of a problem collection, it is
 % possible to directly include \LaTeX\ files containing problem descriptions or
@@ -110,11 +113,19 @@
 % be used to adjust the suffix accordingly.
 %
 % \DescribeMacro{\insertproblem}
+% \DescribeMacro{\insertproblem*}
 % The |\insertproblem|\marg{section}\marg{problem} macro inserts problem
 % \meta{problem}|.tex| from section \meta{section} of a problem collection into
-% the document. The macro fails gracefully if presented with an invalid
-% \meta{section}-\meta{problem} pair and outputs an error message in place of
-% the problem text.
+% the document. If the starred version is used, the filename of the problem
+% will be written to the document as well. If presented with an invalid
+% \meta{section}-\meta{problem} pair, the macro fails gracefully and outputs an
+% error message in place of the problem text.
+%
+% \DescribeMacro{\problemexists}
+% The |\problemexists|\marg{section}\marg{problem}\marg{yes}\marg{no} macro
+% provides a way to conditionally check if a problem of a particular section
+% exists. The \meta{yes} and \meta{no} arguments can then be used to
+% conditionally branch on the result.
 %
 % \DescribeMacro{\insertproblemfromfile}
 % By invoking |\insertproblemfromfile|\marg{filename}, the contents of the file
@@ -122,10 +133,11 @@
 % part of a problem collection (cf. |\setsearchpath|).
 %
 % \DescribeMacro{\insertsolution}
+% \DescribeMacro{\insertsolution*}
 % The |\insertsolution|\marg{section}\marg{problem} macro inserts the solution
 % to problem \meta{problem} of section \meta{section} of a problem collection.
-% Similar to the behavior of |\insertproblem|, this macro also fails
-% gracefully.
+% The starred version behaves like its counterpart |\insertproblem*|. Similar
+% to the behavior of |\insertproblem|, this macro also fails gracefully.
 %
 % \DescribeMacro{\insertsolutionfromfile}
 % The |\insertsolutionfromfile|\marg{filename} macro is the natural counterpart
@@ -139,6 +151,8 @@
 %    \begin{macrocode}
 \usepackage{tienv}
 \usepackage{timath}
+\usepackage{ifthen}
+\usepackage{url}
 
 \def\tiproblem@problemlabel{Aufgabe}
 \def\tiproblem@solutionlabel{Lösung zu Aufgabe}
@@ -192,14 +206,24 @@
 \newcommand{\setsolutionsuffix}[1]{\def\tiproblem@solutionsuffix{#1}}
 \setsolutionsuffix{-solution}
 
-\newcommand{\insertproblem}[2]{
-  \def\tiproblem@exercisepath{\tiproblem@basepath/section#1/#2.tex}
+\def\tiproblem@problempath#1#2{\tiproblem@basepath/section#1/#2.tex}
+\def\tiproblem@solutionpath#1#2{%
+    \tiproblem@basepath/section#1/#2\tiproblem@solutionsuffix.tex%
+}
+
+\newcommand*{\problemexists}[4]{%
+  \IfFileExists{\tiproblem@problempath{#1}{#2}}{#3}{#4}%
+}
+
+\DeclareDocumentCommand{\insertproblem}{s m m}{
+  \def\tiproblem@path{\tiproblem@problempath{#2}{#3}}
+  \IfBooleanT{#1}{\textit{\tiproblem@path:} \\}
   \begin{problem}
-    \IfFileExists{\tiproblem@exercisepath}{
-      \subimport{\tiproblem@basepath/section#1/}{#2.tex}
-    }{
+    \problemexists{#2}{#3}{%
+      \subimport{\tiproblem@basepath/section#2/}{#3.tex}%
+    }{%
       \begin{center}
-        \textbf{-- \tiproblem@exercisepath\ not found --}
+      -- \textit{File} \texttt{\tiproblem@path}\ \textit{not found} --
       \end{center}
     }
   \end{problem}
@@ -211,18 +235,17 @@
   \end{problem}
 }
 
-\newcommand{\insertsolution}[2]{
-  \def\tiproblem@solutionpath{%
-    \tiproblem@basepath/section#1/#2\tiproblem@solutionsuffix.tex%
-  }
+\DeclareDocumentCommand{\insertsolution}{s m m}{
+  \def\tiproblem@path{\tiproblem@solutionpath{#2}{#3}}
+  \IfBooleanT{#1}{\textit{{\tiproblem@path}:} \\}
   \begin{solution}
-    \IfFileExists{\tiproblem@solutionpath}{
-      \subimport{\tiproblem@basepath/section#1/}{%
-        #2\tiproblem@solutionsuffix.tex%
-      }
-    }{
+    \IfFileExists{\tiproblem@path}{
+      \subimport{\tiproblem@basepath/section#2/}{%
+        #3\tiproblem@solutionsuffix.tex%
+      }%
+    }{%
       \begin{center}
-        \textbf{-- \tiproblem@solutionpath\ not found --}
+        -- \textit{File} \texttt{\tiproblem@path}\ \textit{not found} --
       \end{center}
     }
   \end{solution}

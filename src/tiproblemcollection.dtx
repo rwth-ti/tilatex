@@ -73,10 +73,11 @@
 %
 % \section{Implementation}
 %    \begin{macrocode}
-\newif\iftiproblemcollection@english
-\tiproblemcollection@englishfalse
+\RequirePackage{etoolbox}
+
+\newtoggle{tiproblemcollection@english}
 \DeclareOption{english}{
-  \tiproblemcollection@englishtrue
+  \toggletrue{tiproblemcollection@english}
   \PassOptionsToPackage{\CurrentOption}{tiproblem}
   \PassOptionsToClass{\CurrentOption}{tiarticle}
 }
@@ -93,24 +94,16 @@
 \usepackage[colorlinks=true]{hyperref}
 \usepackage{pgffor}
 
-\iftiproblemcollection@english
+\iftoggle{tiproblemcollection@english}{
   \def\tiproblemcollection@title{Problem Collection}
-\else
+}{
   \def\tiproblemcollection@title{Aufgabensammlung}
-\fi
+}
 
 \newcommand{\tiproblemcollection@insertproblemandsolution}[2]{
-  % TODO: Add a fileexists macro to tiproblem so we don't have to test the
-  %       path in here.
-  \def\tiproblemcollection@problempath{\tiproblem@basepath/section#1/#2.tex}
-  \def\tiproblemcollection@solutionpath{%
-    \tiproblem@basepath/section#1/#2\tiproblem@solutionsuffix.tex%
-  }
-  \IfFileExists{\tiproblemcollection@problempath}{
-    \textit{{\tiproblemcollection@problempath}:} \\
-    \insertproblem{#1}{#2}
-    \textit{{\tiproblemcollection@solutionpath}:} \\
-    \insertsolution{#1}{#2}
+  \problemexists{#1}{#2}{
+    \insertproblem*{#1}{#2}
+    \insertsolution*{#1}{#2}
     \noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}%
     \vspace{1cm}
   }{}
