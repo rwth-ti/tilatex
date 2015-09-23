@@ -15,7 +15,17 @@ If you need to tag more than one version at a day, then the scheme is
 
 ### Linux
 
-    $ mkdir -p ~/texmf/tex/latex
-    $ cd ~/texmf/tex/latex
-    $ for i in /path/to/tilatex/src/* ; do ln -s ${i} . ; done
+    export TILATEXPATH=/path/to/tilatex/
+    cd ${TILATEXPATH}/src
+    make ctan
+    mkdir -p ~/texmf/tex/latex
+    ln -s ${TILATEXPATH}/tds/tex/latex/tilatex ~/texmf/tex/latex
+
+### OS X
+
+    export TILATEXPATH=/path/to/tilatex/
+    cd ${TILATEXPATH}/src
+    make ctan
+    mkdir -p ~/Library/texmf/tex/latex
+    ln -s ${TILATEXPATH}/tds/tex/latex/tilatex ~/Library/texmf/tex/latex
 
