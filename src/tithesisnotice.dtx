@@ -69,11 +69,6 @@
 % Use |\setthesissubtitle|\marg{subtitle} to set the thesis subtitle to
 % \marg{subtitle}.
 %
-% \DescribeMacro{\heading}
-% Use |\heading|\marg{heading} at the beginning of a new section.  This macro
-% merely wraps \meta{heading} in |\textbf{}| and prepends some vertical
-% padding.
-%
 % \DescribeMacro{\contact}
 % Use |\contact|\marg{name}\marg{email}\marg{phonesuffix} to output a formatted
 % contact string for a thesis supervisor. Every thesis notice should end with
@@ -119,8 +114,9 @@
 
 \hypersetup{hidelinks}
 
-\usepackage{enumitem}
-\setlist[itemize]{topsep=0pt}
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\bfseries}{}{0pt}{}
+\titlespacing{\section}{0pt}{\parskip}{-\parskip}
 
 \newcommand*{\setthesistitle}[1]{
   \def\tithesisnotice@title{#1}
@@ -131,10 +127,6 @@
   \def\tithesisnotice@subtitle{#1}
 }
 \setthesissubtitle{}
-
-\newcommand*{\heading}[1]{%
-  \vspace*{3mm}\textbf{#1} \\
-}
 %    \end{macrocode}
 % From moderncviconsmarvosym.sty of moderncv:
 %    \begin{macrocode}
