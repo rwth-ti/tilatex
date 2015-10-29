@@ -121,6 +121,11 @@
 % This is what we need |\tiarticle@padding| for.
 %    \begin{macrocode}
 \def\tiarticle@padding{5mm}
+\newenvironment{tightcenter}{%
+  \setlength\topsep{0pt}
+  \setlength\parskip{0pt}
+  \begin{center}
+}{\end{center}}
 \newcommand{\tiarticle@inserttiheader}{
   \begin{minipage}{\columnwidth}
     \begin{minipage}[b]{0.49\columnwidth}
@@ -133,7 +138,9 @@
   \end{minipage}
   \hrule
   \vspace{\tiarticle@padding}
-  \textbf{\footnotesize\tiarticle@authors}
+  \begin{tightcenter}
+    \textbf{\footnotesize\tiarticle@authors}
+  \end{tightcenter}
   \tiinternal@contentvpadding \\
 }
 
