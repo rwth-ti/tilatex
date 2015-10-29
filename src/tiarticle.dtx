@@ -67,6 +67,11 @@
 % \meta{title}. The document title will automatically be printed in the
 % document header. For instance, when typesetting a problem sheet for a
 % specific lecture, use |\setdocumenttitle| to set the lecture name.
+
+% \DescribeMacro{\getdocumenttitle}
+% Use |\getdocumenttitle| to get the current document title. This is mainly
+% needed for the |tiexam| class which needs to obtain the document title when
+% creating the title page.
 %
 % \DescribeMacro{\setauthors}
 % Use |\setauthors|\marg{authors} to specify the author list of the document.
@@ -116,6 +121,8 @@
 }
 \setdocumenttitle{}
 
+\newcommand*{\getdocumenttitle}{\tiarticle@documenttitle}
+
 \newcommand*{\setauthors}[1]{
   \def\tiarticle@authors{#1}
 }
@@ -136,7 +143,7 @@
 \newcommand{\tiarticle@inserttiheader}{
   \begin{minipage}{\columnwidth}
     \begin{minipage}[b]{0.49\columnwidth}
-       \textbf{\textsf{\tiarticle@documenttitle}}
+      \textbf{\textsf{\tiarticle@documenttitle}}
       \vspace{\tiarticle@padding}
     \end{minipage}
     \hfill
