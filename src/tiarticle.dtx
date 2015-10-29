@@ -85,7 +85,14 @@
   \expandafter\def\expandafter\tiarticle@language\expandafter{\CurrentOption}
   \def\tiarticle@logo{rwth_ti_en_rgb}
 }
+
+\newcommand*{\tiarticle@authorstransform}[1]{\footnotesize #1}
+\DeclareOption{@largeauthorlist}{
+  \renewcommand*{\tiarticle@authorstransform}[1]{#1}
+}
+
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+
 \ProcessOptions\relax
 
 \LoadClass[a4paper]{article}
@@ -139,9 +146,9 @@
   \hrule
   \vspace{\tiarticle@padding}
   \begin{tightcenter}
-    \textbf{\footnotesize\tiarticle@authors}
+    \textbf{\tiarticle@authorstransform{\tiarticle@authors}}
   \end{tightcenter}
-  \tiinternal@contentvpadding \\
+  \tiinternal@contentvpadding
 }
 
 \AtBeginDocument{

@@ -145,9 +145,9 @@
   \toggletrue{tiexam@showpoints}
 }
 
-\DeclareOption*{
-  \ClassWarning{tiexam}{Unknown option '\CurrentOption'}
-}
+\DeclareOption*{\ClassWarning{tiexam}{Unknown option '\CurrentOption'}}
+
+\PassOptionsToClass{@largeauthorlist}{tiarticle}
 
 \ProcessOptions\relax
 
