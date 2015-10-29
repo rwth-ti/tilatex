@@ -117,14 +117,14 @@
 % The corporate identity logo has an $8$ mm border around its bounding box. We
 % (arbitrarily) scale the logo by $0.625$ so it's approximately as large as it
 % would be with |width=0.5\columnwidth|. This means we need to pad the document
-% title and author list by $0.625 \cdot 8$ mm $= 0.5$ mm so the gaps match.
+% title and author list by $0.625 \cdot 8$ mm $= 5$ mm so the gaps match.
 % This is what we need |\tiarticle@padding| for.
 %    \begin{macrocode}
 \def\tiarticle@padding{5mm}
 \newcommand{\tiarticle@inserttiheader}{
   \begin{minipage}{\columnwidth}
-    \begin{minipage}[b]{0.45\columnwidth}
-      \fontsize{10.95pt}{1em}\selectfont
+    \begin{minipage}[b]{0.49\columnwidth}
+      \fontsize{4mm}{1em}\selectfont
        \textbf{\textsf{\tiarticle@documenttitle}}
       \vspace{\tiarticle@padding}
     \end{minipage}
