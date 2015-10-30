@@ -171,8 +171,8 @@
   \textsf{%
     \pagebreak[3]%
     \textbf{\tiproblem@problemlabel\ \thetiproblem@ProblemCounter.}%
-  }%
-}{\vspace*{1cm}\par}
+  }
+}{\vspace{1cm}\par}
 
 \newenvironment{solution}{%
   \stepcounter{tiproblem@SolutionCounter}%
@@ -182,8 +182,9 @@
     \textbf{%
       \large{\tiproblem@solutionlabel\ \thetiproblem@SolutionCounter}%
     }%
-  } \\[2mm]
-}{\vspace*{1cm}\par}
+  }
+  \par%
+}{\vspace{1cm}\par}
 
 %    \end{macrocode}
 % Our counters are zero-based and incremented before they're evaluated. Hence
@@ -215,9 +216,9 @@
   \IfFileExists{\tiproblem@problempath{#1}{#2}}{#3}{#4}%
 }
 
-\DeclareDocumentCommand{\insertproblem}{s m m}{
-  \def\tiproblem@path{\tiproblem@problempath{#2}{#3}}
-  \IfBooleanT{#1}{\textit{\tiproblem@path:} \\}
+\DeclareDocumentCommand{\insertproblem}{s m m}{%
+  \def\tiproblem@path{\tiproblem@problempath{#2}{#3}}%
+  \IfBooleanT{#1}{\textit{\tiproblem@path:} \\}%
   \begin{problem}
     \problemexists{#2}{#3}{%
       \subimport{\tiproblem@basepath/section#2/}{#3.tex}%
@@ -235,11 +236,11 @@
   \end{problem}
 }
 
-\DeclareDocumentCommand{\insertsolution}{s m m}{
-  \def\tiproblem@path{\tiproblem@solutionpath{#2}{#3}}
-  \IfBooleanT{#1}{\textit{{\tiproblem@path}:} \\}
+\DeclareDocumentCommand{\insertsolution}{s m m}{%
+  \def\tiproblem@path{\tiproblem@solutionpath{#2}{#3}}%
+  \IfBooleanT{#1}{\textit{{\tiproblem@path}:} \\}%
   \begin{solution}
-    \IfFileExists{\tiproblem@path}{
+    \IfFileExists{\tiproblem@path}{%
       \subimport{\tiproblem@basepath/section#2/}{%
         #3\tiproblem@solutionsuffix.tex%
       }%
