@@ -168,21 +168,21 @@
 \newenvironment{problem}{%
   \stepcounter{tiproblem@ProblemCounter}%
   \par%
+  \pagebreak[3]%
   \textsf{%
-    \pagebreak[3]%
     \textbf{\tiproblem@problemlabel\ \thetiproblem@ProblemCounter.}%
-  }
+  }%
 }{\vspace{1cm}\par}
 
 \newenvironment{solution}{%
   \stepcounter{tiproblem@SolutionCounter}%
   \par%
+  \pagebreak[3]%
   \textsf{%
-    \pagebreak[3]%
     \textbf{%
       \large{\tiproblem@solutionlabel\ \thetiproblem@SolutionCounter}%
     }%
-  }
+  }%
   \par%
 }{\vspace{1cm}\par}
 
