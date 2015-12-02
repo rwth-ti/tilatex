@@ -113,9 +113,6 @@
 \DeclareMathOperator{\imag}{Im}
 \DeclareMathOperator{\real}{Re}
 
-\DeclareMathOperator{\herm}{*}
-\DeclareMathOperator{\tran}{'}
-
 \DeclareMathOperator{\sinc}{si}
 
 \DeclareMathOperator{\info}{I}
@@ -353,9 +350,9 @@
 \timath@safemath{\probp}{\bmp}
 \timath@safemath{\probq}{\bmq}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% ADDITIONAL MACROS NOT USED IN THE TI SCRIPT %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ADDITIONAL MACROS USED FOR TI TUTORIALS %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % TODO: Implement the macros below on top of the math macros from the TI
 %       script.
@@ -384,7 +381,6 @@
 \newcommand*{\Nor}[2]{\ensuremath{\operatorname{N}\left(#1,#2\right)}}
 \newcommand*{\Poi}[1]{\ensuremath{\operatorname{Poi}\left(#1\right)}}
 \newcommand*{\Ray}[1]{\ensuremath{\operatorname{Ray}\left(#1\right)}}
-\newcommand*{\Var}[1]{\ensuremath{\operatorname{Var}\left(#1\right)}}
 
 % Sets/fields
 \newcommand*{\C}{\ensuremath{\mathbb{C}}}
@@ -425,6 +421,164 @@
 % XXX: This defines |\idop| as the indicator function, rather than the identity
 %      map.
 \DeclareMathOperator{\idop}{\mathbb{I}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ADDITIONAL MACROS USED FOR OPTIMIZATION TUTORIALS %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Colors
+\definecolor {GREY} {rgb} {0.7,0.7,0.7}
+\definecolor {LIGHTGREY} {rgb} {0.8,0.8,0.8}
+\newcommand{\bl}{\color{blue}}
+\newcommand{\black}{\color{black}}
+\newcommand{\blue}{\color{blue}}
+\newcommand{\bk}{\color{black}}
+\newcommand{\green}{\color{green}}
+\newcommand{\grey}{\color{GREY}}
+\newcommand{\red}{\color{red}}
+
+% Calliographic letters / sets
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calI}{\mathcal{I}}
+\newcommand{\calK}{\mathcal{K}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\calQ}{\mathcal{Q}}
+\newcommand{\calR}{\mathcal{R}}
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\calW}{\mathcal{W}}
+\newcommand{\calX}{\mathcal{X}}
+
+% Operators
+\newcommand{\argmax}{\operatorname{argmax}}
+\newcommand{\argmin}{\operatorname{argmin}}
+\DeclareMathOperator{\argop}{\mathbb{I}}
+\newcommand{\bd}{\ensuremath{\mathrm{bd}}}
+\newcommand{\BER}{\ensuremath{\mathrm{BER}}}
+\newcommand{\ch}{\ensuremath{\operatorname{char}}}
+\newcommand{\CNR}{\ensuremath{\mathrm{CNR}}}
+\DeclareMathOperator{\conv}{conv}
+\newcommand{\dist}{\ensuremath{\mathrm{dist}}}
+\newcommand{\dom}{\ensuremath{\mathrm{dom}}}
+\newcommand{\E}{\operatorname{E}}
+\DeclareMathOperator{\entr}{entr}
+\DeclareMathOperator{\epi}{epi}
+\newcommand{\Epi}{\operatorname{epi}}
+\DeclareMathOperator{\hyp}{hyp}
+\newcommand{\Ima}{\ensuremath{\mathrm{Im}}}
+\newcommand{\inter}{\ensuremath{\mathrm{int}}}
+\DeclareMathOperator{\interior}{int}
+\newcommand{\Ln}{\operatorname{Ln}}
+\newcommand{\Log}{\operatorname{Log}}
+\newcommand{\No}{\operatorname{N}}
+\newcommand{\NP}{\operatorname{NP}}
+\newcommand{\PP}{\operatorname{PP}}
+\DeclareMathOperator{\rank}{rank}
+\newcommand{\Rea}{\ensuremath{\mathrm{Re}}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SIR}{\ensuremath{\mathrm{SIR}}}
+\DeclareMathOperator{\sumMat}{sum}
+\newcommand{\tra}{\operatorname{tr}}
+\newcommand{\U}{\operatorname{U}}
+\newcommand{\Var}{\operatorname{Var}}
+
+% Functions
+\newcommand{\Her}[1]{\ensuremath{#1^{\mathsf H}}}
+\newcommand{\herm}[1]{#1^{\mathsf{H}}}
+\newcommand{\jacobi}[2]{\ensuremath{\left(\frac{#1}{#2}\right)}}
+\newcommand{\norm}[2]{\left\|#1\right\|_{#2}}
+\newcommand{\tr}[1]{\ensuremath{#1^{\mathsf T}}}
+\newcommand{\tran}[1]{#1^{T}}
+\newcommand{\vectornorm}[1]{\left|\left|#1\right|\right|}
+
+% Bars
+\newcommand{\be}{\bar{\eta}}
+\newcommand{\bg}{\bar{g}}
+\newcommand{\bm}{\bar{\mu}}
+\newcommand{\bx}{\bar{x}}
+
+% Tildes
+\newcommand{\te}{\tilde{\eta}}
+\newcommand{\tg}{\tilde{g}}
+\newcommand{\tm}{\tilde{\mu}}
+
+% Greek Symbols
+\newcommand{\al}{\alpha}
+
+% Misc math symbols
+\newcommand{\aequiv}{\ensuremath{\Leftrightarrow}}
+\newcommand{\follows}{\ensuremath{\Rightarrow}}
+\newcommand{\I}{\mathbb I}   % Indikatorfunktion
+\newcommand{\ie}{i.e.}
+\newcommand{\Nn}{\N_{0}}
+\newcommand{\PPl}{\PP(\lambda)}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\ri}{1 \leq i \leq T}
+\newcommand{\Ss}{\mathbb{S}}
+\newcommand{\WRaum}{$(\Omega,\A,\PMenge)$}
+\newcommand{\ZZ}{\mathbb Z}
+
+% Bold letters
+\newcommand{\bc}{\ensuremath{\mathbf{c}}}
+\newcommand{\br}{\ensuremath{\mathbf{r}}}
+\newcommand{\bfsd}{\mathbf{s'}}
+\newcommand{\bfu}{\mathbf{u}}
+\newcommand{\bfun}{\mathbf{u^0}}
+\newcommand{\bof}{\mathbf{f}}
+\newcommand{\boomega}{{\bf \omega}}
+\newcommand{\W}{\mathbf{W}}
+
+\DeclareMathSymbol{\boC}{\mathalpha}{BoldMath}{'103}
+
+% Bold math functions
+\newcommand{\boone}{\ensuremath{{\mathbf{1}}}}
+
+% Bold Greek Symbols
+\DeclareMathSymbol{\boalpha}{\mathalpha}{BoldMath}{'013}
+\DeclareMathSymbol{\bobeta}{\mathalpha}{BoldMath}{'014}
+\DeclareMathSymbol{\bodelta}{\mathalpha}{BoldMath}{'016}
+\DeclareMathSymbol{\boepsilon}{\mathalpha}{BoldMath}{'042}
+\DeclareMathSymbol{\bogamma}{\mathalpha}{BoldMath}{'015}
+\DeclareMathSymbol{\bolambda}{\mathalpha}{BoldMath}{'025}
+\DeclareMathSymbol{\bomu}{\mathalpha}{BoldMath}{'026}
+\DeclareMathSymbol{\bopi}{\mathalpha}{BoldMath}{'031}
+\DeclareMathSymbol{\bophi}{\mathalpha}{BoldMath}{'047}
+\DeclareMathSymbol{\bosigma}{\mathalpha}{BoldMath}{'033}
+\DeclareMathSymbol{\botau}{\mathalpha}{BoldMath}{'034}
+\DeclareMathSymbol{\boxi}{\mathalpha}{BoldMath}{'030}
+\DeclareMathSymbol{\boGamma}{\mathalpha}{BoldMath}{'000}
+\DeclareMathSymbol{\boDelta}{\mathalpha}{BoldMath}{'001}
+\DeclareMathSymbol{\boLambda}{\mathalpha}{BoldMath}{'003}
+\DeclareMathSymbol{\boPi}{\mathalpha}{BoldMath}{'005}
+\DeclareMathSymbol{\boSigma}{\mathalpha}{BoldMath}{'006}
+\DeclareMathSymbol{\boPhi}{\mathalpha}{BoldMath}{'010}
+\DeclareMathSymbol{\boPsi}{\mathalpha}{BoldMath}{'011}
+
+% Matrices
+\newcommand{\matnull}{\boldsymbol{0}}
+\newcommand{\mateins}{\boldsymbol{1}}
+
+% Miscellaneous
+\newsavebox\MBox
+\newcommand\Cline[2][red]{{\sbox\MBox{$#2$}%
+  \rlap{\usebox\MBox}\color{#1}\rule[-1.2\dp\MBox]{\wd\MBox}{0.5pt}}}
+
+% References
+\newcommand{\figref}[1]{Figure~\ref{fig:#1}}
+
+% Abbreviations
+\newcommand{\Xopt}{\ensuremath{\calX_\text{opt}}}
+
+% Tikz
+\tikzset{
+  schraffiert/.style={pattern=horizontal lines,pattern color=#1},
+  schraffiert/.default=black
+}
+\tikzset{
+  schraffiertV/.style={pattern=vertical lines,pattern color=#1},
+  schraffiertV/.default=black
+}
 %    \end{macrocode}
 %
 % \Finale
