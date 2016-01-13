@@ -57,6 +57,9 @@
 % \DescribeMacro{master}
 % Use this option to create a master thesis notice.
 %
+% \textbf{Note:} In order to create a thesis notice suitable for both bachelor
+% and master students, both options should be selected when loading the class.
+%
 % \DescribeMacro{english}
 % This option makes sure the document title is properly translated. Note that
 % this option is also forwarded to the |tiarticle| base class.
@@ -89,26 +92,51 @@
 %
 % \section{Implementation}
 %    \begin{macrocode}
+\RequirePackage{etoolbox}
+
+\newtoggle{tithesisnotice@bachelor}
 \DeclareOption{bachelor}{
-  \def\tithesisnotice@type{Bachelor}
+  \toggletrue{tithesisnotice@bachelor}
 }
 
+\newtoggle{tithesisnotice@master}
 \DeclareOption{master}{
-  \def\tithesisnotice@type{Master}
+  \toggletrue{tithesisnotice@master}
 }
 
+\newtoggle{tithesisnotice@english}
 \def\tithesisnotice@typesuffix{arbeit}
 \DeclareOption{english}{
+  \toggletrue{tithesisnotice@english}
   \def\tithesisnotice@typesuffix{\ Thesis}
   \PassOptionsToClass{\CurrentOption}{tiarticle}
 }
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{tiarticle}}
 
-\ExecuteOptions{bachelor}
 \ProcessOptions\relax
 
 \LoadClass[11pt]{tiarticle}
+
+\def\tithesisnotice@type{}
+\iftoggle{tithesisnotice@bachelor}{
+  \iftoggle{tithesisnotice@master}{
+    \iftoggle{tithesisnotice@english}{
+      \def\tithesisnotice@type{Bachelor/Master}
+    }{
+      \def\tithesisnotice@type{Bachelor-/Master}
+    }
+  }{
+    \def\tithesisnotice@type{Bachelor}
+  }
+}{
+  \iftoggle{tithesisnotice@master}{
+    \def\tithesisnotice@type{Master}
+  }{
+    \def\tithesisnotice@type{}
+    \def\tithesisnotice@typesuffix{}
+  }
+}
 
 \setdocumenttitle{\tithesisnotice@type\tithesisnotice@typesuffix}
 
