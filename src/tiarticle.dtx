@@ -84,6 +84,8 @@
 % \section{Implementation}
 %
 %    \begin{macrocode}
+\RequirePackage{etoolbox}
+
 \def\tiarticle@language{ngerman}
 \def\tiarticle@logo{rwth_ti_de_rgb}
 \DeclareOption{english}{
@@ -159,7 +161,7 @@
   \tiinternal@contentvpadding
 }
 
-\AtBeginDocument{
+\AfterEndPreamble{
   \expandafter\selectlanguage\expandafter{\tiarticle@language}
   \tiarticle@inserttiheader
 }

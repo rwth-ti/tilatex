@@ -358,7 +358,7 @@
 \newcommand*{\tiexam@insertproblems}{
   \setcounter{tiexam@LoopCounter}{0}
   \whileboolexpr
-    {test {\ifnumcomp{\value{tiexam@LoopCounter}}{<}{\the\value{tiexam@ProblemCounter}}}}
+    {test {\ifnumcomp{\value{tiexam@LoopCounter}}{<}{\value{tiexam@ProblemCounter}}}}
     {
       \begin{problem}
         \iftoggle{tiexam@compact}{%
@@ -371,17 +371,17 @@
         \input{\csname tiexam@problemsource\the\value{tiexam@LoopCounter} \endcsname}
       \end{problem}
       \tiexam@insertemptypages{\tiexam@emptypagecount}
-      \iftoggle{tiexam@compact}{}{%
 %    \end{macrocode}
 % Force new problem to start on the left (even page).
 %    \begin{macrocode}
+      \iftoggle{tiexam@compact}{}{%
         \ifodd\value{page}\hbox{}\newpage\fi
       }
       \stepcounter{tiexam@LoopCounter}
     }
 }
 
-\AtBeginDocument{
+\AfterEndPreamble{
   \iftoggle{tiexam@compact}{}{\tiexam@makecoverpage}
   \tiexam@insertproblems
 }
