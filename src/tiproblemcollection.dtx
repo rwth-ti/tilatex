@@ -56,11 +56,18 @@
 % selected language.
 %
 % \section{Macros}
+% \DescribeMacro{\insertproblemandsolution}
+% The macro |\insertproblemandsolution|\marg{problemtitle}\marg{sectionindex}
+% inserts the problem file \meta{problemtitle} belonging to section
+% \meta{sectionindex} as well as its sample solution file (cf.
+% |\setsolutionsuffix| the |tiproblem| package). Nonexistent files are quietly
+% ignored.
+%
 % \DescribeMacro{\insertproblemsection}
-% Use the |\insertproblemsection|\marg{title}\marg{sectionindex} macro to
-% insert all problems belonging to section \meta{sectionindex}. Before
-% inserting any problems, a new subsection called \meta{title} is introduced.
-% For instance, the call
+% Use the |\insertproblemsection|\marg{sectiontitle}\marg{sectionindex} macro
+% to insert all problems belonging to section \meta{sectionindex}. Before
+% inserting any problems, a new subsection called \meta{sectiontitle} is
+% introduced. For instance, the call
 % \begin{verbatim}
 %   \insertproblemsection{Duality}{06}
 % \end{verbatim}
@@ -100,10 +107,10 @@
   \def\tiproblemcollection@title{Aufgabensammlung}
 }
 
-\newcommand{\tiproblemcollection@insertproblemandsolution}[2]{
-  \problemexists{#1}{#2}{
-    \insertproblem*{#1}{#2}
-    \insertsolution*{#1}{#2}
+\newcommand{\insertproblemandsolution}[2]{
+  \problemexists{#2}{#1}{
+    \insertproblem*{#2}{#1}
+    \insertsolution*{#2}{#1}
     \noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}%
     \vspace{1cm}
   }{}
@@ -115,7 +122,7 @@
 % (but a b**** ain't one) per section. Oh well.
 %    \begin{macrocode}
   \foreach \c in {1,...,99}{%
-    \tiproblemcollection@insertproblemandsolution{#2}{0\ifnum\c<10 0\fi\c}
+    \insertproblemandsolution{0\ifnum\c<10 0\fi\c}{#2}
   }
 }
 
