@@ -343,20 +343,20 @@
 }
 
 \DeclareDocumentCommand{\tiexam@insertemptypages}{s m}{
-  \setcounter{tiexam@ProblemPageCounter}{0}
   \clearpage
+  \setcounter{tiexam@ProblemPageCounter}{0}
   \iftoggle{tiexam@compact}{}{
     \whileboolexpr
       {test {\ifnumcomp{\value{tiexam@ProblemPageCounter}}{<}{#2}}}
       {%
         \IfBooleanTF{#1}{%
+          \clearpage
           \textsf{%
             \textbf{\Large{\tiexam@auxiliarypaperlabel}} \\[4mm]
             \textbf{\tiexam@auxiliaryproblemlabel:}%
           }%
-        }{\hbox{}}
+        }{\hbox{}\clearpage}
         \stepcounter{tiexam@ProblemPageCounter}
-        \clearpage
       }
   }
 }
@@ -395,7 +395,10 @@
   \tiexam@insertproblems
 }
 
-\AtEndDocument{\tiexam@insertemptypages*{\tiexam@auxiliarypagecount}}
+\AtEndDocument{%
+  \tiexam@insertemptypages*{\tiexam@auxiliarypagecount}%
+  \ifodd\value{page}\tiexam@insertemptypages*{1}\fi%
+}
 %    \end{macrocode}
 % \Finale
 \endinput
