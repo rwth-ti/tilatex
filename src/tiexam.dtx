@@ -121,6 +121,9 @@
 % that \meta{filename}|.tex| refers to a file in the same directory as the exam
 % document.
 %
+% \DescribeMacro{\insertcheckeredpage}
+% Insert a checkered page with 5mm wide boxes.
+%
 % \StopEventually{\PrintIndex}
 %
 % \section{Implementation}
@@ -388,6 +391,31 @@
       }
       \stepcounter{tiexam@LoopCounter}
     }
+}
+
+\newcommand*{\insertcheckeredpage}{%
+  \newpage
+  \makeatletter
+  \let\@oldhoffset\hoffset
+  \let\@oldvoffset\voffset
+  \hoffset=0cm
+  \voffset=0cm
+
+  \begin{tikzpicture}[remember picture, overlay]
+  \tikzset{normal lines/.style={black!20}}
+
+  \node at (current page.south west){
+    \begin{tikzpicture}[remember picture, overlay]
+
+    \draw[style=normal lines,step=0.5cm] (0,0) grid +(210mm,297mm);
+
+    \end{tikzpicture}
+  };
+  \end{tikzpicture}
+
+  \let\hoffset\@oldhoffset
+  \let\voffset\@oldvoffset
+  \makeatother
 }
 
 \AfterEndPreamble{
