@@ -57,7 +57,7 @@
 %
 % \DescribeMacro{compact}
 % This option suppresses the cover page and ignores empty page padding (cf.
-% |\setemptypagelayout|). Is is mainly intended for exam sample solution
+% |\setemptypagelayout|). It is mainly intended for exam sample solution
 % documents and when initially designing exam problems.
 %
 % \DescribeMacro{showpoints}
@@ -322,6 +322,7 @@
   \tiinternal@contentvpadding
   \begin{center}
     {\large\textbf{\tiexam@examlabel}} \\[3mm]
+    % FIXME: If no doc title is set, this causes a "cannot end line here" error
     {\Large{\getdocumenttitle}} \\[3mm]
     \insertdate,~\inserttime \\
   \end{center}
