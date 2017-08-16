@@ -1,0 +1,156 @@
+\bf Lösung \rm
+
+\begin{itemize}
+\item[a)] Der Kanal hat $t=2$ Sendeantennen und $r=3$ Empfangsantennen.
+\item[b)] Zur Bestimmung der Eigenwerte der Matrix
+\begin{align*}
+\matH^*\matH=\left(\begin{array}{ccc}
+1 & 1 & -i \\
+-i & i & 1  \\
+\end{array}\right)\left(\begin{array}{cc}
+1 & i \\
+1 & -i \\
+i & 1 \\
+\end{array}\right)=\left(\begin{array}{cc}
+3 & -i \\
+i & 3 \\
+\end{array}\right)
+\end{align*}
+berechnen wir das charakteristische Polynom
+\begin{align*}
+\left|\matH^*\matH-\lambda\matI_2\right|&=\left|\begin{array}{cc}
+3-\lambda & -i \\
+i & 3-\lambda \\
+\end{array}\right| \\
+&=(3-\lambda)(3-\lambda)-1 \\
+&=\lambda^2-6\lambda +8 \\
+&=(\lambda-4)(\lambda-2),
+\end{align*}
+daraus ergeben sich die Eigenwerte $\lambda_1=4$ und $\lambda_2=2$.
+Mittels Waterfilling suchen wir nun
+$\nu$ mit
+\begin{align*}
+\sum_{i=1}^2\left(\nu-\frac{\sigma^2}{\lambda_i}\right)^+=\left(\nu-\frac{4}{4}\right)^++\left(\nu-\frac{4}{4}\right)^+=L=11.
+\end{align*}
+Durch Weglassen des $^+$-Operators ergibt sich
+\begin{align*}
+(\nu-1)+(\nu-2)=2\nu-3=11,
+\end{align*}
+also $\nu=7$. Da für diesen Wert beide Summanden positiv sind, ist dies auch schon die richtige
+Lösung, und die Kanalkapazität ist folglich
+\begin{align*}
+C=\sum_{i=1}^2\left(\ln\left(\frac{\nu\lambda_i}{\sigma^2}\right)\right)^+
+=\ln\left(\frac{7\cdot4}{4}\right)^+ + \ln\left(\frac{7\cdot2}{4}\right)^+ 
+=\ln\left(7\right) + \ln\left(\frac{7}{2}\right)\approx 3.199.
+\end{align*}
+\item[c)] Um die kapazitätserreichende Eingabeverteilung zu ermitteln, werden die Eigenvektoren
+der Matrix $\matH^*\matH$ benötigt. Eigenvektoren zum Eigenwert $\lambda_1=4$ sind alle
+Vektoren $\vecv$, die das Gleichungssystem
+\begin{align*}
+\left(\matH^*\matH-\lambda_1\cdot\matI_2\right)\vecv=\left(\begin{array}{cc}
+-1 & -i \\
+i & -1 \\
+\end{array}\right)\left(\begin{array}{c}
+v_1 \\ v_2 \\
+\end{array}\right)=\veczero
+\end{align*}
+erfüllen. Man kann beispielsweise $v_1=1$ wählen und erhält durch Einsetzen in eine der
+beiden Gleichungen den Wert $v_2=i$. Analog sind alle Eigenvektoren zum Eigenwert
+$\lambda_2=2$ durch das Gleichungssystem
+\begin{align*}
+\left(\matH^*\matH-\lambda_2\cdot\matI_2\right)\vecw=\left(\begin{array}{cc}
+1 & -i \\
+i & 1 \\
+\end{array}\right)\left(\begin{array}{c}
+w_1 \\ w_2 \\
+\end{array}\right)=\veczero
+\end{align*}
+bestimmt. Aus der Wahl $w_1=1$ folgt hier $w_2=-i$.
+Normiert ergeben sich die Vektoren
+\begin{align*}
+\vecu_1=\frac{\vecv}{\|\vecv\|}=\frac{1}{\sqrt{2}}\left(\begin{array}{c}
+1 \\ i \\
+\end{array}\right) \qquad \text{und} \qquad \vecu_2=\frac{\vecw}{\|\vecw\|}=\frac{1}{\sqrt{2}}\left(\begin{array}{c}
+1 \\ -i \\
+\end{array}\right),
+\end{align*}
+die die Spalten der Matrix $\matU$ bilden.
+Die gesuchte Kovarianzmatrix der Eingabeverteilung $\rvecX\sim\scndist(\veczero,\matQ)$ ist also
+\begin{align*}
+\matQ&=\matU\diag\left(\left(\nu-\frac{\sigma^2}{\lambda_i}\right)^+\right)\matU^* \\
+&=\frac{1}{2}\left(\begin{array}{cc}
+1 & 1 \\
+i & -i \\
+\end{array}\right)\left(\begin{array}{cc}
+6 & 0 \\
+0 & 5 \\
+\end{array}\right)\left(\begin{array}{cc}
+1 & -i \\
+1 & i \\
+\end{array}\right) \displaybreak[0] \\
+&=\frac{1}{2}\left(\begin{array}{cc}
+6 & 5 \\
+6i & -5i \\
+\end{array}\right)\left(\begin{array}{cc}
+1 & -i \\
+1 & i \\
+\end{array}\right) \\
+&=\frac{1}{2}\left(\begin{array}{cc} 
+11 & -i \\
+i & 11 \\
+\end{array}\right).
+\end{align*}
+\item[d)] Der Parameter $\nu$ muss nun die Bedingung
+\begin{align*}
+\sum_{i=1}^2\left(\nu-\frac{\sigma^2}{\lambda_i}\right)^+=\left(\nu-\frac{4}{4}\right)^++\left(\nu-\frac{4}{2}\right)^+=L=\frac{1}{3}
+\end{align*}
+erfüllen. Der erste Ansatz ohne $^+$-Operator lautet
+\begin{align*}
+(\nu-1)+(\nu-2)=2\nu-3=\frac{1}{3}
+\end{align*}
+und ergibt $\nu=\frac{5}{3}$. Für diesen Wert ist allerdings $\nu-2<0$, es handelt sich also nicht um
+eine gültige Lösung. Weglassen des zweiten Summanden liefert den Ansatz
+\begin{align*}
+(\nu-1)=\frac{1}{3},
+\end{align*}
+daraus folgt die gültige Lösung $\nu=\frac{4}{3}$. Die Kanalkapazität ist nun also
+\begin{align*}
+C=\sum_{i=1}^2\left(\ln\left(\frac{\nu\lambda_i}{\sigma^2}\right)\right)^+
+=\ln(\frac{4}{3})+\underbrace{\left(\ln\left(\frac{4}{3}\right)\right)^+}_{=0}
+=\ln(4) - \ln(3)
+\approx 0.288.
+\end{align*}
+Sie wird erreicht für $\rvecX\sim\scndist(\veczero,\matQ)$ mit Kovarianzmatrix
+\begin{align*}
+\matQ&=\matU\diag\left(\left(\nu-\frac{7}{\lambda_i}\right)^+\right)\matU^* \\
+&=\frac{1}{2}\left(\begin{array}{cc}
+1 & 1 \\
+i & -i \\
+\end{array}\right)\left(\begin{array}{cc}
+\frac{1}{3} & 0 \\
+0 & 0 \\
+\end{array}\right)\left(\begin{array}{cc}
+1 & -i \\
+1 & i \\
+\end{array}\right) \displaybreak[0] \\
+&=\frac{1}{2} \cdot \frac{1}{3}\left(\begin{array}{cc}
+1 & -i \\
+i & 1 \\
+\end{array}\right)
+=\left(\begin{array}{cc}
+\frac{1}{6} & \frac{-i}{6} \\
+\frac{i}{6} & \frac{1}{6} \\
+\end{array}\right).
+\end{align*}
+
+\item[e)] $\left(\nu-\frac{\sigma^2}{\lambda_1}\right)^+ = \frac{L}{2}$ and $\left(\nu-\frac{\sigma^2}{\lambda_2}\right)^+ = \frac{L}{2}$.
+
+\item[f)] $\left(\nu-\frac{\sigma^2}{\lambda_1}\right)^+ = L$ and $\left(\nu-\frac{\sigma^2}{\lambda_2}\right)^+ = 0$.
+
+\end{itemize}
+
+\newpage
+
+%%%
+%%%
+%%%

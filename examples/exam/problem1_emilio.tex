@@ -1,0 +1,53 @@
+\textbf{Differential Entropy and Kullback Leibler Divergence:}\\
+%
+%
+Consider the exponentially distributed random variable X with distribution
+\begin{equation*}
+f_X(x) = 
+\begin{cases} 
+      \lambda \cdot e^{-\lambda \cdot x} & x\geq 0 \\
+      0 &  x < 0 
+ \end{cases} \, , \quad
+ \text{with} \, \lambda\in\mathbb{R}^{+}
+\end{equation*}
+%
+%
+%
+\begin{enumref}
+%
+%
+\item Show that $\mathbb{E}\{X\} = \frac{1}{\lambda}$.
+\item Show that the differential entropy (with natural logarithm) becomes
+%
+$$
+h(X) = 1 -\text{ln}(\lambda) \, .
+$$
+\item Using the Kullback Leibler divergence show that the inequality $(\alpha -1) \geq \text{ln} (\alpha)$ holds for any $\alpha \in \mathbb{R}$.
+Hint: start by calculating $D(X \| Y)$, for Y with distribution
+\begin{equation*}
+f_Y(x) = 
+\begin{cases} 
+      \xi \cdot e^{-\xi \cdot x} & x\geq 0 \\
+      0 &  x < 0 
+ \end{cases} \, , \quad
+ \text{with} \, \xi \in\mathbb{R}^{+} \, . 
+\end{equation*}
+%
+\end{enumref}
+
+A coin is tossed until it lays on heads. Let $N$ be the number of tossed made for the first head to appear. This process yields $N$ to exhibit the distribution $f_{N}(n) = \left ( \frac{1}{2} \right ) ^{n}$, where $n \in \mathbb{N}^{+}$.
+Let $S$ be the number of tosses necessary for the second head to appear. For example, if $S=5$ the second head appeared on the fifth coin toss.
+
+\begin{enumref}[resume]
+\item Find the entropy $H(N)$ (with base 2 logarithm). Hint: For any real number $r$ between 0 and 1, the following relations hold
+$$
+\sum_{n=1}^{\infty} r^{n} = \frac{r}{(1-r)}\, , \qquad \sum_{n=1}^{\infty} n r^{n} = \frac{r}{(1-r)^2}\, .
+$$
+
+\item The random variable $S$ can be expressed as the sum of two random variables $X_1$ and $X_2$, that is $S = N_1 + N_2$. Find the distribution of $N_1$ and $N_2$. Are $N_1$ and $N_2$ independent?
+
+\item For any deterministic function $g$ the inequality $H(N) \geq H(g(N))$ holds. Using this relation, show that
+$
+H(S) \leq 2 H(N)\, .
+$
+\end{enumref}
