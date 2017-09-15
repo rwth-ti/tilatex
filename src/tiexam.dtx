@@ -162,13 +162,7 @@
 \iftoggle{tiexam@english}{
   \def\tiexam@examlabel{Written Examination}
   \def\tiexam@pointslabel{points}
-  \def\tiexam@examresultsdescription{
-    The results will be published on Tuesday, 26 August 2014, 16:00 on the
-    homepage of the institute. \\[2mm] The corrected exams can be inspected on
-    Friday, 01 January 1970, 0:00am at the Seminarraum 24 A 407 of the
-    Institute for Theoretical Information Technology, Sommerfeldstr.\,24.
-    \\[5mm]
-  }
+  \def\tiexam@examresultsdescription{}
   \def\tiexam@studentinfoform{
     Name:~\hrulefill\hrulefill~~Matr.-No.:~\hrulefill \\[5mm]
     Field of study:~\hrulefill \\[5mm]
@@ -188,7 +182,12 @@
         intermediate arguments.
       \item[4) \phantom{al}] \textbf{Admitted materials:} The sheets handed out
         with the exam and a non-programmable calculator.
-      \item[5) \phantom{al}] \tiexam@examresultsdescription
+      \ifx\tiexam@examresultsdescription\empty
+        \relax
+      \else
+        \item[5) \phantom{al}] \tiexam@examresultsdescription
+      \fi
+      \\[0.5cm]%
     \end{description}
   }
   \def\tiexam@examconfirmation{
@@ -204,13 +203,7 @@
 }{
   \def\tiexam@examlabel{Prüfungsklausur}
   \def\tiexam@pointslabel{Punkte}
-  \def\tiexam@examresultsdescription{
-    Die Klausurergebnisse werden voraussichtlich am Donnerstag, den 01.01.1970,
-    auf der Institutshomepage bekanntgegeben. \\[2mm] Die korrigierten
-    Klausuren können am Freitag, den 01.01.1970, um 0 Uhr im Seminarraum 24 A
-    407 des Lehrstuhls für Theoretische Informationstechnik, Sommerfeldstr. 24,
-    eingesehen werden. \\[5mm]
-  }
+  \def\tiexam@examresultsdescription{}
   \def\tiexam@studentinfoform{
     Name:~\hrulefill\hrulefill~~Matr.-Nr.:~\hrulefill \\[5mm]
     Fachrichtung:~\hrulefill \\[5mm]
@@ -231,7 +224,12 @@
       \item[4) \phantom{al}] \textbf{Zugelassene Hilfsmittel:} Mit der Klausur
         ausgeteiltes Formelblatt, ein Lineal und ein gemäß der vorab
         veröffentlichten Positivliste zugelassener Taschenrechner.
-      \item[5) \phantom{al}] \tiexam@examresultsdescription
+      \ifx\tiexam@examresultsdescription\empty
+        \relax
+      \else
+        \item[5) \phantom{al}] \tiexam@examresultsdescription
+      \fi
+      \\[0.5cm]%
     \end{description}
   }
   \def\tiexam@examconfirmation{
