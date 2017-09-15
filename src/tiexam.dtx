@@ -121,6 +121,12 @@
 % that \meta{filename}|.tex| refers to a file in the same directory as the exam
 % document.
 %
+% \DescribeMacro{\setpoints}
+% This macro can be used to print point annotations for subproblems of exam
+% solutions. If called as |\setpoints|\marg{points}, the points are shown
+% as (\marg{points}P) at the location the macro is called from. Note that the
+% points are only shown if the |showpoints| class option is active.
+%
 % \DescribeMacro{\insertcheckeredpage}
 % Insert a checkered page with 5mm wide boxes.
 %
@@ -391,6 +397,8 @@
       \stepcounter{tiexam@LoopCounter}
     }
 }
+
+\newcommand*{\setpoints}[1]{\iftoggle{tiexam@showpoints}{(#1P) \\}{}}
 
 \newcommand*{\insertcheckeredpage}{%
   \newpage
