@@ -70,7 +70,7 @@
 % preamble so that the cover page, which is generated from inside an
 % |\AtBeginDocument| hook, can be generated properly. As the typesetting of
 % problem descriptions is also handled via |\AtBeginDocument|, exam documents
-% will always contain an empty |document| section, i.e.
+% will always contain an empty |document| section, i.e.,
 % \begin{verbatim}
 %   \begin{document}
 %   \end{document}
@@ -327,7 +327,7 @@
   \begin{center}
     {\large\textbf{\tiexam@examlabel}} \\[3mm]
     % FIXME: If no doc title is set, this causes a "cannot end line here" error
-    {\Large{\getdocumenttitle}} \\[3mm]
+    {\Large\getdocumenttitle} \\[3mm]
     \insertdate,~\inserttime \\
   \end{center}
   \tiinternal@contentvpadding

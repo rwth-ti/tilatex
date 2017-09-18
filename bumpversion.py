@@ -71,17 +71,21 @@ def _spawn_process(program, args):
     process = subprocess.Popen([program] + args, stdout=PIPE, stderr=PIPE)
     return map(str.strip, process.communicate())
 
+
 def get_latest_version():
     version_string, _ = _spawn_process(
         "git", "describe --tags --abbrev=0".split())
     return Version(version_string)
 
+
 def tag_exists(version):
     stdout, _ = _spawn_process("git", ["tag"])
     return version in stdout.splitlines()
 
+
 def create_tag(version, message):
     subprocess.call(["git", "tag", "-m", message, version])
+
 
 def main():
     version = get_latest_version()
@@ -99,6 +103,6 @@ def main():
     # Create a tag.
     create_tag(new_version_string, tag_message)
 
+
 if __name__ == "__main__":
     main()
-

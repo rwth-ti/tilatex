@@ -3,4 +3,3 @@ all:
 
 %:
 	make -C src $@
-
