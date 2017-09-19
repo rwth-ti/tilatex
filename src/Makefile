@@ -18,7 +18,8 @@ CLSBASE=tiarticle \
 		tiexam \
 		tiproblemcollection \
 		titutorial \
-		tithesisnotice
+		tithesisnotice \
+		tistudentlist
 CLS=$(addsuffix .cls, $(CLSBASE))
 STYCLS=$(STY) $(CLS)
 DTX=$(wildcard *.dtx)
@@ -53,4 +54,3 @@ distclean: clean
 	-$(RM) *.sty *.cls *.pdf $(CTAN)
 
 .PHONY: ctan clean distclean
-

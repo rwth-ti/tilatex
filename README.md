@@ -9,7 +9,7 @@ Technology, RWTH Aachen University, Germany.
 ### Linux
 
     export TILATEXPATH=/path/to/tilatex/
-    cd ${TILATEXPATH}/src
+    cd ${TILATEXPATH}
     make ctan
     mkdir -p ~/texmf/tex/latex
     ln -s ${TILATEXPATH}/tds/tex/latex/tilatex ~/texmf/tex/latex
@@ -17,7 +17,7 @@ Technology, RWTH Aachen University, Germany.
 ### OS X
 
     export TILATEXPATH=/path/to/tilatex/
-    cd ${TILATEXPATH}/src
+    cd ${TILATEXPATH}
     make ctan
     mkdir -p ~/Library/texmf/tex/latex
     ln -s ${TILATEXPATH}/tds/tex/latex/tilatex ~/Library/texmf/tex/latex
