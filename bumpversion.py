@@ -1,5 +1,7 @@
 #!/usr/bin/env python2
 
+from __future__ import print_function
+
 import time
 import subprocess
 
@@ -102,6 +104,7 @@ def main():
 
     # Create a tag.
     create_tag(new_version_string, tag_message)
+    print(tag_message)
 
 
 if __name__ == "__main__":
