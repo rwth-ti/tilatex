@@ -1,0 +1,210 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2017 by Niklas Koep <koep@ti.rwth-aachen.de>
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.2
+% of this license or (at your option) any later version.
+% The latest version of this license is in:
+%
+% http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of LaTeX
+% version 1999/12/01 or later.
+%
+% \fi
+%
+% \iffalse
+%<*driver>
+\ProvidesFile{tiplacecards.dtx}
+%</driver>
+%<class>\NeedsTeXFormat{LaTeX2e}
+%<class>\ProvidesClass{tiplacecards}
+%<*class>
+  [2017/09/15 v0.1 Document class for place cards for use in exams]
+%</class>
+%<*driver>
+\documentclass{ltxdoc}
+\GetFileInfo{tiplacecards.dtx}
+\def\@author{Niklas Koep \\ \texttt{koep@ti.rwth-aachen.de}}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \title{The \textsf{tiplacecards} class\thanks{This document corresponds to
+    \textsf{tiplacecards}~\fileversion, dated \filedate.}}
+  \author{\@author}
+  \maketitle
+  \DocInput{tiplacecards.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \GetFileInfo{tiplacecards.dtx}
+%
+% \DoNotIndex{\newcommand,\newenvironment}
+%
+% This class is used to create place cards of exams with information about
+% matriculation number, exam date, post-exam review date, etc. Optionally, it
+% is possible to append a predefined formula sheet to each place card. Refer to
+% the |examples| directory for a compiled example.
+%
+% \section{Class Options}
+% \DescribeMacro{english}
+% This option is intended to be used for place cards of exams of English
+% lectures. It causes proper translations to be inserted in place of static
+% labels. Additionally, the option is passed on to any packages which may need
+% to adjust their behavior based on the selected language.
+%
+% \section{Macros}
+% All macros described in this section have to be invoked in the document
+% preamble so that the cover page, which is generated from inside an
+% |\AfterEndPreamble| hook, can be generated properly. Therefore, student list
+% documents will always contain an empty |document| section, i.e.,
+% \begin{verbatim}
+%   \begin{document}
+%   \end{document}
+% \end{verbatim}
+%
+% \DescribeMacro{\setlistofparticipants}
+% This macro is used to set the name of the CSV file containing the student
+% information. Note that this must be a standard CSV list, i.e., no separators
+% except for commas and no quoted fields are supported.
+%
+% \DescribeMacro{\setformulasheet}
+% This optional macro defines the path to a formula as PDF file which should be
+% appended to every place card.
+%
+% \DescribeMacro{\setresultsdate}
+% The macro |\setresultsdate|\marg{day}\marg{month}\marg{year} defines the
+% tentative date by which the exam results should be published.
+%
+% \DescribeMacro{\setreviewdate}
+% The macro |\setreviewdate|\marg{day}\marg{month}\marg{year} defines the date
+% of the post-exam review.
+%
+% \DescribeMacro{\setreviewtime}
+% Use |\setreviewtime|\marg{hour}\marg{minute} to set the start time of the
+% post-exam review.
+%
+% \DescribeMacro{\setreviewlocation}
+% Calling this macro as |\setreviewlocation|\marg{location} is used to define a
+% location string for the post-exam review.
+%
+% \StopEventually{\PrintIndex}
+%
+% \section{Implementation}
+%    \begin{macrocode}
+\RequirePackage{etoolbox}
+
+\newtoggle{tiplacecards@english}
+\DeclareOption{english}{
+  \toggletrue{tiplacecards@english}
+  \PassOptionsToPackage{\CurrentOption}{tidatetime}
+  \PassOptionsToClass{\CurrentOption}{tiarticle}
+}
+
+\DeclareOption*{\ClassWarning{tiplacecards}{Unknown option '\CurrentOption'}}
+\ProcessOptions\relax
+
+\LoadClass[12pt,noheader]{tiarticle}
+
+\usepackage{tidatetime}
+
+\usepackage{csvsimple}
+\usepackage{pdfpages}
+
+\def\tiplacecards@participants{}
+\newcommand*{\setlistofparticipants}[1]{
+  \def\tiplacecards@participants{#1}
+}
+
+\def\tiplacecards@formulasheet{}
+\newcommand*{\setformulasheet}[1]{
+  \def\tiplacecards@formulasheet{#1}
+}
+
+\newcommand*{\setresultsdate}[3]{
+  \def\tiplacecards@resultsday{#1}
+  \def\tiplacecards@resultsmonth{#2}
+  \def\tiplacecards@resultsyear{#3}
+}
+\setdate{1}{1}{1970}
+
+\newcommand*{\setreviewdate}[3]{
+  \def\tiplacecards@reviewday{#1}
+  \def\tiplacecards@reviewmonth{#2}
+  \def\tiplacecards@reviewyear{#3}
+}
+\setdate{1}{1}{1970}
+
+\newcommand*{\setreviewtime}[2]{
+  \def\tiplacecards@reviewhour{#1}
+  \def\tiplacecards@reviewminute{#2}
+}
+\settime{0}{0}
+
+\def\tiplacecards@reviewlocation{}
+\newcommand*{\setreviewlocation}[1]{
+  \def\tiplacecards@reviewlocation{#1}
+}
+
+\def\tiplacecards@examlabel{Prüfungsklausur}
+\def\tiplacecards@resultslabel{Ergebnisse}
+\def\tiplacecards@reviewlabel{Einsicht}
+\def\tiplacecards@learningroom{im L$^2$P-Lernraum}
+\iftoggle{tiplacecards@english}{
+  \def\tiplacecards@examlabel{Written Examination}
+  \def\tiplacecards@resultslabel{Results}
+  \def\tiplacecards@reviewlabel{Post-Exam Review}
+  \def\tiplacecards@learningroom{in the L$^2$P course room}
+}{}
+
+\newcommand\tiplacecards@insertcard[1]{%
+  \topskip0pt
+  \vspace*{\fill}
+  \begin{center}
+    {\Large\textbf{\tiplacecards@examlabel}} \\[1em]
+    {\huge\getdocumenttitle} \\[1em]
+    {\large\insertdate,~\inserttime} \\[3cm]
+    \framebox[10em]{\huge\texttt{#1}\parbox[c][3ex]{0cm}{}} \\[3cm]
+    {\large\textbf{\tiplacecards@resultslabel:}} \\[0.25em]
+    \formatdate
+      {\tiplacecards@resultsday}
+      {\tiplacecards@resultsmonth}
+      {\tiplacecards@resultsyear}%
+    ~\tiplacecards@learningroom \\[1.5em]
+    {\large\textbf{\tiplacecards@reviewlabel:}} \\[0.25em]
+    \formatdate
+      {\tiplacecards@reviewday}
+      {\tiplacecards@reviewmonth}
+      {\tiplacecards@reviewyear},%
+    ~\formattime{\tiplacecards@reviewhour}{\tiplacecards@reviewminute}{00}, \\
+    \tiplacecards@reviewlocation
+  \end{center}
+  \vspace*{\fill}
+  \newpage
+}
+
+\AfterEndPreamble{%
+  \begin{center}
+    \IfFileExists{\tiplacecards@participants}{%
+      \csvreader[head to column names]{\tiplacecards@participants}{}{%
+        \tiarticle@inserttiheader
+        \tiplacecards@insertcard{\mtknr}%
+        \ifx\tiplacecards@formulasheet\empty
+          \relax
+        \else
+          \includepdf[pages=-]{\tiplacecards@formulasheet}
+        \fi
+      }
+    }{%
+      \Huge\textcolor{red}{\textbf{Input file not found}}%
+    }
+  \end{center}
+}
+%    \end{macrocode}
+% \Finale
+\endinput
