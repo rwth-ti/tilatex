@@ -54,10 +54,10 @@
 %
 % \section{Class Options}
 % \DescribeMacro{english}
-% This option is intended to be used for problem sheets of English lectures.
-% It causes proper translations to be inserted in place of static labels.
-% Additionally, the option is passed on to any packages which may need to
-% adjust their behavior based on the selected language.
+% This option is intended to be used for list of participants of exams of
+% English lectures. It causes proper translations to be inserted in place of
+% static labels. Additionally, the option is passed on to any packages which
+% may need to adjust their behavior based on the selected language.
 %
 % \section{Macros}
 % All macros described in this section have to be invoked in the document
@@ -100,9 +100,6 @@
     \tistudentlist@reviewlabel
   }
 }
-
-\def\inserttext{\insertproblem}
-\def\insertfile{\insertproblemfromfile}
 
 \DeclareOption*{\ClassWarning{tistudentlist}{Unknown option '\CurrentOption'}}
 \ProcessOptions\relax
@@ -171,9 +168,9 @@
         }
         \\\hline
         \end{tabularx}
-      }{%
-        \Huge\textcolor{red}{\textbf{Input file not found}}%
-      }
+    }{%
+      \Huge\textcolor{red}{\textbf{Input file not found}}%
+    }
   \end{center}
 }
 %    \end{macrocode}

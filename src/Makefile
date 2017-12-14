@@ -19,7 +19,8 @@ CLSBASE=tiarticle \
 		tiproblemcollection \
 		titutorial \
 		tithesisnotice \
-		tistudentlist
+		tistudentlist \
+		tiplacecards
 CLS=$(addsuffix .cls, $(CLSBASE))
 STYCLS=$(STY) $(CLS)
 DTX=$(wildcard *.dtx)

@@ -119,13 +119,14 @@
 \settime{0}{0}
 
 \newcommand*{\insertdate}{%
-  \tidatetime@setdateformat%
   \formatdate{\tidatetime@day}{\tidatetime@month}{\tidatetime@year}%
 }
 
 \newcommand*{\inserttime}{%
   \formattime{\tidatetime@hour}{\tidatetime@minute}{00}%
 }
+
+\AfterEndPreamble{\tidatetime@setdateformat}
 %    \end{macrocode}
 %
 % \Finale

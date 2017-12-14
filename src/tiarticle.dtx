@@ -61,6 +61,11 @@
 % beginning of the document. By default, we load the |babel| package with the
 % |ngerman| option.
 %
+% \DescribeMacro{noheader}
+% This package option will omit the institute header that is usually added to
+% the first page of every |tiarticle| document. This is mostly intended for
+% internal usage.
+%
 % \section{Macros}
 % \DescribeMacro{\setdocumenttitle}
 % Use |\setdocumenttitle|\marg{title} to change the document title to
@@ -85,6 +90,11 @@
 %
 %    \begin{macrocode}
 \RequirePackage{etoolbox}
+
+\newtoggle{tiarticle@noheader}
+\DeclareOption{noheader}{
+  \toggletrue{tiarticle@noheader}
+}
 
 \def\tiarticle@language{ngerman}
 \def\tiarticle@logo{rwth_ti_de_rgb}
@@ -163,7 +173,7 @@
 
 \AfterEndPreamble{
   \expandafter\selectlanguage\expandafter{\tiarticle@language}
-  \tiarticle@inserttiheader
+  \iftoggle{tiarticle@noheader}{}{\tiarticle@inserttiheader}
 }
 %    \end{macrocode}
 %
