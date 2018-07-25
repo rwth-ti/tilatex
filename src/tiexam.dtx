@@ -88,10 +88,16 @@
 % exam. This value, which defaults to $25$, is then included in the exam
 % description on the cover page of the document.
 %
+% \DescribeMacro{\setadmittedmaterials}
+% The |\setadmittedmaterials|\marg{materials} macro can be used to define a
+% free-form text field of materials/utilities such as calculators, rulers,
+% etc. which might be admitted for use during the exam.
+%
 % \DescribeMacro{\setexamresultsdescription}
 % This is a free-form macro to add a short description about the procedure for
-% announcing exam results, post-exam review dates, and so on. For German lectures,
-% the idea is to call |\setexamresultsdescription|\marg{description} like
+% announcing exam results, post-exam review dates, and so on. For German
+% lectures, the idea is to call |\setexamresultsdescription|\marg{description}
+% like
 % \begin{verbatim}
 %   \setexamresultsdescription{%
 %     Die Klausurergebnisse werden voraussichtlich am Donnerstag, den
@@ -169,12 +175,16 @@
   \def\tiexam@examlabel{Written Examination}
   \def\tiexam@pointslabel{points}
   \def\tiexam@examresultsdescription{}
+  \def\tiexam@admittedmaterials{The sheets handed out with the exam and a
+  non-programmable calculator.}
   \def\tiexam@studentinfoform{
     Name:~\hrulefill\hrulefill~~Matr.-No.:~\hrulefill \\[5mm]
     Field of study:~\hrulefill \\[5mm]
   }
   \def\tiexam@disclaimer{Please pay attention to the following}
   \def\tiexam@examnotes{
+    % XXX: Why do we typeset this in a description environment rather than a
+    %      simple enumerate again?
     \begin{description}
       \item[1) \phantom{al}] The exam consists of
         \textbf{\the\value{tiexam@ProblemCounter}~problems}. Please check the
@@ -186,8 +196,8 @@
       \item[3) \phantom{al}] You are free in choosing the order of working on
         the problems. Your solution shall clearly show the approach and
         intermediate arguments.
-      \item[4) \phantom{al}] \textbf{Admitted materials:} The sheets handed out
-        with the exam and a non-programmable calculator.
+      \item[4) \phantom{al}] \textbf{Admitted materials:}
+        \tiexam@admittedmaterials
       \ifx\tiexam@examresultsdescription\empty
         \relax
       \else
@@ -209,6 +219,10 @@
 }{
   \def\tiexam@examlabel{Prüfungsklausur}
   \def\tiexam@pointslabel{Punkte}
+  \def\tiexam@admittedmaterials{%
+    Mit der Klausur ausgeteiltes Formelblatt, ein Lineal und ein gemäß der
+    vorab veröffentlichten Positivliste zugelassener Taschenrechner.%
+  }
   \def\tiexam@examresultsdescription{}
   \def\tiexam@studentinfoform{
     Name:~\hrulefill\hrulefill~~Matr.-Nr.:~\hrulefill \\[5mm]
@@ -227,9 +241,8 @@
       \item[3) \phantom{al}] Die Reihenfolge der Bearbeitung der Aufgaben kann
         beliebig gewählt werden. Die Lösung der Aufgaben soll so erfolgen, dass
         der Lösungsweg deutlich erkennbar ist.
-      \item[4) \phantom{al}] \textbf{Zugelassene Hilfsmittel:} Mit der Klausur
-        ausgeteiltes Formelblatt, ein Lineal und ein gemäß der vorab
-        veröffentlichten Positivliste zugelassener Taschenrechner.
+      \item[4) \phantom{al}] \textbf{Zugelassene Hilfsmittel:}
+        \tiexam@admittedmaterials
       \ifx\tiexam@examresultsdescription\empty
         \relax
       \else
@@ -260,6 +273,10 @@
   \def\tiexam@auxiliarypagecount{#2}
 }
 \setemptypagelayout{3}{4}
+
+\newcommand*{\setadmittedmaterials}[1]{
+  \def\tiexam@admittedmaterials{#1}
+}
 
 \newcommand*{\setexamresultsdescription}[1]{
   \def\tiexam@examresultsdescription{#1}
